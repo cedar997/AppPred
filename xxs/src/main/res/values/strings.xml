@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">xxs</string>
+    <string name="app_name">Base64</string>
+    <string name="share_name">发送到Base64</string>
+
+    <string name="bt1_text">加密</string>
+    <string name="bt2_text">解密</string>
+    <string name="tv1_text">原始数据</string>
+    <string name="tv2_text">加密后数据</string>
 </resources>
