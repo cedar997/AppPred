@@ -1,4 +1,4 @@
-package com.rom471.xxs;
+package com.rom471.lab1;
 
 import org.junit.Test;
 
