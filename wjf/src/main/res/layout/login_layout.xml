@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    tools:context=".ButtonActivity">
 
-        <View
+        <ImageView
             android:id="@+id/pic"
             android:layout_width="100dp"
             android:layout_height="150dp"
             android:layout_centerHorizontal="true"
-            android:background="#FFDDDD" />
+            android:src="@drawable/head"/>
 
 
     <EditText
@@ -22,12 +22,13 @@
         android:layout_marginRight="30dp"
         android:layout_below="@+id/pic"
         android:layout_weight="1"
-        android:background="#ECEBEB"
+        android:background="@drawable/edittextselector"
         android:hint="@string/account"
         android:selectAllOnFocus="false"
         android:singleLine="false"
         android:visibility="visible"
         android:textAlignment="center"/>
+
     <EditText
         android:id="@+id/passwd"
         android:layout_width="match_parent"
@@ -38,7 +39,7 @@
         android:layout_marginBottom="35dp"
         android:layout_below="@+id/Acount"
         android:layout_weight="1"
-        android:background="#ECEBEB"
+        android:background="@drawable/edittextselector"
         android:hint="@string/passwd"
         android:selectAllOnFocus="false"
         android:singleLine="false"
@@ -46,12 +47,13 @@
         android:textAlignment="center"/>
         <Button
             android:id="@+id/loginbutton"
-            android:layout_width="50dp"
+            android:layout_width="80dp"
             android:layout_height="50dp"
             android:layout_below="@+id/passwd"
             android:layout_centerHorizontal="true"
-            android:hint="@string/login"
-            android:background="#FFFFFF"/>
+            android:text="@string/login"
+            android:background="@drawable/buttonselector"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
