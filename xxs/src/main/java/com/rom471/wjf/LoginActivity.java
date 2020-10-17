@@ -14,7 +14,7 @@ import com.rom471.userdb.DBHelper;
 
 import org.w3c.dom.NamedNodeMap;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener, View.OnFocusChangeListener {
     EditText name_et;
     EditText password_et;
     DBHelper db;
@@ -26,6 +26,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         login_bt.setOnClickListener(this);
         name_et=findViewById(R.id.Acount);
         password_et=findViewById(R.id.passwd);
+        name_et.setOnFocusChangeListener(this);
+        password_et.setOnFocusChangeListener(this);
         db=new DBHelper(this);
         db.InitialWithTestData(this);
 
@@ -55,4 +57,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        switch (v.getId()){
+            case R.id.Acount:
+                if (hasFocus)
+                    ((EditText)v).setHint("");
+                else
+                    ((EditText)v).setHint(R.string.account);
+                break;
+            case R.id.passwd:
+
+                if (hasFocus)
+                    ((EditText)v).setHint("");
+                else
+                    ((EditText)v).setHint(R.string.passwd);
+                break;
+        }
+    }
 }
