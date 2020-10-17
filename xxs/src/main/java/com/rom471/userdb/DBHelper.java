@@ -2,12 +2,18 @@ package com.rom471.userdb;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import androidx.annotation.Nullable;
 
+import com.rom471.lab1.R;
+
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,16 +54,23 @@ public class DBHelper extends SQLiteOpenHelper {
 
         db.execSQL("drop table "+table_name);
     }
-    public  void InitialWithTestData(){
+    public  void InitialWithTestData(Context context){
         dropTable(TABLE_NAME);
         createTable(TABLE_NAME);
         User u1=new User(1,"xxs","cedar",null);
         User u2=new User(2,"wjf","wjf",null);
-        this.insert(u1);
-        this.insert(u2);
+        Resources resources=context.getResources();
+
+
+        Bitmap bmp= BitmapFactory.decodeResource(resources, R.drawable.avatar1);
+        ByteArrayOutputStream baos=new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.PNG,100,baos);//压缩图片
+        byte[] bytes = baos.toByteArray();
+        this.insertUsers(u1);
+        this.insertUsers(u2);
     }
 
-    public void insert(User... users){
+    public void insertUsers(User... users){
         for (User user:users
              ) {
             ContentValues contentValues=new ContentValues();
@@ -83,6 +96,14 @@ public class DBHelper extends SQLiteOpenHelper {
         cursor.close();
         return users;
     }
+    public void inserUser(int id,String name,String password,String avatar){
+        ContentValues contentValues=new ContentValues();
+        contentValues.put("id",id);
+        contentValues.put("name",name);
+        contentValues.put("password",password);
+        contentValues.put("avatar",avatar);
+        db.insert(TABLE_NAME,null,contentValues);
+    }
     public boolean haveUser(String name){
         String sql=" select * from "+TABLE_NAME+ " where name = ?";
         Cursor cursor=db.rawQuery(sql,new String[]{name});
@@ -102,5 +123,68 @@ public class DBHelper extends SQLiteOpenHelper {
         return false;
     }
 
+
+    /////User内部类
+    class User {
+        private int id;
+        private String name;
+        private String password;
+        private String avatarUrl;
+
+
+
+
+        public User() {
+        }
+
+        @Override
+        public String toString() {
+            return "User{" +
+                    "id=" + id +
+                    ", name='" + name + '\'' +
+                    ", password='" + password + '\'' +
+                    ", avatarUrl='" + avatarUrl + '\'' +
+                    '}';
+        }
+
+        public User(int id, String name, String password, String avatarUrl) {
+            this.id = id;
+            this.name = name;
+            this.password = password;
+            this.avatarUrl = avatarUrl;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getAvatarUrl() {
+            return avatarUrl;
+        }
+
+        public void setAvatarUrl(String avatarUrl) {
+            this.avatarUrl = avatarUrl;
+        }
+    }
 
 }
