@@ -5,7 +5,7 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="DBTest"
+        android:label="TestDb"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -19,31 +19,7 @@
                 <!-- <data android:mimeType="text/plain"/> -->
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MainActivity"
-            android:launchMode="singleTop"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-                <!-- &lt;!&ndash;                <action android:name="android.intent.action.SEND"/>&ndash;&gt; -->
-                <!-- &lt;!&ndash;                <category android:name="android.intent.category.DEFAULT"/>&ndash;&gt; -->
-                <!-- <data android:mimeType="text/plain"/> -->
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".ShareActivity"
-            android:label="@string/share_name"
-            android:launchMode="singleTop">
-            <intent-filter>
-                <action android:name="android.intent.action.SEND" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:mimeType="text/plain" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>
