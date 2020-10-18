@@ -1,10 +1,12 @@
 package com.rom471.wjf;
 
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,10 +20,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     EditText name_et;
     EditText password_et;
     DBHelper db;
+    ImageView avatar_img;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
+        avatar_img=findViewById(R.id.pic);
         Button login_bt=findViewById(R.id.loginbutton);
         login_bt.setOnClickListener(this);
         name_et=findViewById(R.id.Acount);
@@ -68,8 +72,23 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.passwd:
 
-                if (hasFocus)
-                    ((EditText)v).setHint("");
+                if (hasFocus) {
+                    String name=name_et.getText().toString();
+
+                    if(!name.equals("")){
+                        Drawable avatar_drawable = db.getAvatarByName(name);
+                        if(avatar_drawable==null){
+                            avatar_img.setImageResource(R.drawable.head);
+                        }
+                        else {
+                            avatar_img.setImageDrawable(avatar_drawable);
+                        }
+                    }
+                    else {
+                        avatar_img.setImageResource(R.drawable.head);
+                    }
+                    ((EditText) v).setHint("");
+                }
                 else
                     ((EditText)v).setHint(R.string.passwd);
                 break;

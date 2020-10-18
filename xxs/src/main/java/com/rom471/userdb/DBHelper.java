@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
 import androidx.annotation.Nullable;
@@ -21,7 +22,7 @@ import java.util.List;
 public class DBHelper extends SQLiteOpenHelper {
 
 
-    public static final String DB_NAME="user.db";
+    public static final String DB_NAME="users1.db";
     public static final String TABLE_NAME="User";
     public static final int DB_VERSION=1;
 
@@ -32,7 +33,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        //createTable(TABLE_NAME);
+
 
     }
 
@@ -82,23 +83,20 @@ public class DBHelper extends SQLiteOpenHelper {
             return false;
 
     }
+
+    //用测试数据初始化数据库
     public  void InitialWithTestData(Context context){
         if(havingTable(TABLE_NAME))
             return;
         createTable(TABLE_NAME);
         User u1=new User(1,"xxs","cedar",null);
         User u2=new User(2,"wjf","wjf",null);
-        Resources resources=context.getResources();
+        User u3=new User(3,"wkq","wkq",null);
 
-
-        Bitmap bmp= BitmapFactory.decodeResource(resources, R.drawable.avatar1);
-        ByteArrayOutputStream baos=new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.PNG,100,baos);//压缩图片
-        byte[] bytes = baos.toByteArray();
-        u1.setAvatarBytes(bytes);
-        u2.setAvatarBytes(bytes);
-        this.insertUsers(u1);
-        this.insertUsers(u2);
+        u1.setAvatarResource(context,R.drawable.avatar1);
+        u2.setAvatarResource(context,R.drawable.avatar2);
+        u3.setAvatarResource(context,R.drawable.avatar3);
+        this.insertUsers(u1,u2,u3);
     }
 
     public void insertUsers(User... users){
@@ -154,19 +152,19 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         return false;
     }
-    public User getUserByName(String name){
-        User user=new User();
-        Cursor cursor=db.query(TABLE_NAME,new String[]{"id","name","password","avatar"},null,null,null,null,null);
-        while(cursor.moveToNext()){
-            int id=cursor.getInt(cursor.getColumnIndex("id"));
-//            String name=cursor.getString(cursor.getColumnIndex("name"));
-//            String password=cursor.getString(cursor.getColumnIndex("password"));
-//            String avatar=cursor.getString(cursor.getColumnIndex("avatar"));
-            //users.add(new User(id,name,password,avatar));
-
+    public Drawable getAvatarByName(String name){
+        String sql = "SELECT avatar FROM "+TABLE_NAME +" WHERE name = ?";
+        Drawable avatar=null;
+        byte[] bytes;
+        Cursor cursor=db.rawQuery(sql,new String[]{name});
+        if(cursor.moveToFirst()){
+            if((bytes=cursor.getBlob(cursor.getColumnIndex("avatar")))!=null){
+                avatar= new BitmapDrawable(BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
+            }
         }
+
         cursor.close();
-        return user;
+        return avatar;
     }
 
 

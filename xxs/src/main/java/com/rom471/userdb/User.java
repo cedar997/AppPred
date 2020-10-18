@@ -1,9 +1,13 @@
 package com.rom471.userdb;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+
+import com.rom471.lab1.R;
 
 import java.io.ByteArrayOutputStream;
 
@@ -11,7 +15,7 @@ public class User {
     private int id;
     private String name;
     private String password;
-    private String avatarUrl;
+    private String email;
     private Drawable avatar;
 
 
@@ -25,20 +29,25 @@ public class User {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
-                ", avatarUrl='" + avatarUrl + '\'' +
+                ", avatarUrl='" + email + '\'' +
                 '}';
     }
 
-    public User(int id, String name, String password, String avatarUrl) {
+    public User(int id, String name, String password, String email) {
         this.id = id;
         this.name = name;
         this.password = password;
-        this.avatarUrl = avatarUrl;
-    }
-    public void setAvatarBytes(byte[] pictureData) {
-        avatar = byteToDrawable(pictureData);
+        this.email = email;
     }
 
+    public void setAvatarResource(Context context, int id){
+        Resources resources=context.getResources();
+        Bitmap bmp= BitmapFactory.decodeResource(resources, id);
+        ByteArrayOutputStream baos=new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.PNG,100,baos);//压缩图片
+        byte[] bytes = baos.toByteArray();
+        this.avatar = byteToDrawable(bytes);
+    }
     public Drawable getAvatar() {
         return avatar;
     }
@@ -92,11 +101,11 @@ public class User {
         this.name = name;
     }
 
-    public String getAvatarUrl() {
-        return avatarUrl;
+    public String getEmail() {
+        return email;
     }
 
-    public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
