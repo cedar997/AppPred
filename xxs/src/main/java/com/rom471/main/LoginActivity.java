@@ -35,7 +35,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         name_et.setOnFocusChangeListener(this);
         password_et.setOnFocusChangeListener(this);
         db=new DBHelper(this);
-        db.InitialWithTestData(this);
+        db.InitialWithTestData();
 
     }
 
