@@ -24,6 +24,7 @@
         android:layout_marginRight="30dp"
         android:layout_below="@+id/pic"
         android:layout_weight="1"
+
         android:background="@drawable/edittextselector"
         android:hint="@string/account"
         android:selectAllOnFocus="false"

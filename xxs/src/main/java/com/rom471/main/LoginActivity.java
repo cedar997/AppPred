@@ -1,8 +1,10 @@
-package com.rom471.wjf;
+package com.rom471.main;
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -50,14 +52,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String name= name_et.getText().toString();
         String password=password_et.getText().toString();
         if(!db.haveUser(name)){
-            Toast.makeText(this, "该用户不存在", Toast.LENGTH_SHORT).show();
+            toast("该用户不存在！");
             return;
         }
         if(db.loginWith(name,password)){
-            Toast.makeText(this, "登录成功！", Toast.LENGTH_SHORT).show();
+
+            // 登录成功，跳转到Home界面
+            Intent intent = new Intent(LoginActivity.this, HomeActivity.class );
+            startActivity(intent);
         }
         else {
-            Toast.makeText(this, "密码错误", Toast.LENGTH_SHORT).show();
+            toast("密码错误");
         }
     }
 
@@ -67,12 +72,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.Acount:
                 if (hasFocus)
                     ((EditText)v).setHint("");
-                else
-                    ((EditText)v).setHint(R.string.account);
-                break;
-            case R.id.passwd:
-
-                if (hasFocus) {
+                else {
+                    ((EditText) v).setHint(R.string.account);
                     String name=name_et.getText().toString();
 
                     if(!name.equals("")){
@@ -87,11 +88,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     else {
                         avatar_img.setImageResource(R.drawable.head);
                     }
+                }
+                break;
+            case R.id.passwd:
+
+                if (hasFocus) {
+
                     ((EditText) v).setHint("");
                 }
                 else
                     ((EditText)v).setHint(R.string.passwd);
                 break;
         }
+    }
+    private void toast(String text){
+        Toast toast=Toast.makeText(this, text, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
     }
 }

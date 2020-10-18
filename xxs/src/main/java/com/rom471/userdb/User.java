@@ -39,7 +39,7 @@ public class User {
         this.password = password;
         this.email = email;
     }
-
+    //指定资源id，来设置用户的头像
     public void setAvatarResource(Context context, int id){
         Resources resources=context.getResources();
         Bitmap bmp= BitmapFactory.decodeResource(resources, id);
