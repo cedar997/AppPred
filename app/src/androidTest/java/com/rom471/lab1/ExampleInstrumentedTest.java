@@ -1,4 +1,4 @@
-package com.rom471.test;
+package com.rom471.lab1;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.rom471.test", appContext.getPackageName());
+        assertEquals("com.rom471.xxs", appContext.getPackageName());
     }
 }
