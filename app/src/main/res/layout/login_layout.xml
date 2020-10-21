@@ -4,20 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:focusableInTouchMode="true"
+    android:focusableInTouchMode="true">
 
-    >
+    <!-- 整个页面使用相对布局 -->
 
+    <!-- 实现头像的ImageView -->
         <ImageView
             android:id="@+id/pic"
             android:layout_height="200px"
             android:layout_width="wrap_content"
-
             android:layout_centerHorizontal="true"
             android:layout_margin="40dp"
             android:src="@drawable/head"/>
 
-
+    <!-- 作输入框的EditText -->
     <EditText
         android:id="@+id/Acount"
         android:layout_width="match_parent"
@@ -26,7 +26,6 @@
         android:layout_marginRight="30dp"
         android:layout_below="@+id/pic"
         android:layout_weight="1"
-
         android:background="@drawable/edittextselector"
         android:hint="@string/account"
         android:selectAllOnFocus="false"
@@ -60,18 +59,23 @@
             android:text="@string/login"
             android:background="@drawable/buttonselector"/>
 
+        <!-- 下半部分使用线性布局 -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="20dp"
-
             android:orientation="horizontal">
+
+            <!-- 分左右两个线性布局实现两个TextView居中对称 -->
+
           <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_weight="1">
+
                 <TextView
                     android:id="@+id/forget"
                     android:layout_width="wrap_content"
