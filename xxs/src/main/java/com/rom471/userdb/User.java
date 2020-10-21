@@ -16,9 +16,35 @@ public class User {
     private String name;
     private String password;
     private String email;
+    private String tel;
+    private String qq;
+    private String wx;
     private Drawable avatar;
 
 
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
+
+    public String getQq() {
+        return qq;
+    }
+
+    public void setQq(String qq) {
+        this.qq = qq;
+    }
+
+    public String getWx() {
+        return wx;
+    }
+
+    public void setWx(String wx) {
+        this.wx = wx;
+    }
 
     public User() {
     }

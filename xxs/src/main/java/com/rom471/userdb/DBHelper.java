@@ -50,6 +50,10 @@ public class DBHelper extends SQLiteOpenHelper {
                 + "id integer primary key,"
                 + "name text ,"
                 + "password text,"
+                + "email text,"
+                + "tel text,"
+                + "qq text,"
+                + "wx text,"
                 + "avatar blob)";
         db.execSQL(CREATE_USER);
     }
