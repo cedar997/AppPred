@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 输入框未被选中时的外观 -->
+
+    <!-- 填充颜色：灰色 -->
     <solid android:color="#E6E6E6" />
+
+    <!-- 圆角 -->
     <corners android:radius="40dip"/>
+
+    <!-- 边框宽度和颜色 -->
     <stroke
         android:width="1dip"
         android:color="#E6E6E6" />

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 实现button按压变色 -->
 
     <!-- 正常状态 -->
     <item android:drawable="@drawable/buttonnormal" android:state_pressed="false"/>
