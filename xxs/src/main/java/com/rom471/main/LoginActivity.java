@@ -111,4 +111,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        db.close();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        db=new UsersDBHelper(this);
+    }
 }

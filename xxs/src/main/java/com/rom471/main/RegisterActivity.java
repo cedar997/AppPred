@@ -56,7 +56,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         switch (v.getId()){
             case R.id.register_button:
                 String name=name_et.getText().toString();
-                String password=name_et.getText().toString();
+                String password=password_et.getText().toString();
                 String email=name_et.getText().toString();
                 user.setName(name);
                 user.setPassword(password);
@@ -64,6 +64,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
                 db.insertUser(user);
                 MyUtils.toast(this,"注册完成");
+                db.close();
                 //this.finish();
                 break;
             case R.id.avatar_img:
