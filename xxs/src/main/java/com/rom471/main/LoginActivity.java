@@ -1,7 +1,6 @@
 package com.rom471.main;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -9,20 +8,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.rom471.lab1.R;
-import com.rom471.userdb.DBHelper;
-
-import org.w3c.dom.NamedNodeMap;
+import com.rom471.userdb.MyUtils;
+import com.rom471.userdb.UsersDBHelper;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, View.OnFocusChangeListener {
     EditText name_et;
     EditText password_et;
-    DBHelper db;
+    UsersDBHelper db;
     ImageView avatar_img;
+    TextView register_tv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +34,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         password_et=findViewById(R.id.passwd);
         name_et.setOnFocusChangeListener(this);
         password_et.setOnFocusChangeListener(this);
-        db=new DBHelper(this);
+        register_tv=findViewById(R.id.register_tv);
+        register_tv.setOnClickListener(this);
+        db=new UsersDBHelper(this);
         db.InitialWithTestData();
 
     }
@@ -46,23 +48,30 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                 login_action();
                 break;
+            case R.id.register_tv:
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class );
+                startActivity(intent);
+                break;
         }
     }
     private void login_action(){
         String name= name_et.getText().toString();
         String password=password_et.getText().toString();
         if(!db.haveUser(name)){
-            toast("该用户不存在！");
+            MyUtils.toast(this,"该用户不存在！");
             return;
         }
         if(db.loginWith(name,password)){
+            db.close();
 
             // 登录成功，跳转到Home界面
             Intent intent = new Intent(LoginActivity.this, HomeActivity.class );
+            intent.putExtra("name",name);
             startActivity(intent);
+            this.finish();
         }
         else {
-            toast("密码错误");
+            MyUtils.toast(this,"密码错误");
         }
     }
 
@@ -101,9 +110,5 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
         }
     }
-    private void toast(String text){
-        Toast toast=Toast.makeText(this, text, Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER, 0, 0);
-        toast.show();
-    }
+
 }

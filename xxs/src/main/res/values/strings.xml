@@ -11,6 +11,9 @@
     <string name="account">用户名/邮箱</string>
     <string name="passwd">密码</string>
     <string name="login">登录</string>
+    <string name="register">注册</string>
+    <string name="email">邮箱</string>
+    <string name="name">用户名</string>
     <string name="signin">用户注册</string>
     <string name="forget">忘记密码</string>
 </resources>

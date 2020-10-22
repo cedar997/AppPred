@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -16,7 +17,8 @@ import com.rom471.lab1.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DBHelper extends SQLiteOpenHelper {
+public class UsersDBHelper extends SQLiteOpenHelper {
+    public static final String TAG="cedar";
     //数据库名字
     public static final String DB_NAME="users.db";
     //存放用户信息的表名
@@ -27,9 +29,11 @@ public class DBHelper extends SQLiteOpenHelper {
     //内部数据库引用
     private SQLiteDatabase db;
 
-    public DBHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
+    public void close(){
+        db.close();
+        super.close();
     }
+
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -39,7 +43,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
     //初始化内部引用
-    public DBHelper(Context context){
+    public UsersDBHelper(Context context){
         super(context,DB_NAME,null,DB_VERSION);
         db=super.getWritableDatabase();
         this.context=context;
@@ -47,13 +51,10 @@ public class DBHelper extends SQLiteOpenHelper {
     //创建用户信息表
     public void createUserTable(){
         final String CREATE_USER="create table User ("
-                + "id integer primary key,"
+                + "uid integer primary key autoincrement,"
                 + "name text ,"
                 + "password text,"
                 + "email text,"
-                + "tel text,"
-                + "qq text,"
-                + "wx text,"
                 + "avatar blob)";
         db.execSQL(CREATE_USER);
     }
@@ -73,11 +74,16 @@ public class DBHelper extends SQLiteOpenHelper {
                 cursor = db.query(table_name, null, null, null, null, null, null);
                 //检查是不是空表
                 if (cursor.getCount() > 0) {
+                    cursor.close();
                     return true;
                 } else //空表
+                {
+                    cursor.close();
                     return false;
+                }
             }
         }
+        cursor.close();
         return false;
     }
 
@@ -86,49 +92,56 @@ public class DBHelper extends SQLiteOpenHelper {
         if(havingTable(TABLE_NAME))
             return;
         createUserTable();
+        addUserWithAvatar("xxs","cedar","527@qq.com",R.drawable.avatar_xxs);
+        addUserWithAvatar("wjf","wjf","wjf@qq.com",R.drawable.avatar_wjf);
 
-        addUserWithAvatar(1,"xxs","cedar","527474091@qq.com",R.drawable.avatar_xxs);
-        addUserWithAvatar(2,"wjf","wjf","wjf@qq.com",R.drawable.avatar_wjf);
-        addUserWithAvatar(3,"wkq","wkq",null,R.drawable.avatar3);
-        addUserWithAvatar(4,"马云","0",null,R.drawable.mayun);
-        addUserBasic(5,"雷军");
-        addUserBasic(6,"马化腾");
+        addUserWithAvatar("wkq","wkq",null,R.drawable.avatar3);
+
     }
     //添加带头像的用户
-    private void addUserWithAvatar(int id,String name,String password,String email,int rid){
-        User user=new User(id,name,password,email);
+    private void addUserWithAvatar(String name,String password,String email,int rid){
+        User user=new User(name,password,email);
         user.setAvatarResource(context,rid);
-        this.insertUsers(user);
+        this.insertUser(user);
     }
-    private void addUserBasic(int id,String name){
-        User user=new User(id,name,null,null);
-        this.insertUsers(user);
+    private void addUserBasic(String name,String password){
+        User user=new User(name,password,null);
+        this.insertUser(user);
     }
     //向表中插入一个用户
-    public void insertUsers(User user){
+    public void insertUser(User user){
             ContentValues contentValues=new ContentValues();
-            contentValues.put("id",user.getId());
+            //contentValues.put("id",user.getId());
             contentValues.put("name",user.getName());
             contentValues.put("password",user.getPassword());
+            contentValues.put("email",user.getEmail());
             contentValues.put("avatar",user.getAvatarBytes());
             db.insert(TABLE_NAME,null,contentValues);
     }
     //查询所有用户并返回
     public List<User> queryAll(){
         List<User> users=new ArrayList<>();
-        Cursor cursor=db.query(TABLE_NAME,new String[]{"id","name","password","email","avatar"},null,null,null,null,null);
+        String sql = "SELECT uid,name,password,email,avatar FROM "+TABLE_NAME +" ";
+        Cursor cursor=db.rawQuery(sql,null);
+
         while(cursor.moveToNext()){
-            int id=cursor.getInt(cursor.getColumnIndex("id"));
+            int id=cursor.getInt(cursor.getColumnIndex("uid"));
             String name=cursor.getString(cursor.getColumnIndex("name"));
             String password=cursor.getString(cursor.getColumnIndex("password"));
             String email=cursor.getString(cursor.getColumnIndex("email"));
-            byte [] bytes;
+            User user=new User(name,password,email);
+            user.setId(id);
+            byte [] bytes=null;
             Drawable avatar=null;
-            if((bytes=cursor.getBlob(cursor.getColumnIndex("avatar")))!=null){
+            bytes=cursor.getBlob(cursor.getColumnIndex("avatar"));
+
+            if(bytes!=null){
                 avatar= new BitmapDrawable(BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
+                user.setAvatar(avatar);
+
             }
-            User user=new User(id,name,password,email);
-            user.setAvatar(avatar);
+
+
             users.add(user);
 
 
@@ -144,6 +157,7 @@ public class DBHelper extends SQLiteOpenHelper {
             cursor.close();
             return true;
         }
+        cursor.close();
         return false;
     }
     //使用用户名和密码登录
@@ -154,11 +168,14 @@ public class DBHelper extends SQLiteOpenHelper {
             cursor.close();
             return true;
         }
+        cursor.close();
         return false;
     }
     //由用户名获取头像
     public Drawable getAvatarByName(String name){
+
         String sql = "SELECT avatar FROM "+TABLE_NAME +" WHERE name = ?";
+
         Drawable avatar=null;
         byte[] bytes;
         Cursor cursor=db.rawQuery(sql,new String[]{name});

@@ -16,40 +16,18 @@ public class User {
     private String name;
     private String password;
     private String email;
-    private String tel;
-    private String qq;
-    private String wx;
+
     private Drawable avatar;
 
     public void setAvatar(Drawable avatar) {
         this.avatar = avatar;
     }
 
-    public String getTel() {
-        return tel;
-    }
-
-    public void setTel(String tel) {
-        this.tel = tel;
-    }
-
-    public String getQq() {
-        return qq;
-    }
-
-    public void setQq(String qq) {
-        this.qq = qq;
-    }
-
-    public String getWx() {
-        return wx;
-    }
-
-    public void setWx(String wx) {
-        this.wx = wx;
-    }
 
     public User() {
+        this.name = null;
+        this.password = null;
+        this.email = null;
     }
 
     @Override
@@ -62,8 +40,8 @@ public class User {
                 '}';
     }
 
-    public User(int id, String name, String password, String email) {
-        this.id = id;
+    public User( String name, String password, String email) {
+
         this.name = name;
         this.password = password;
         this.email = email;
@@ -82,21 +60,9 @@ public class User {
     }
 
     public byte[] getAvatarBytes(){
-        return drawableToByteArray(this.avatar);
+        return MyUtils.drawableToByteArray(this.avatar);
     }
-    public static byte[] drawableToByteArray(Drawable d) {
 
-        if (d != null) {
-            Bitmap imageBitmap = ((BitmapDrawable) d).getBitmap();
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-            byte[] byteData = baos.toByteArray();
-
-            return byteData;
-        } else
-            return null;
-
-    }
 
 
     public static Drawable byteToDrawable(byte[] data) {
