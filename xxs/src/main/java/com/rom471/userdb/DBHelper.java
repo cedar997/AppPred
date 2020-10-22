@@ -91,6 +91,8 @@ public class DBHelper extends SQLiteOpenHelper {
         addUserWithAvatar(2,"wjf","wjf","wjf@qq.com",R.drawable.avatar_wjf);
         addUserWithAvatar(3,"wkq","wkq",null,R.drawable.avatar3);
         addUserWithAvatar(4,"马云","0",null,R.drawable.mayun);
+        addUserBasic(5,"雷军");
+        addUserBasic(6,"马化腾");
     }
     //添加带头像的用户
     private void addUserWithAvatar(int id,String name,String password,String email,int rid){
@@ -98,7 +100,10 @@ public class DBHelper extends SQLiteOpenHelper {
         user.setAvatarResource(context,rid);
         this.insertUsers(user);
     }
-
+    private void addUserBasic(int id,String name){
+        User user=new User(id,name,null,null);
+        this.insertUsers(user);
+    }
     //向表中插入一个用户
     public void insertUsers(User user){
             ContentValues contentValues=new ContentValues();
@@ -111,13 +116,21 @@ public class DBHelper extends SQLiteOpenHelper {
     //查询所有用户并返回
     public List<User> queryAll(){
         List<User> users=new ArrayList<>();
-        Cursor cursor=db.query(TABLE_NAME,new String[]{"id","name","password","avatar"},null,null,null,null,null);
+        Cursor cursor=db.query(TABLE_NAME,new String[]{"id","name","password","email","avatar"},null,null,null,null,null);
         while(cursor.moveToNext()){
             int id=cursor.getInt(cursor.getColumnIndex("id"));
             String name=cursor.getString(cursor.getColumnIndex("name"));
             String password=cursor.getString(cursor.getColumnIndex("password"));
             String email=cursor.getString(cursor.getColumnIndex("email"));
-            users.add(new User(id,name,password,email));
+            byte [] bytes;
+            Drawable avatar=null;
+            if((bytes=cursor.getBlob(cursor.getColumnIndex("avatar")))!=null){
+                avatar= new BitmapDrawable(BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
+            }
+            User user=new User(id,name,password,email);
+            user.setAvatar(avatar);
+            users.add(user);
+
 
         }
         cursor.close();

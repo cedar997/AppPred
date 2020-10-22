@@ -21,6 +21,9 @@ public class User {
     private String wx;
     private Drawable avatar;
 
+    public void setAvatar(Drawable avatar) {
+        this.avatar = avatar;
+    }
 
     public String getTel() {
         return tel;
