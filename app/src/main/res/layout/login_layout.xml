@@ -27,7 +27,7 @@
         android:layout_below="@+id/pic"
         android:layout_weight="1"
         android:background="@drawable/edittextselector"
-        android:hint="@string/account"
+        android:hint="@string/name"
         android:selectAllOnFocus="false"
         android:singleLine="false"
         android:visibility="visible"

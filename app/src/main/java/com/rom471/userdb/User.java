@@ -10,15 +10,12 @@ import android.graphics.drawable.Drawable;
 import com.rom471.lab1.R;
 
 import java.io.ByteArrayOutputStream;
-
+//用户的JavaBean
 public class User {
-    private int id;
-    private String name;
-    private String password;
-    private String email;
-    private Drawable avatar;
-
-
+    private int id;//用户id，由数据库指定
+    private String name;//用户姓名
+    private String password;//用户密码
+    private Drawable avatar;//用户头像
 
     public User() {
     }
@@ -29,54 +26,27 @@ public class User {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
-                ", avatarUrl='" + email + '\'' +
                 '}';
     }
 
-    public User(int id, String name, String password, String email) {
-        this.id = id;
+    public User(String name, String password,Drawable avatar) {
+
         this.name = name;
         this.password = password;
-        this.email = email;
+        this.avatar=avatar;
+
     }
-    //指定资源id，来设置用户的头像
-    public void setAvatarResource(Context context, int id){
-        Resources resources=context.getResources();
-        Bitmap bmp= BitmapFactory.decodeResource(resources, id);
-        ByteArrayOutputStream baos=new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.PNG,100,baos);//压缩图片
-        byte[] bytes = baos.toByteArray();
-        this.avatar = byteToDrawable(bytes);
+
+
+    public void setAvatar(Drawable avatar) {
+        this.avatar = avatar;
     }
+
     public Drawable getAvatar() {
         return avatar;
     }
 
-    public byte[] getAvatarBytes(){
-        return drawableToByteArray(this.avatar);
-    }
-    public static byte[] drawableToByteArray(Drawable d) {
 
-        if (d != null) {
-            Bitmap imageBitmap = ((BitmapDrawable) d).getBitmap();
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-            byte[] byteData = baos.toByteArray();
-
-            return byteData;
-        } else
-            return null;
-
-    }
-
-
-    public static Drawable byteToDrawable(byte[] data) {
-
-        if (data == null)
-            return null;
-        else
-            return new BitmapDrawable(BitmapFactory.decodeByteArray(data, 0, data.length));
-    }
     public int getId() {
         return id;
     }
@@ -101,11 +71,5 @@ public class User {
         this.name = name;
     }
 
-    public String getEmail() {
-        return email;
-    }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
 }

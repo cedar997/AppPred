@@ -47,7 +47,7 @@ public class DBHelper extends SQLiteOpenHelper {
     //创建用户信息表
     public void createUserTable(){
         final String CREATE_USER="create table User ("
-                + "id integer primary key,"
+                + "id integer primary key autoincrement,"
                 + "name text ,"
                 + "password text,"
                 + "avatar blob)";
@@ -83,25 +83,25 @@ public class DBHelper extends SQLiteOpenHelper {
             return;
         createUserTable();
 
-        addUserWithAvatar(1,"xxs","cedar","527474091@qq.com",R.drawable.avatar_xxs);
-        addUserWithAvatar(2,"wjf","wjf","wjf@qq.com",R.drawable.avatar_wjf);
-        addUserWithAvatar(3,"wkq","wkq",null,R.drawable.avatar3);
-        addUserWithAvatar(4,"马云","0",null,R.drawable.mayun);
+        addUserWithAvatar("xxs","cedar",R.drawable.avatar_xxs);
+        addUserWithAvatar("wjf","wjf",R.drawable.avatar_wjf);
+        addUserWithAvatar("wkq","wkq",R.drawable.avatar_wkq);
+
     }
     //添加带头像的用户
-    private void addUserWithAvatar(int id,String name,String password,String email,int rid){
-        User user=new User(id,name,password,email);
-        user.setAvatarResource(context,rid);
+    private void addUserWithAvatar(String name,String password,int rid){
+        Drawable avatar=MyUtils.getDrawableFromResource(context,rid);
+        User user=new User(name,password,avatar);
         this.insertUsers(user);
     }
 
     //向表中插入一个用户
     public void insertUsers(User user){
             ContentValues contentValues=new ContentValues();
-            contentValues.put("id",user.getId());
             contentValues.put("name",user.getName());
             contentValues.put("password",user.getPassword());
-            contentValues.put("avatar",user.getAvatarBytes());
+            Drawable avatar = user.getAvatar();
+            contentValues.put("avatar",MyUtils.getBytesFromDrawable(avatar));
             db.insert(TABLE_NAME,null,contentValues);
     }
     //查询所有用户并返回
@@ -112,9 +112,10 @@ public class DBHelper extends SQLiteOpenHelper {
             int id=cursor.getInt(cursor.getColumnIndex("id"));
             String name=cursor.getString(cursor.getColumnIndex("name"));
             String password=cursor.getString(cursor.getColumnIndex("password"));
-            String email=cursor.getString(cursor.getColumnIndex("email"));
-            users.add(new User(id,name,password,email));
-
+            Drawable avatar=MyUtils.getDrawableFormCursor(cursor,"avatar");//直接从数据库获取头像Drawable
+            User user=new User(name,password,avatar);
+            user.setId(id);
+            users.add(user);
         }
         cursor.close();
         return users;
