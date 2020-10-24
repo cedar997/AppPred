@@ -8,11 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-
-import androidx.annotation.Nullable;
-
 import com.rom471.lab1.R;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +23,7 @@ public class DBHelper extends SQLiteOpenHelper {
     //内部数据库引用
     private SQLiteDatabase db;
 
-    public DBHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
+    public DBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
 
@@ -82,11 +78,10 @@ public class DBHelper extends SQLiteOpenHelper {
         if(havingTable(TABLE_NAME))
             return;
         createUserTable();
-
-        addUserWithAvatar("xxs","cedar",R.drawable.avatar_xxs);
+        //添加3个测试用户
+        addUserWithAvatar("xxs","xxs",R.drawable.avatar_xxs);
         addUserWithAvatar("wjf","wjf",R.drawable.avatar_wjf);
         addUserWithAvatar("wkq","wkq",R.drawable.avatar_wkq);
-
     }
     //添加带头像的用户
     private void addUserWithAvatar(String name,String password,int rid){
@@ -94,7 +89,6 @@ public class DBHelper extends SQLiteOpenHelper {
         User user=new User(name,password,avatar);
         this.insertUsers(user);
     }
-
     //向表中插入一个用户
     public void insertUsers(User user){
             ContentValues contentValues=new ContentValues();
@@ -151,10 +145,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 avatar= new BitmapDrawable(BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
             }
         }
-
         cursor.close();
         return avatar;
     }
-
-
 }
