@@ -1,16 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <!-- head -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        <include layout="@layout/activity_home_head"/>
+    </LinearLayout>
 
-    <!-- 登陆成功跳转的主页 -->
-    <ListView
-        android:id="@+id/users_listview"
-        android:layout_width="wrap_content"
-        android:layout_height="400dp"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        />
+    <!-- 中间 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/users_listview"/>
+    </LinearLayout>
 
-</RelativeLayout>
+    <!-- 底部 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        <include layout="@layout/activity_home_buttom"/>
+    </LinearLayout>
+
+</LinearLayout>

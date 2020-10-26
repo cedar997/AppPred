@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
-        <activity android:name="com.rom471.main.ResetPasswordActivity"></activity>
+        <activity android:name="com.rom471.main.ResetPasswordActivity" />
         <activity android:name="com.rom471.main.RegisterActivity" />
         <activity android:name="com.rom471.main.LoginActivity">
             <intent-filter>
