@@ -188,6 +188,19 @@ public class UsersDBHelper extends SQLiteOpenHelper {
         cursor.close();
         return avatar;
     }
-
+    //提供用户名，修改密码,返回数据库中有几行被修改了。
+    public int updatePasswordByName(String name,String password){
+        ContentValues values=new ContentValues();
+        values.put("password",password);
+        int update = db.update(TABLE_NAME, values, "name = ?", new String[]{name});
+        return update;
+    }
+    //提供用户名和邮箱，修改密码,返回数据库中有几行被修改了。
+    public int updatePasswordByNameAndEmail(String name,String email,String password){
+        ContentValues values=new ContentValues();
+        values.put("password",password);
+        int update = db.update(TABLE_NAME, values, "name = ? and email = ?", new String[]{name ,email});
+        return update;
+    }
 
 }

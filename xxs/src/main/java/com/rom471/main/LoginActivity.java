@@ -23,6 +23,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     UsersDBHelper db;
     ImageView avatar_img;
     TextView register_tv;
+    TextView reset_tv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +37,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         password_et.setOnFocusChangeListener(this);
         register_tv=findViewById(R.id.register_tv);
         register_tv.setOnClickListener(this);
+        reset_tv=findViewById(R.id.forget);
+        reset_tv.setOnClickListener(this);
         db=new UsersDBHelper(this);
         db.InitialWithTestData();
 
@@ -51,6 +54,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.register_tv:
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class );
                 startActivity(intent);
+                break;
+            case R.id.forget:
+                Intent intent2 = new Intent(LoginActivity.this, ResetPasswordActivity.class );
+                startActivity(intent2);
                 break;
         }
     }

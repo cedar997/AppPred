@@ -7,5 +7,4 @@
 
     <!-- 按下状态 -->
     <item android:drawable="@drawable/buttonpress" android:state_pressed="true"/>
-
 </selector>
