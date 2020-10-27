@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.stop_service_btn:
 
                 //stopService(recoder_service);
-                toast(this,"记录服务已经停止");
+                toast(this,"页面已经刷新");
                 updateRecordListView();
                 break;
             case R.id.clear_records_btn:
