@@ -31,7 +31,7 @@
         android:background="@drawable/edittext_selector"
         android:hint="@string/account"
         android:selectAllOnFocus="false"
-        android:singleLine="false"
+        android:singleLine="true"
         android:visibility="visible"
         android:textAlignment="center"/>
 

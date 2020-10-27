@@ -33,7 +33,7 @@
                  android:layout_weight="1"
                  android:text="@string/radio_btn2"
                     style="@style/style_RadioButton"
-                    android:drawableTop="@drawable/home"/>
+                    android:drawableTop="@drawable/home_selector"/>
 
               <RadioButton
                  android:id="@+id/radio3"
@@ -42,7 +42,7 @@
                   android:layout_weight="1"
                  android:text="@string/radio_btn3"
                     style="@style/style_RadioButton"
-                    android:drawableTop="@drawable/settings"/>
+                    android:drawableTop="@drawable/settings_selector"/>
          </RadioGroup>
 
      </LinearLayout>
