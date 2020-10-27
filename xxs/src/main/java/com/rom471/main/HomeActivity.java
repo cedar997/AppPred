@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -14,9 +15,7 @@ import com.rom471.lab1.R;
 import com.rom471.main.fragments.HomeFragment;
 import com.rom471.main.fragments.SettingsFragment;
 import com.rom471.main.fragments.UsersFragment;
-import com.rom471.userdb.UsersDBHelper;
-import com.rom471.userdb.User;
-import com.rom471.userdb.UserListViewAdapter;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +24,7 @@ public class HomeActivity extends AppCompatActivity implements RadioGroup.OnChec
     public static final String TAG="cedar";
     RadioGroup mRadioGroup;
     RadioButton rb1,rb2,rb3;
+    ImageView search_btn;
     private List<Fragment> fragments = new ArrayList<>();
     private Fragment fragment;
     private FragmentManager fm;
@@ -52,6 +52,7 @@ public class HomeActivity extends AppCompatActivity implements RadioGroup.OnChec
         rb1=findViewById(R.id.radio1);
         rb2=findViewById(R.id.radio2);
         rb3=findViewById(R.id.radio3);
+        search_btn=findViewById(R.id.search_btn);
 
     }
     private void initFragments(){
