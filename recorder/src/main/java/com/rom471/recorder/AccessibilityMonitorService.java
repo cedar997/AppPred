@@ -45,6 +45,7 @@ public class AccessibilityMonitorService extends AccessibilityService {
                 if(appLable!="" && !last.equals(appLable)) {
                     record.setAppname(last);
                     DBUtils.storeBatteryInfo(getApplicationContext(),record);
+                    DBUtils.storeNetworkInfo(getApplicationContext(),record);
                     db.insertRecord(record);
                     record.setAppname(appLable);
                     db.insertRecord(record);

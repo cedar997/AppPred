@@ -9,6 +9,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
+import com.rom471.recorder.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +19,7 @@ public class RecordDBHelper extends SQLiteOpenHelper {
 
     private String db_name;
     public static final int DB_VERSION=1;
+
     //内部Context引用
     private Context context;
     //内部数据库引用
@@ -28,6 +31,7 @@ public class RecordDBHelper extends SQLiteOpenHelper {
         this.db_name=db_name;
         db=super.getWritableDatabase();
         createTable();
+
     }
 
     public void createTable(){
@@ -36,6 +40,7 @@ public class RecordDBHelper extends SQLiteOpenHelper {
                 + "appname text ,"
                 + "battery integer,"
                 + "charging integer,"
+                + "net integer,"
                 + "time DATETIME DEFAULT CURRENT_TIMESTAMP)";
         db.execSQL(sql);
     }
@@ -57,12 +62,13 @@ public class RecordDBHelper extends SQLiteOpenHelper {
         db.insert(TABLE_NAME,null,contentValues);
     }
     public void insertRecord(Record record){
+
         ContentValues contentValues=new ContentValues();
         //contentValues.put("id",user.getId());
         contentValues.put("appname",record.getAppname());
         contentValues.put("battery",record.getBattery());
         contentValues.put("charging",record.getCharging());
-
+        contentValues.put("net",record.getNet());
         db.insert(TABLE_NAME,null,contentValues);
     }
     public void clearRecords(){
@@ -73,7 +79,7 @@ public class RecordDBHelper extends SQLiteOpenHelper {
     }
     public List<Record> queryAll(){
         List<Record> records=new ArrayList<>();
-        String sql = "SELECT appname,time,battery,charging FROM "+TABLE_NAME +" ";
+        String sql = "SELECT appname,time,battery,charging,net FROM "+TABLE_NAME +" ";
         Cursor cursor=db.rawQuery(sql,null);
 
         while(cursor.moveToNext()){
@@ -81,11 +87,13 @@ public class RecordDBHelper extends SQLiteOpenHelper {
             String datatime=cursor.getString(cursor.getColumnIndex("time"));
             int battery=cursor.getInt(cursor.getColumnIndex("battery"));
             int charging=cursor.getInt(cursor.getColumnIndex("charging"));
+            int net=cursor.getInt(cursor.getColumnIndex("net"));
             Record record=new Record();
             record.setAppname(appname);
             record.setDatatime(datatime);
             record.setBattery(battery);
             record.setCharging(charging);
+            record.setNet(net);
             records.add(record);
 
 

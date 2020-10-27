@@ -90,7 +90,7 @@ public class AppListViewAdapter extends BaseAdapter {
         holder.id.setText(""+position);
         holder.appname.setText(appinfo.getAppname());
         holder.first_run_time.setText(appinfo.getDatatime());
-        holder.last_run_time.setText(""+appinfo.getCharging());
+        holder.last_run_time.setText(""+appinfo.getNet());
 
     }
 

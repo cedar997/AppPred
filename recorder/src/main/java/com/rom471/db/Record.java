@@ -6,6 +6,15 @@ public class Record {
     String datatime;
     private int battery;
     private int charging;
+    private int net;
+
+    public int getNet() {
+        return net;
+    }
+
+    public void setNet(int net) {
+        this.net = net;
+    }
 
     public int getBattery() {
         return battery;
