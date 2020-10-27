@@ -22,13 +22,7 @@ public class RecordDBHelper extends SQLiteOpenHelper {
 
     }
 
-    private void createAppListTable(){
-        String sql="create table app_list ("
-                + "id integer primary key autoincrement,"
-                + "appname text ,"
-                + "appicon blob)";
-        db.execSQL(sql);
-    }
+
 
     @Override
     public void onCreate(SQLiteDatabase db) {
