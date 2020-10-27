@@ -34,6 +34,8 @@ public class RecordDBHelper extends SQLiteOpenHelper {
         String sql="create table if not exists "+TABLE_NAME+" ("
                 + "id integer primary key autoincrement,"
                 + "appname text ,"
+                + "battery integer,"
+                + "charging integer,"
                 + "time DATETIME DEFAULT CURRENT_TIMESTAMP)";
         db.execSQL(sql);
     }
@@ -54,6 +56,15 @@ public class RecordDBHelper extends SQLiteOpenHelper {
 
         db.insert(TABLE_NAME,null,contentValues);
     }
+    public void insertRecord(Record record){
+        ContentValues contentValues=new ContentValues();
+        //contentValues.put("id",user.getId());
+        contentValues.put("appname",record.getAppname());
+        contentValues.put("battery",record.getBattery());
+        contentValues.put("charging",record.getCharging());
+
+        db.insert(TABLE_NAME,null,contentValues);
+    }
     public void clearRecords(){
         String drop_sql="drop table "+TABLE_NAME;
         db.execSQL(drop_sql);
@@ -62,17 +73,19 @@ public class RecordDBHelper extends SQLiteOpenHelper {
     }
     public List<Record> queryAll(){
         List<Record> records=new ArrayList<>();
-        String sql = "SELECT appname,time FROM "+TABLE_NAME +" ";
+        String sql = "SELECT appname,time,battery,charging FROM "+TABLE_NAME +" ";
         Cursor cursor=db.rawQuery(sql,null);
 
         while(cursor.moveToNext()){
             String appname=cursor.getString(cursor.getColumnIndex("appname"));
             String datatime=cursor.getString(cursor.getColumnIndex("time"));
-
+            int battery=cursor.getInt(cursor.getColumnIndex("battery"));
+            int charging=cursor.getInt(cursor.getColumnIndex("charging"));
             Record record=new Record();
             record.setAppname(appname);
             record.setDatatime(datatime);
-
+            record.setBattery(battery);
+            record.setCharging(charging);
             records.add(record);
 
 

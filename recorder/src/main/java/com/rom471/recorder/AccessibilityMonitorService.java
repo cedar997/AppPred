@@ -1,12 +1,11 @@
 package com.rom471.recorder;
 
 import android.accessibilityservice.AccessibilityService;
-import android.app.Service;
-import android.content.Intent;
-import android.os.IBinder;
+import android.content.pm.PackageManager;
 import android.view.accessibility.AccessibilityEvent;
-import android.view.accessibility.AccessibilityEventSource;
 
+import com.rom471.db.DBUtils;
+import com.rom471.db.Record;
 import com.rom471.db.RecordDBHelper;
 
 import static android.view.accessibility.AccessibilityEvent.TYPE_VIEW_CLICKED;
@@ -14,8 +13,9 @@ import static android.view.accessibility.AccessibilityEvent.TYPE_VIEW_LONG_CLICK
 
 public class AccessibilityMonitorService extends AccessibilityService {
     private CharSequence mWindowClassName;
-    private String mCurrentPackage;
+    private String last ="";
     RecordDBHelper db;
+    Record record;
     public AccessibilityMonitorService() {
     }
 
@@ -23,6 +23,7 @@ public class AccessibilityMonitorService extends AccessibilityService {
     protected void onServiceConnected() {
         super.onServiceConnected();
         db=new RecordDBHelper(getApplicationContext(),"app.db");
+        record=new Record();
     }
 
     @Override
@@ -33,8 +34,22 @@ public class AccessibilityMonitorService extends AccessibilityService {
 
             case AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED:
                 mWindowClassName = event.getClassName();
-                mCurrentPackage = event.getPackageName()==null?"":event.getPackageName().toString();
-                db.insertRecord(mCurrentPackage);
+                String package_str= event.getPackageName()==null?"":event.getPackageName().toString();
+                String appLable=null;
+                PackageManager pm = getPackageManager();
+                try {
+                    appLable = pm.getPackageInfo(package_str,PackageManager.GET_ACTIVITIES).applicationInfo.loadLabel(pm).toString();
+                } catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
+                }
+                if(appLable!="" && !last.equals(appLable)) {
+                    record.setAppname(last);
+                    DBUtils.storeBatteryInfo(getApplicationContext(),record);
+                    db.insertRecord(record);
+                    record.setAppname(appLable);
+                    db.insertRecord(record);
+                    last =appLable;
+                }
                 break;
             case TYPE_VIEW_CLICKED:
             case TYPE_VIEW_LONG_CLICKED:
@@ -46,6 +61,7 @@ public class AccessibilityMonitorService extends AccessibilityService {
     public void onInterrupt() {
 
     }
+
 
 
 }

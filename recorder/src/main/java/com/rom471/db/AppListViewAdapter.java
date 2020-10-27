@@ -80,6 +80,7 @@ public class AppListViewAdapter extends BaseAdapter {
         holder.id=convertView.findViewById(R.id.id);
         holder.appname=convertView.findViewById(R.id.appname);
         holder.first_run_time=convertView.findViewById(R.id.first_run_time);
+        holder.last_run_time=convertView.findViewById(R.id.last_run_time);
     }
     @RequiresApi(api = Build.VERSION_CODES.Q)
     public void renderView(int position, ViewHolder holder){
@@ -89,6 +90,7 @@ public class AppListViewAdapter extends BaseAdapter {
         holder.id.setText(""+position);
         holder.appname.setText(appinfo.getAppname());
         holder.first_run_time.setText(appinfo.getDatatime());
+        holder.last_run_time.setText(""+appinfo.getCharging());
 
     }
 

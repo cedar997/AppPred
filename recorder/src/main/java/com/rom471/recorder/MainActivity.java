@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button clear_records_btn;
     Button accessibility_btn;
     RecordDBHelper db;
-
+    Intent recoder_service;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,13 +55,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.start_service_btn:
-                Intent recoder_service=new Intent(this,RecordService.class);
+                recoder_service=new Intent(this,RecordService.class);
                 startService(recoder_service);
                 toast(this,"记录服务已经启动");
                 break;
             case R.id.stop_service_btn:
-                Intent stopIntent = new Intent(this, RecordService.class);
-                stopService(stopIntent);
+
+                //stopService(recoder_service);
                 toast(this,"记录服务已经停止");
                 updateRecordListView();
                 break;

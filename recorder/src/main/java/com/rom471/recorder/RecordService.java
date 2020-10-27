@@ -7,11 +7,13 @@ import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
@@ -50,7 +52,9 @@ public class RecordService extends Service {
             // 以Log 对象在LogCat 里输出Log信息，监看服务运行情况
 
             String app_name=getTopActivity(getApplicationContext());
-
+            BatteryManager manager = (BatteryManager) getSystemService(Context.BATTERY_SERVICE);
+            int intProperty = manager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW);
+            Toast.makeText(getApplicationContext(),"电量："+intProperty,Toast.LENGTH_SHORT).show();
             db.insertRecord(app_name);
 
             myhandler.postDelayed(myTasks, 2000);
