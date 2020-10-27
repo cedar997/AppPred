@@ -4,6 +4,8 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -20,11 +22,12 @@ import com.rom471.main.fragments.UsersFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener{
+public class HomeActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener , View.OnClickListener {
     public static final String TAG="cedar";
     RadioGroup mRadioGroup;
     RadioButton rb1,rb2,rb3;
     ImageView search_btn;
+    EditText search_box;
     private List<Fragment> fragments = new ArrayList<>();
     private Fragment fragment;
     private FragmentManager fm;
@@ -53,7 +56,8 @@ public class HomeActivity extends AppCompatActivity implements RadioGroup.OnChec
         rb2=findViewById(R.id.radio2);
         rb3=findViewById(R.id.radio3);
         search_btn=findViewById(R.id.search_btn);
-
+        search_box=findViewById(R.id.search_box);
+        search_btn.setOnClickListener(this);
     }
     private void initFragments(){
         fragments.add(new UsersFragment());
@@ -80,7 +84,17 @@ public class HomeActivity extends AppCompatActivity implements RadioGroup.OnChec
                 fragment=fragments.get(2);
                 transaction.replace(R.id.mFragment,fragment);
                 break;
+
         }
         transaction.commit();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.search_btn:
+                search_box.setVisibility(View.VISIBLE);
+                break;
+        }
     }
 }
