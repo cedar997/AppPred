@@ -20,9 +20,9 @@
     <string name="name_reset">需要找回的用户名</string>
     <string name="signin">用户注册</string>
     <string name="forget">忘记密码</string>
-    <string name="radio_btn1">通讯录</string>
-    <string name="radio_btn2">页面2</string>
-    <string name="radio_btn3">页面3</string>
+    <string name="radio_btn1">用户列表</string>
+    <string name="radio_btn2">应用列表</string>
+    <string name="radio_btn3">设置</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
