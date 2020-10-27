@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:id="@+id/id"
         />
@@ -19,21 +19,27 @@
         android:layout_marginLeft="3dip"
         />
     <TextView
-        android:layout_width="100dip"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:id="@+id/first_run_time"
+        android:id="@+id/battery_tv"
         android:layout_marginLeft="3dip"
         />
     <TextView
-        android:layout_width="100dip"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:id="@+id/last_run_time"
+        android:id="@+id/power_tv"
         android:layout_marginLeft="3dip"
         />
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:id="@+id/total_run_time"
+        android:id="@+id/net_tv"
+        android:layout_marginLeft="3dip"
+        />
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/time_tv"
         android:layout_marginLeft="3dip"
         />
 </LinearLayout>

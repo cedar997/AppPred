@@ -2,7 +2,6 @@ package com.rom471.db;
 
 
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -79,18 +78,22 @@ public class AppListViewAdapter extends BaseAdapter {
         holder.icon=convertView.findViewById(R.id.appicon);
         holder.id=convertView.findViewById(R.id.id);
         holder.appname=convertView.findViewById(R.id.appname);
-        holder.first_run_time=convertView.findViewById(R.id.first_run_time);
-        holder.last_run_time=convertView.findViewById(R.id.last_run_time);
+        holder.battery =convertView.findViewById(R.id.battery_tv);
+        holder.power =convertView.findViewById(R.id.power_tv);
+        holder.net=convertView.findViewById(R.id.net_tv);
+        holder.time=convertView.findViewById(R.id.time_tv);
     }
     @RequiresApi(api = Build.VERSION_CODES.Q)
     public void renderView(int position, ViewHolder holder){
-        Record appinfo= appInfoList.get(position);
+        Record record= appInfoList.get(position);
         Drawable icon=null;
         holder.icon.setBackground(icon);
         holder.id.setText(""+position);
-        holder.appname.setText(appinfo.getAppname());
-        holder.first_run_time.setText(appinfo.getDatatime());
-        holder.last_run_time.setText(""+appinfo.getNet());
+        holder.appname.setText(record.getAppname());
+        holder.battery.setText(""+record.getBattery());
+        holder.power.setText(record.getChargingString());
+        holder.net.setText(record.getNetString());
+        holder.time.setText(record.getDatatime());
 
     }
 
@@ -98,8 +101,9 @@ public class AppListViewAdapter extends BaseAdapter {
         public ImageView icon;
         public TextView id;
         public TextView appname;
-        public TextView first_run_time;
-        public TextView last_run_time;
-        public TextView total_run_time;
+        public TextView battery;
+        public TextView power;
+        public TextView net;
+        public TextView time;
     }
 }

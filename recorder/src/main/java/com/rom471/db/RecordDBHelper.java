@@ -37,11 +37,11 @@ public class RecordDBHelper extends SQLiteOpenHelper {
     public void createTable(){
         String sql="create table if not exists "+TABLE_NAME+" ("
                 + "id integer primary key autoincrement,"
-                + "appname text ,"
-                + "battery integer,"
-                + "charging integer,"
-                + "net integer,"
-                + "time DATETIME DEFAULT CURRENT_TIMESTAMP)";
+                + "appname text ,"     //应用名
+                + "battery integer,"    //电池电量
+                + "charging integer,"    //功率
+                + "net integer,"         //网络信息
+                + "time DATETIME DEFAULT CURRENT_TIMESTAMP)";  //时间
         db.execSQL(sql);
     }
 

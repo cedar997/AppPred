@@ -11,7 +11,12 @@ public class Record {
     public int getNet() {
         return net;
     }
+    public String getNetString(){
 
+        if(net==1) return "移动网络";
+        else if(net==2) return "wifi";
+        else return "无网络";
+    }
     public void setNet(int net) {
         this.net = net;
     }
@@ -23,7 +28,9 @@ public class Record {
     public int getCharging() {
         return charging;
     }
-
+    public String getChargingString(){
+        return ""+charging/1000+" mW";
+    }
     public void setCharging(int charging) {
         this.charging = charging;
     }
