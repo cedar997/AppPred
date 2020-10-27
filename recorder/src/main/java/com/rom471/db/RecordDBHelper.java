@@ -41,7 +41,7 @@ public class RecordDBHelper extends SQLiteOpenHelper {
                 + "battery integer,"    //电池电量
                 + "charging integer,"    //功率
                 + "net integer,"         //网络信息
-                + "time DATETIME DEFAULT CURRENT_TIMESTAMP)";  //时间
+                + "time DATETIME DEFAULT (datetime( 'now', 'localtime' )) )";  //时间
         db.execSQL(sql);
     }
 
