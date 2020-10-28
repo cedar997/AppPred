@@ -45,14 +45,14 @@ public class AccessibilityMonitorService extends AccessibilityService {
     private void record(AccessibilityEvent event){
         mWindowClassName = event.getClassName();
         String package_str= event.getPackageName()==null?"":event.getPackageName().toString();
-        String appLable=null;
+        String appLable="";
         PackageManager pm = getPackageManager();
         try {
             appLable = pm.getPackageInfo(package_str,PackageManager.GET_ACTIVITIES).applicationInfo.loadLabel(pm).toString();
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        if(appLable!="" && !last.equals(appLable)) {
+        if(!appLable.equals("") && !last.equals(appLable)) {
             record.setAppname(last);
             DBUtils.storeBatteryInfo(getApplicationContext(),record);
             DBUtils.storeNetworkInfo(getApplicationContext(),record);

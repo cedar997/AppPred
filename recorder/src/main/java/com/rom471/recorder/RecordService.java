@@ -46,7 +46,7 @@ public class RecordService extends Service {
          */
         @Override
         public  void run() {
-            //  TODO Auto-generated method stub
+
             // 递增counter整数，作为后台服务运行时间识别
             intCounter++;
             // 以Log 对象在LogCat 里输出Log信息，监看服务运行情况

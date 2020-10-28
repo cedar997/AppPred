@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
         if(db.loginWith(name,password)){
             Toast.makeText(this, "登录成功！", Toast.LENGTH_SHORT).show();
-            //todo
+
             // 登录成功，跳转到Home界面
             Intent intent = new Intent(LoginActivity.this, HomeActivity.class );
             startActivity(intent);
