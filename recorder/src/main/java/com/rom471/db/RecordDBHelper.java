@@ -95,8 +95,33 @@ public class RecordDBHelper extends SQLiteOpenHelper {
             record.setCharging(charging);
             record.setNet(net);
             records.add(record);
+        }
+        cursor.close();
+        return records;
+    }
+    public List<Record> queryAllByName(String name) {
+        List<Record> records=new ArrayList<>();
+        String sql = "SELECT appname,time,battery,charging,net FROM "+TABLE_NAME +"  " ;
+        Cursor cursor;
+        if(name.equals(""))
+            cursor=db.rawQuery(sql,null);
+        else
+            cursor = db.query(TABLE_NAME, new String[]{"appname, time, battery, charging,net"}, "appname=?", new String[]{name}, null, null, null);
+        //Cursor
 
-
+        while(cursor.moveToNext()){
+            String appname=cursor.getString(cursor.getColumnIndex("appname"));
+            String datatime=cursor.getString(cursor.getColumnIndex("time"));
+            int battery=cursor.getInt(cursor.getColumnIndex("battery"));
+            int charging=cursor.getInt(cursor.getColumnIndex("charging"));
+            int net=cursor.getInt(cursor.getColumnIndex("net"));
+            Record record=new Record();
+            record.setAppname(appname);
+            record.setDatatime(datatime);
+            record.setBattery(battery);
+            record.setCharging(charging);
+            record.setNet(net);
+            records.add(record);
         }
         cursor.close();
         return records;

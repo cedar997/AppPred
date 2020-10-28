@@ -12,13 +12,11 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.android.material.appbar.AppBarLayout;
-import com.rom471.db.AppListViewAdapter;
+import com.rom471.db.RecordListViewAdapter;
 import com.rom471.db.Record;
 import com.rom471.db.RecordDBHelper;
 
 import java.util.List;
-import java.util.TooManyListenersException;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
     ListView list_view;
@@ -48,7 +46,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
     private void updateRecordListView(){
         List<Record> records = db.queryAll();
-        AppListViewAdapter mAdapter=new AppListViewAdapter(this,records);
+        RecordListViewAdapter mAdapter=new RecordListViewAdapter(this,records);
         list_view.setAdapter(mAdapter);
     }
     @Override

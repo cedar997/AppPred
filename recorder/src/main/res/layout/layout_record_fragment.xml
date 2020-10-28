@@ -7,9 +7,33 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         >
-        <EditText
+
+    </LinearLayout>
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+        <ListView
             android:layout_width="wrap_content"
+            android:layout_height="400dp"
+            android:id="@+id/record_list"
+            />
+    </HorizontalScrollView>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="更新数据"
+        android:id="@+id/record_update_btn"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+        <EditText
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             android:id="@+id/record_search_et"
             />
         <Button
@@ -19,14 +43,10 @@
             android:id="@+id/record_search_btn"
             />
     </LinearLayout>
-    <HorizontalScrollView
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        >
-        <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="650dp"
-            android:id="@+id/app_list"
-            />
-    </HorizontalScrollView>
+        android:id="@+id/record_stat_tv"
+        />
 </LinearLayout>

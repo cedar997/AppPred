@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     private void setDefaultFragment(){
         fm=getFragmentManager();
         transaction=fm.beginTransaction();
-        fragment=fragments.get(0);
+        fragment=fragments.get(1);
         transaction.replace(R.id.mFragment,fragment);
         transaction.commit();
     }
@@ -60,8 +60,9 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
 
     }
     private void initFragments(){
-        fragments.add(new HomeFragment());
         fragments.add(new RecordFragment());
+        fragments.add(new HomeFragment());
+
         fragments.add(new SettingsFragment());
     }
     public void print(String ... s){
