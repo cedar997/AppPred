@@ -70,13 +70,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         ouput_db_btn.setOnClickListener(this);
         clearRecord_btn.setOnClickListener(this);
         normal_service_btn.setOnClickListener(this);
-        boolean accessibilitySettingsOn = isAccessibilitySettingsOn(context, "com.rom471.recorder.AccessibilityMonitorService");
-        if(accessibilitySettingsOn){
-            accessibility_btn.setBackgroundColor(Color.GREEN);
-        }
-        else {
-            accessibility_btn.setBackgroundColor(Color.GRAY);
-        }
+
 
     }
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -99,6 +93,18 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
             case R.id.output_db_btn:
                 export_db();
                 break;
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        boolean accessibilitySettingsOn = isAccessibilitySettingsOn(context);
+        if(accessibilitySettingsOn){
+            accessibility_btn.setText("辅助功能已经打开");
+        }
+        else {
+            accessibility_btn.setText("点击打开辅助功能");
         }
     }
 
@@ -172,15 +178,15 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         Intent intent=new Intent(mAction);
         context.startActivity(intent);
     }
-    private static boolean isAccessibilitySettingsOn(Context context, String service) {
-
+    private static boolean isAccessibilitySettingsOn(Context context) {
+        String service="com.rom471.recorder/com.rom471.recorder.AccessibilityMonitorService";
         TextUtils.SimpleStringSplitter mStringColonSplitter = new TextUtils.SimpleStringSplitter(':');
         String settingValue = Settings.Secure.getString(
                 context.getApplicationContext().getContentResolver(),
                 Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
         Log.d("cedar", "isAccessibilitySettingsOn: "+settingValue);
         if (settingValue != null) {
-            mStringColonSplitter.setString(settingValue);
+            mStringColonSplitter.setString(settingValue); //各个服务由分号分割
             while (mStringColonSplitter.hasNext()) {
                 String accessibilityService = mStringColonSplitter.next();
                 if (accessibilityService.equalsIgnoreCase(service)) {
