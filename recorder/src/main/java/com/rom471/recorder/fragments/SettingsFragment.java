@@ -1,13 +1,19 @@
 package com.rom471.recorder.fragments;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.icu.util.Calendar;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.Settings;
+import android.text.format.Time;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,11 +24,18 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
 
 
 import com.rom471.db.RecordDBHelper;
 import com.rom471.recorder.R;
 import com.rom471.recorder.RecordService;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
 
 
 public class SettingsFragment extends Fragment implements View.OnClickListener{
@@ -30,6 +43,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
     Button accessibility_btn;
     Button clearRecord_btn;
     Button normal_service_btn;
+    Button ouput_db_btn;
     RecordDBHelper db;
     Context context;
     @Nullable
@@ -49,12 +63,14 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
 
         accessibility_btn.setOnClickListener(this);
         clearRecord_btn=getActivity().findViewById(R.id.clear_records_btn);
+        ouput_db_btn=getActivity().findViewById(R.id.output_db_btn);
+        ouput_db_btn.setOnClickListener(this);
         clearRecord_btn.setOnClickListener(this);
         normal_service_btn.setOnClickListener(this);
 
 
     }
-    @RequiresApi(api = Build.VERSION_CODES.M)
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -71,8 +87,54 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
                 context.startService(recoder_service);
                 toast(context,"记录服务已经启动");
                 break;
+            case R.id.output_db_btn:
+                export_db();
+                break;
         }
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void export_db(){
+        verifyStoragePermissions(getActivity());
+        File sd = Environment.getExternalStorageDirectory();
+        File data = Environment.getDataDirectory();
+        FileChannel source=null;
+        FileChannel destination=null;
+        String DB_NAME="app.db";
+        String currentDBPath = "/data/"+ "com.rom471.recorder" +"/databases/"+DB_NAME;
+        Calendar calendar = Calendar.getInstance();
+
+        String backupDBName =""+(calendar.get(Calendar.MONTH)+1)+"月"+
+                calendar.get(Calendar.DAY_OF_MONTH)+"日"+
+                calendar.get(Calendar.HOUR_OF_DAY)+"时"+
+                calendar.get(Calendar.MINUTE)+"分"+
+                ".db" ;
+        String backupPath=sd+"/rom471/";
+        File backupPathFile = new File(backupPath);
+        if (!backupPathFile.exists()) {
+            try {
+                //按照指定的路径创建文件夹
+                backupPathFile.mkdirs();
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+        }
+
+        File currentDB = new File(data, currentDBPath);
+        File backupDB = new File(backupPath, backupDBName);
+
+        try {
+            source = new FileInputStream(currentDB).getChannel();
+            destination = new FileOutputStream(backupDB).getChannel();
+            destination.transferFrom(source, 0, source.size());
+            source.close();
+            destination.close();
+            Toast.makeText(context, "DB Exported!", Toast.LENGTH_LONG).show();
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void confirmClearRecordsDialog(){
         final AlertDialog.Builder normalDialog =
                 new AlertDialog.Builder(context);
@@ -104,5 +166,27 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         Toast toast=Toast.makeText(context, text, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
+    }
+
+    //先定义
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+
+    private static String[] PERMISSIONS_STORAGE = {
+            "android.permission.READ_EXTERNAL_STORAGE",
+            "android.permission.WRITE_EXTERNAL_STORAGE" };
+
+    //然后通过一个函数来申请
+    public static void verifyStoragePermissions(Activity activity) {
+        try {
+            //检测是否有写的权限
+            int permission = ActivityCompat.checkSelfPermission(activity,
+                    "android.permission.WRITE_EXTERNAL_STORAGE");
+            if (permission != PackageManager.PERMISSION_GRANTED) {
+                // 没有写的权限，去申请写的权限，会弹出对话框
+                ActivityCompat.requestPermissions(activity, PERMISSIONS_STORAGE,REQUEST_EXTERNAL_STORAGE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
