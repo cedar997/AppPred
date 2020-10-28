@@ -11,16 +11,22 @@ import androidx.annotation.Nullable;
 
 import com.rom471.recorder.R;
 
-public class RecordFragment extends Fragment {
+
+public class SettingsFragment extends Fragment {
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.layout_record_fragment,container,false);
+        return inflater.inflate(R.layout.layout_settings_fragment,container,false);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+
+
     }
+
 }

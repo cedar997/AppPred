@@ -2,86 +2,92 @@ package com.rom471.recorder;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 
-import com.google.android.material.appbar.AppBarLayout;
-import com.rom471.db.AppListViewAdapter;
-import com.rom471.db.Record;
-import com.rom471.db.RecordDBHelper;
+import com.rom471.recorder.fragments.HomeFragment;
+import com.rom471.recorder.fragments.RecordFragment;
+import com.rom471.recorder.fragments.SettingsFragment;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.TooManyListenersException;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    ListView list_view;
-    Button start_service_btn;
-    Button stop_service_btn;
-    Button clear_records_btn;
-    Button accessibility_btn;
-    RecordDBHelper db;
-    Intent recoder_service;
+public class MainActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
+    public static final String TAG="cedar";
+    RadioGroup mRadioGroup;
+    RadioButton rb1,rb2,rb3;
+    ImageView search_btn;
+    EditText search_box;
+    private List<Fragment> fragments = new ArrayList<>();
+    private Fragment fragment;
+    private FragmentManager fm;
+    private FragmentTransaction transaction;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-        list_view=findViewById(R.id.app_list);
-        db=new RecordDBHelper(this,"app.db");
+        setContentView(R.layout.activity_main);
+        bindView();//绑定资源
+        initFragments();
+        mRadioGroup.setOnCheckedChangeListener(this);
+        setDefaultFragment();
 
-        updateRecordListView();
-        start_service_btn=findViewById(R.id.start_service_btn);
-        stop_service_btn=findViewById(R.id.stop_service_btn);
-        clear_records_btn=findViewById(R.id.clear_records_btn);
-        accessibility_btn=findViewById(R.id.open_accessibility_btn);
 
-        start_service_btn.setOnClickListener(this);
-        stop_service_btn.setOnClickListener(this);
-        clear_records_btn.setOnClickListener(this);
-        accessibility_btn.setOnClickListener(this);
     }
-    private void updateRecordListView(){
-        List<Record> records = db.queryAll();
-        AppListViewAdapter mAdapter=new AppListViewAdapter(this,records);
-        list_view.setAdapter(mAdapter);
+    private void setDefaultFragment(){
+        fm=getFragmentManager();
+        transaction=fm.beginTransaction();
+        fragment=fragments.get(0);
+        transaction.replace(R.id.mFragment,fragment);
+        transaction.commit();
     }
+    private void bindView(){
+        mRadioGroup=findViewById(R.id.radioGroup1);
+        rb1=findViewById(R.id.radio1);
+        rb2=findViewById(R.id.radio2);
+        rb3=findViewById(R.id.radio3);
+
+
+    }
+    private void initFragments(){
+        fragments.add(new HomeFragment());
+        fragments.add(new RecordFragment());
+        fragments.add(new SettingsFragment());
+    }
+    public void print(String ... s){
+
+    }
+
     @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.start_service_btn:
-                recoder_service=new Intent(this,RecordService.class);
-                startService(recoder_service);
-                toast(this,"记录服务已经启动");
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        transaction=fm.beginTransaction();
+        switch (checkedId){
+            case R.id.radio1:
+                fragment=fragments.get(0);
+                transaction.replace(R.id.mFragment,fragment);
                 break;
-            case R.id.stop_service_btn:
+            case R.id.radio2:
+                fragment=fragments.get(1);
+                transaction.replace(R.id.mFragment,fragment);
+                break;
+            case R.id.radio3:
+                fragment=fragments.get(2);
+                transaction.replace(R.id.mFragment,fragment);
+                break;
 
-                //stopService(recoder_service);
-                toast(this,"页面已经刷新");
-                updateRecordListView();
-                break;
-            case R.id.clear_records_btn:
-                db.clearRecords();
-                updateRecordListView();
-                break;
-            case R.id.open_accessibility_btn:
-                getAccessibilityPermission(this);
-                break;
         }
+        transaction.commit();
     }
-    public  void toast(Context context, String text){
-        Toast toast=Toast.makeText(context, text, Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER, 0, 0);
-        toast.show();
-    }
-    public void getAccessibilityPermission(Context context){
-        final String mAction= Settings.ACTION_ACCESSIBILITY_SETTINGS;//辅助功能
-        Intent intent=new Intent(mAction);
-        context.startActivity(intent);
-    }
+
+
 }
