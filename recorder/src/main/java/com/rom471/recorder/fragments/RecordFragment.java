@@ -47,7 +47,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         context=getContext();
         list_view=getActivity().findViewById(R.id.record_list);
         db=new RecordDBHelper(getContext(),"app.db");
-        mRecords = db.queryAll();
+        mRecords = db.queryLast(100);
         mAdapter=new RecordListViewAdapter(getContext(),mRecords);
 
         list_view.setAdapter(mAdapter);
@@ -68,7 +68,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                 list_view.setAdapter(mAdapter);
                 break;
             case R.id.record_update_btn:
-                mRecords = db.queryAll();
+                mRecords = db.queryLast(500);
                 mAdapter.setRecords(mRecords);
                 list_view.setAdapter(mAdapter);
                 break;

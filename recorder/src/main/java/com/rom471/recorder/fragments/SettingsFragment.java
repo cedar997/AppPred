@@ -7,13 +7,16 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,7 +70,13 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         ouput_db_btn.setOnClickListener(this);
         clearRecord_btn.setOnClickListener(this);
         normal_service_btn.setOnClickListener(this);
-
+        boolean accessibilitySettingsOn = isAccessibilitySettingsOn(context, "com.rom471.recorder.AccessibilityMonitorService");
+        if(accessibilitySettingsOn){
+            accessibility_btn.setBackgroundColor(Color.GREEN);
+        }
+        else {
+            accessibility_btn.setBackgroundColor(Color.GRAY);
+        }
 
     }
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -134,7 +143,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
             e.printStackTrace();
         }
     }
-
+    //确认清除数据的弹出对话框
     public void confirmClearRecordsDialog(){
         final AlertDialog.Builder normalDialog =
                 new AlertDialog.Builder(context);
@@ -157,11 +166,31 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
                 });
         normalDialog.show();
     }
+    //跳转到打开辅助功能界面
     public void getAccessibilityPermission(Context context){
         final String mAction= Settings.ACTION_ACCESSIBILITY_SETTINGS;//辅助功能
         Intent intent=new Intent(mAction);
         context.startActivity(intent);
     }
+    private static boolean isAccessibilitySettingsOn(Context context, String service) {
+
+        TextUtils.SimpleStringSplitter mStringColonSplitter = new TextUtils.SimpleStringSplitter(':');
+        String settingValue = Settings.Secure.getString(
+                context.getApplicationContext().getContentResolver(),
+                Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
+        Log.d("cedar", "isAccessibilitySettingsOn: "+settingValue);
+        if (settingValue != null) {
+            mStringColonSplitter.setString(settingValue);
+            while (mStringColonSplitter.hasNext()) {
+                String accessibilityService = mStringColonSplitter.next();
+                if (accessibilityService.equalsIgnoreCase(service)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public  void toast(Context context, String text){
         Toast toast=Toast.makeText(context, text, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, 0, 0);

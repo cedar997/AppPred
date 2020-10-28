@@ -80,20 +80,27 @@ public class RecordDBHelper extends SQLiteOpenHelper {
         createTable();
 
     }
-    public List<Record> queryAll(){
 
-        return queryAll("");
+    public List<Record> queryLast(int limit) {
+        String sql = "SELECT id,appname,time,battery,charging,net FROM "+TABLE_NAME +" order by id desc limit "+limit ;
+        Cursor cursor=db.rawQuery(sql,null);
+        return readRecordsFromCursor(cursor);
     }
-    public List<Record> queryAll(String name) {
-        List<Record> records=new ArrayList<>();
+    public List<Record> queryAll() {
         String sql = "SELECT id,appname,time,battery,charging,net FROM "+TABLE_NAME +" order by id desc " ;
-        Cursor cursor;
-        if(name.equals(""))
-            cursor=db.rawQuery(sql,null);
-        else
-            cursor = db.query(TABLE_NAME, new String[]{"id,appname,time, battery, charging,net"}, "appname=?", new String[]{name}, null, null, "id desc");
-        //Cursor
+        Cursor cursor=db.rawQuery(sql,null);
+        return readRecordsFromCursor(cursor);
+    }
+    public List<Record> queryAllByName(String name){
 
+       Cursor cursor = db.query(TABLE_NAME, new String[]{"id,appname,time, battery, charging,net"},
+                "appname=?", new String[]{name},
+                null, null,
+                "id desc");
+       return readRecordsFromCursor(cursor);
+    }
+    private List<Record> readRecordsFromCursor(Cursor cursor){
+        List<Record> records=new ArrayList<>();
         while(cursor.moveToNext()){
             int id=cursor.getInt(cursor.getColumnIndex("id"));
             String appname=cursor.getString(cursor.getColumnIndex("appname"));
