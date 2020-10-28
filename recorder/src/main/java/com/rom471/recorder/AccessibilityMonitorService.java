@@ -33,31 +33,36 @@ public class AccessibilityMonitorService extends AccessibilityService {
             //窗口变化时触发
 
             case AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED:
-                mWindowClassName = event.getClassName();
-                String package_str= event.getPackageName()==null?"":event.getPackageName().toString();
-                String appLable=null;
-                PackageManager pm = getPackageManager();
-                try {
-                    appLable = pm.getPackageInfo(package_str,PackageManager.GET_ACTIVITIES).applicationInfo.loadLabel(pm).toString();
-                } catch (PackageManager.NameNotFoundException e) {
-                    e.printStackTrace();
-                }
-                if(appLable!="" && !last.equals(appLable)) {
-                    record.setAppname(last);
-                    DBUtils.storeBatteryInfo(getApplicationContext(),record);
-                    DBUtils.storeNetworkInfo(getApplicationContext(),record);
-                    db.insertRecord(record);
-                    record.setAppname(appLable);
-                    db.insertRecord(record);
-                    last =appLable;
-                }
+
                 break;
             case TYPE_VIEW_CLICKED:
+                record(event);
+                break;
             case TYPE_VIEW_LONG_CLICKED:
                 break;
         }
     }
+    private void record(AccessibilityEvent event){
+        mWindowClassName = event.getClassName();
+        String package_str= event.getPackageName()==null?"":event.getPackageName().toString();
+        String appLable=null;
+        PackageManager pm = getPackageManager();
+        try {
+            appLable = pm.getPackageInfo(package_str,PackageManager.GET_ACTIVITIES).applicationInfo.loadLabel(pm).toString();
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        if(appLable!="" && !last.equals(appLable)) {
+            record.setAppname(last);
+            DBUtils.storeBatteryInfo(getApplicationContext(),record);
+            DBUtils.storeNetworkInfo(getApplicationContext(),record);
+            db.insertRecord(record);
+            record.setAppname(appLable);
+            db.insertRecord(record);
+            last =appLable;
+        }
 
+    }
     @Override
     public void onInterrupt() {
 
