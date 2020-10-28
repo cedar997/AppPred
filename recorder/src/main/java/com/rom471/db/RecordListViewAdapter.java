@@ -21,36 +21,38 @@ import java.util.List;
 
 public class RecordListViewAdapter extends BaseAdapter {
     public static final String TAG= RecordListViewAdapter.class.getSimpleName();
-    private List<Record> appInfoList;
+    private List<Record> mRecords;
 
     private LayoutInflater mInflater;
     PackageManager pm;
 
 
     public RecordListViewAdapter(Context context){
-        appInfoList =new ArrayList<>();
+        mRecords =new ArrayList<>();
 
         mInflater=LayoutInflater.from(context);
         pm=context.getPackageManager();
     }
     public RecordListViewAdapter(Context context, List<Record> mList){
-        this.appInfoList =mList;
+        this.mRecords =mList;
         mInflater=LayoutInflater.from(context);
         pm=context.getPackageManager();
     }
-
+    public void setRecords(List<Record> records){
+        this.mRecords=records;
+    }
     public void add(Record info){
-        this.appInfoList.add(info);
+        this.mRecords.add(info);
     }
 
     @Override
     public int getCount() {
-        return appInfoList ==null?0: appInfoList.size();
+        return mRecords ==null?0: mRecords.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return appInfoList ==null?null: appInfoList.get(position);
+        return mRecords ==null?null: mRecords.get(position);
     }
 
     @Override
@@ -85,7 +87,7 @@ public class RecordListViewAdapter extends BaseAdapter {
     }
     @RequiresApi(api = Build.VERSION_CODES.Q)
     public void renderView(int position, ViewHolder holder){
-        Record record= appInfoList.get(position);
+        Record record= mRecords.get(position);
         Drawable icon=null;
         holder.icon.setBackground(icon);
         holder.id.setText(""+position);
