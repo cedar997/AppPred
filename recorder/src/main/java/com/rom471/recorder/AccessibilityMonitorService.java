@@ -33,10 +33,10 @@ public class AccessibilityMonitorService extends AccessibilityService {
             //窗口变化时触发
 
             case AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED:
-
+                record(event);
                 break;
             case TYPE_VIEW_CLICKED:
-                record(event);
+
                 break;
             case TYPE_VIEW_LONG_CLICKED:
                 break;
@@ -58,6 +58,8 @@ public class AccessibilityMonitorService extends AccessibilityService {
             DBUtils.storeNetworkInfo(getApplicationContext(),record);
             db.insertRecord(record);
             record.setAppname(appLable);
+
+
             db.insertRecord(record);
             last =appLable;
         }

@@ -1,12 +1,27 @@
 package com.rom471.db;
 
+import android.icu.text.SimpleDateFormat;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
+import java.util.Locale;
+
 public class Record {
     int id;
     String appname;
-    String datatime;
+    long timestamp;
     private int battery;
     private int charging;
     private int net;
+
+    public Long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Long timestamp) {
+        this.timestamp = timestamp;
+    }
 
     public int getNet() {
         return net;
@@ -55,11 +70,15 @@ public class Record {
         this.appname = appname;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public String getDatatime() {
-        return datatime;
+        SimpleDateFormat sdf=new SimpleDateFormat("MM月dd日HH时mm分ss秒SSS", Locale.getDefault());
+
+        return sdf.format(timestamp);
+
     }
 
     public void setDatatime(String datatime) {
-        this.datatime = datatime;
+
     }
 }

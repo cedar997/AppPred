@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 import com.rom471.recorder.R;
 
@@ -41,7 +42,7 @@ public class RecordDBHelper extends SQLiteOpenHelper {
                 + "battery integer,"    //电池电量
                 + "charging integer,"    //功率
                 + "net integer,"         //网络信息
-                + "time DATETIME DEFAULT (datetime( 'now', 'localtime' )) )";  //时间
+                + "time integer DEFAULT  CURRENT_TIMESTAMP )";  //时间
         db.execSQL(sql);
     }
 
@@ -62,13 +63,15 @@ public class RecordDBHelper extends SQLiteOpenHelper {
         db.insert(TABLE_NAME,null,contentValues);
     }
     public void insertRecord(Record record){
-
+        long timecurrentTimeMillis = System.currentTimeMillis();
+        record.setTimestamp(timecurrentTimeMillis);
         ContentValues contentValues=new ContentValues();
         //contentValues.put("id",user.getId());
         contentValues.put("appname",record.getAppname());
         contentValues.put("battery",record.getBattery());
         contentValues.put("charging",record.getCharging());
         contentValues.put("net",record.getNet());
+        contentValues.put("time",record.getTimestamp());
         db.insert(TABLE_NAME,null,contentValues);
     }
     public void clearRecords(){
@@ -78,46 +81,28 @@ public class RecordDBHelper extends SQLiteOpenHelper {
 
     }
     public List<Record> queryAll(){
-        List<Record> records=new ArrayList<>();
-        String sql = "SELECT appname,time,battery,charging,net FROM "+TABLE_NAME +" ";
-        Cursor cursor=db.rawQuery(sql,null);
 
-        while(cursor.moveToNext()){
-            String appname=cursor.getString(cursor.getColumnIndex("appname"));
-            String datatime=cursor.getString(cursor.getColumnIndex("time"));
-            int battery=cursor.getInt(cursor.getColumnIndex("battery"));
-            int charging=cursor.getInt(cursor.getColumnIndex("charging"));
-            int net=cursor.getInt(cursor.getColumnIndex("net"));
-            Record record=new Record();
-            record.setAppname(appname);
-            record.setDatatime(datatime);
-            record.setBattery(battery);
-            record.setCharging(charging);
-            record.setNet(net);
-            records.add(record);
-        }
-        cursor.close();
-        return records;
+        return queryAll("");
     }
-    public List<Record> queryAllByName(String name) {
+    public List<Record> queryAll(String name) {
         List<Record> records=new ArrayList<>();
         String sql = "SELECT appname,time,battery,charging,net FROM "+TABLE_NAME +"  " ;
         Cursor cursor;
         if(name.equals(""))
             cursor=db.rawQuery(sql,null);
         else
-            cursor = db.query(TABLE_NAME, new String[]{"appname, time, battery, charging,net"}, "appname=?", new String[]{name}, null, null, null);
+            cursor = db.query(TABLE_NAME, new String[]{"appname,time, battery, charging,net"}, "appname=?", new String[]{name}, null, null, null);
         //Cursor
 
         while(cursor.moveToNext()){
             String appname=cursor.getString(cursor.getColumnIndex("appname"));
-            String datatime=cursor.getString(cursor.getColumnIndex("time"));
+            long timestamp=cursor.getLong(cursor.getColumnIndex("time"));
             int battery=cursor.getInt(cursor.getColumnIndex("battery"));
             int charging=cursor.getInt(cursor.getColumnIndex("charging"));
             int net=cursor.getInt(cursor.getColumnIndex("net"));
             Record record=new Record();
             record.setAppname(appname);
-            record.setDatatime(datatime);
+            record.setTimestamp(timestamp);
             record.setBattery(battery);
             record.setCharging(charging);
             record.setNet(net);
