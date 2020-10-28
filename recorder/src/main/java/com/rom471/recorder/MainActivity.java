@@ -5,16 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 
 import com.rom471.recorder.fragments.HomeFragment;
 import com.rom471.recorder.fragments.RecordFragment;
@@ -36,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.main);
         bindView();//绑定资源
         initFragments();
         mRadioGroup.setOnCheckedChangeListener(this);

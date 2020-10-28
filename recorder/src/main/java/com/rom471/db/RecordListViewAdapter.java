@@ -66,7 +66,7 @@ public class RecordListViewAdapter extends BaseAdapter {
             ViewHolder holder=null;
             if(convertView==null){
                 holder=new ViewHolder();
-                convertView=mInflater.inflate(R.layout.app_list_layout,null);
+                convertView=mInflater.inflate(R.layout.record_list_layout,null);
                 bindView(convertView,holder);
                 convertView.setTag(holder);
             }else {

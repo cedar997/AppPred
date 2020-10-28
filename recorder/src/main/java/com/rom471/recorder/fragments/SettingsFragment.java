@@ -20,12 +20,9 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 
-import com.rom471.db.Record;
 import com.rom471.db.RecordDBHelper;
 import com.rom471.recorder.R;
 import com.rom471.recorder.RecordService;
-
-import java.util.List;
 
 
 public class SettingsFragment extends Fragment implements View.OnClickListener{
@@ -38,7 +35,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.layout_settings_fragment,container,false);
+        return inflater.inflate(R.layout.main_fragment_settings,container,false);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
