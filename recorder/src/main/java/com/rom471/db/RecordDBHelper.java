@@ -86,21 +86,23 @@ public class RecordDBHelper extends SQLiteOpenHelper {
     }
     public List<Record> queryAll(String name) {
         List<Record> records=new ArrayList<>();
-        String sql = "SELECT appname,time,battery,charging,net FROM "+TABLE_NAME +"  " ;
+        String sql = "SELECT id,appname,time,battery,charging,net FROM "+TABLE_NAME +" order by id desc " ;
         Cursor cursor;
         if(name.equals(""))
             cursor=db.rawQuery(sql,null);
         else
-            cursor = db.query(TABLE_NAME, new String[]{"appname,time, battery, charging,net"}, "appname=?", new String[]{name}, null, null, null);
+            cursor = db.query(TABLE_NAME, new String[]{"id,appname,time, battery, charging,net"}, "appname=?", new String[]{name}, null, null, "id desc");
         //Cursor
 
         while(cursor.moveToNext()){
+            int id=cursor.getInt(cursor.getColumnIndex("id"));
             String appname=cursor.getString(cursor.getColumnIndex("appname"));
             long timestamp=cursor.getLong(cursor.getColumnIndex("time"));
             int battery=cursor.getInt(cursor.getColumnIndex("battery"));
             int charging=cursor.getInt(cursor.getColumnIndex("charging"));
             int net=cursor.getInt(cursor.getColumnIndex("net"));
             Record record=new Record();
+            record.setId(id);
             record.setAppname(appname);
             record.setTimestamp(timestamp);
             record.setBattery(battery);

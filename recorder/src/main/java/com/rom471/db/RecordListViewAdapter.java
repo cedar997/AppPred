@@ -90,7 +90,7 @@ public class RecordListViewAdapter extends BaseAdapter {
         Record record= mRecords.get(position);
         Drawable icon=null;
         holder.icon.setBackground(icon);
-        holder.id.setText(""+position);
+        holder.id.setText(""+record.getId());
         holder.appname.setText(record.getAppname());
         holder.battery.setText(""+record.getBattery());
         holder.power.setText(record.getChargingString());

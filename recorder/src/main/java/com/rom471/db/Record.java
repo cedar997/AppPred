@@ -72,7 +72,7 @@ public class Record {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public String getDatatime() {
-        SimpleDateFormat sdf=new SimpleDateFormat("MM月dd日HH时mm分ss秒SSS", Locale.getDefault());
+        SimpleDateFormat sdf=new SimpleDateFormat("MM/dd HH:mm:ss.SSS", Locale.getDefault());
 
         return sdf.format(timestamp);
 
