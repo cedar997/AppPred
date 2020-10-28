@@ -66,10 +66,12 @@ public class AccessibilityMonitorService extends AccessibilityService {
     }
     private void record(AccessibilityEvent event){
         String appLabel = getAppLabel(event);
+        if(appLabel.equals("")) return;
         if(appLabel.equals(last)){
 
         }else{
-            saveRecord(last);
+            if(!last.equals(""))
+                saveRecord(last);
             saveRecord(appLabel);
             last=appLabel;
         }
