@@ -19,21 +19,21 @@ import com.rom471.recorder.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AppListViewAdapter extends BaseAdapter {
-    public static final String TAG= AppListViewAdapter.class.getSimpleName();
+public class RecordListViewAdapter extends BaseAdapter {
+    public static final String TAG= RecordListViewAdapter.class.getSimpleName();
     private List<Record> appInfoList;
 
     private LayoutInflater mInflater;
     PackageManager pm;
 
 
-    public AppListViewAdapter(Context context){
+    public RecordListViewAdapter(Context context){
         appInfoList =new ArrayList<>();
 
         mInflater=LayoutInflater.from(context);
         pm=context.getPackageManager();
     }
-    public AppListViewAdapter(Context context, List<Record> mList){
+    public RecordListViewAdapter(Context context, List<Record> mList){
         this.appInfoList =mList;
         mInflater=LayoutInflater.from(context);
         pm=context.getPackageManager();
