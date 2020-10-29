@@ -1,4 +1,4 @@
-package com.rom471.present;
+package com.rom471.app;
 
 import android.graphics.drawable.Drawable;
 
@@ -6,8 +6,21 @@ public class AppBean {
     String appname;
     String pkgname;
     Drawable icon;
-
+    long timeSpend;
     public AppBean() {
+    }
+
+    public long getTimeSpend() {
+        return timeSpend;
+    }
+    public String getTimeSpendString() {
+        long sec=timeSpend/1000;
+
+        return sec+"秒";
+    }
+
+    public void setTimeSpend(long timeSpend) {
+        this.timeSpend = timeSpend;
     }
 
     public String getAppname() {

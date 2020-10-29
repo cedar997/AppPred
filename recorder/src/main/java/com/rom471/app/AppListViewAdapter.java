@@ -1,9 +1,8 @@
-package com.rom471.present;
+package com.rom471.app;
 
 
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 
-import com.rom471.db.Record;
 import com.rom471.recorder.R;
 
 import java.util.ArrayList;
@@ -90,7 +88,7 @@ public class AppListViewAdapter extends BaseAdapter {
 
         holder.icon.setBackground(app.getIcon());
 
-        holder.appname.setText(app.getAppname());
+        holder.appname.setText(app.getAppname()+" "+(app.getTimeSpendString()));
 
 
     }

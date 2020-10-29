@@ -24,7 +24,7 @@
 
                  android:text="@string/radio_btn1"
                     style="@style/style_RadioButton"
-                    android:drawableTop="@drawable/userlist_selector"/>
+                    android:drawableTop="@drawable/list_selector"/>
 
              <RadioButton
                  android:id="@+id/radio2"

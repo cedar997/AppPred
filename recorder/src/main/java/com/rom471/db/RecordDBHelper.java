@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.drawable.Drawable;
 
-import com.rom471.present.AppBean;
+import com.rom471.app.AppBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -146,16 +146,42 @@ public class RecordDBHelper extends SQLiteOpenHelper {
         return records;
     }
     public List<AppBean> getLastAppBean(int limit){
-        List<AppBean> apps=new ArrayList<>();
-        String sql = "SELECT id,appname,pkgname,time from "+TABLE_NAME +" order by id desc limit "+limit ;
+
+        String sql = "SELECT id,appname,pkgname,time,timespend from "+TABLE_NAME +" order by id desc limit "+limit ;
         Cursor cursor=db.rawQuery(sql,null);
+        return readAppBeanFromCursor(cursor);
+    }
+    public List<AppBean> getAppTotalTime(int limit){
+        String fun="sum(timespend)";
+        String sql = "SELECT appname,pkgname,"+fun+" from "+TABLE_NAME +" group by appname order by "+fun+"desc limit "+limit ;
+//        String sql = "SELECT id,appname,pkgname,time,timespend from "+TABLE_NAME +" order by id  limit "+limit ;
+        Cursor cursor=db.rawQuery(sql,null);
+        List<AppBean> apps=new ArrayList<>();
+        while(cursor.moveToNext()){
+            //int id=cursor.getInt(cursor.getColumnIndex("id"));
+            String appname=cursor.getString(cursor.getColumnIndex("appname"));
+            String pkgname=cursor.getString(cursor.getColumnIndex("pkgname"));
+            long timespend=cursor.getLong(cursor.getColumnIndex(fun));
+            AppBean app=new AppBean();
+            app.setAppname(appname);
+            app.setPkgname(pkgname);
+            app.setIcon(getIcon(pkgname));
+            app.setTimeSpend(timespend);
+            apps.add(app);
+        }
+        cursor.close();
+        return apps;
+    }
+    private List<AppBean> readAppBeanFromCursor(Cursor cursor){
+        List<AppBean> apps=new ArrayList<>();
         while(cursor.moveToNext()){
             int id=cursor.getInt(cursor.getColumnIndex("id"));
             String appname=cursor.getString(cursor.getColumnIndex("appname"));
             String pkgname=cursor.getString(cursor.getColumnIndex("pkgname"));
-            long timestamp=cursor.getLong(cursor.getColumnIndex("time"));
+            long timespend=cursor.getLong(cursor.getColumnIndex("timespend"));
             AppBean app=new AppBean();
             app.setAppname(appname);
+            app.setTimeSpend(timespend);
             app.setPkgname(pkgname);
             app.setIcon(getIcon(pkgname));
             apps.add(app);
@@ -163,7 +189,6 @@ public class RecordDBHelper extends SQLiteOpenHelper {
         cursor.close();
         return apps;
     }
-
     private Drawable getIcon(String pkgname) {
         PackageManager pm =context.getPackageManager();
         ApplicationInfo appInfo;
