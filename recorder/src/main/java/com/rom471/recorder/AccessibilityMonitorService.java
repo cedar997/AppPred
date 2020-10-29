@@ -74,13 +74,7 @@ public class AccessibilityMonitorService extends AccessibilityService {
         record(event);
 
     }
-    private void saveRecord(String app_name){
 
-        record.setAppname(app_name);
-        DBUtils.storeBatteryInfo(getApplicationContext(),record);
-        DBUtils.storeNetworkInfo(getApplicationContext(),record);
-        db.insertRecord(record);
-    }
     //获得应用名称
     private String getAppLabel(AccessibilityEvent event){
         String package_str= event.getPackageName()==null?"":event.getPackageName().toString();
@@ -93,6 +87,28 @@ public class AccessibilityMonitorService extends AccessibilityService {
         return appLabel;
 
     }
+    //开始记录
+    private void record_start(String name){
+        record=new Record();
+        record.setAppname(name);
+        long l = System.currentTimeMillis();
+        record.setTimeStamp(l);
+
+    }
+    //结束记录
+    private void record_finish(String name){
+        if(record.getAppname().equals(name)){
+            long l = System.currentTimeMillis();
+            long spend=l-record.getTimeStamp();
+            record.setTimeSpend(spend);
+            DBUtils.storeBatteryInfo(getApplicationContext(),record);
+            DBUtils.storeNetworkInfo(getApplicationContext(),record);
+            db.insertRecord(record);
+        }
+        else {
+            record_start(name);
+        }
+    }
     private void record(AccessibilityEvent event){
         String appLabel = getAppLabel(event) ;
         switch (event.getEventType()){
@@ -102,7 +118,7 @@ public class AccessibilityMonitorService extends AccessibilityService {
                 if(filter_skip&& skip_names.contains(appLabel))return;
                 if(filter_exclude && exclude_names.contains(appLabel)){
                     if(last!="")
-                        saveRecord(last);
+                        record_finish(last);
                     last="";
                     return;
 
@@ -114,10 +130,11 @@ public class AccessibilityMonitorService extends AccessibilityService {
 
                 }else{
                     if(!last.equals(""))
-                        saveRecord(last);
-                    saveRecord(appLabel);
+                        record_finish(last);
+                    record_start(appLabel);
                     last=appLabel;
                 }
+
                 break;
 
             //case TYPE_VIEW_CLICKED:
@@ -125,7 +142,7 @@ public class AccessibilityMonitorService extends AccessibilityService {
             case TYPE_VIEW_CLICKED: //点击时才触发,滑动没用，用exclude
                 if(filter_exclude&& exclude_names.contains(appLabel)) {
                     if(last!="")
-                        saveRecord(last);
+                        record_finish(last);
                     last="";
                     return;
                 }
@@ -136,16 +153,12 @@ public class AccessibilityMonitorService extends AccessibilityService {
 
                 }else{
                     if(!last.equals(""))
-                        saveRecord(last);
-                    saveRecord(appLabel);
+                        record_finish(last);
+                    record_start(appLabel);
                     last=appLabel;
                 }
                 break;
-            // case TYPE_TOUCH_INTERACTION_START://无用
-            // case TYPE_TOUCH_INTERACTION_END: //无用
-            //case TYPE_VIEW_FOCUSED://无用
-            //case TYPE_VIEW_SCROLLED: //无用
-            // case TYPES_ALL_MASK://无用
+
 
         }
 

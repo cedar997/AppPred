@@ -5,12 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
-
-import com.rom471.recorder.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,9 +34,9 @@ public class RecordDBHelper extends SQLiteOpenHelper {
                 + "id integer primary key autoincrement,"
                 + "appname text ,"     //应用名
                 + "battery integer,"    //电池电量
-                + "charging integer,"    //功率
+                + "timespend integer,"    //使用时间
                 + "net integer,"         //网络信息
-                + "time integer DEFAULT  CURRENT_TIMESTAMP )";  //时间
+                + "time integer DEFAULT  CURRENT_TIMESTAMP )";  //开始时间
         db.execSQL(sql);
     }
     public List<Record> query1(){
@@ -81,14 +75,14 @@ public class RecordDBHelper extends SQLiteOpenHelper {
     }
     public void insertRecord(Record record){
         long timecurrentTimeMillis = System.currentTimeMillis();
-        record.setTimestamp(timecurrentTimeMillis);
+        record.setTimeStamp(timecurrentTimeMillis);
         ContentValues contentValues=new ContentValues();
         //contentValues.put("id",user.getId());
         contentValues.put("appname",record.getAppname());
         contentValues.put("battery",record.getBattery());
-        contentValues.put("charging",record.getCharging());
+        contentValues.put("timespend",record.getTimeSpend());
         contentValues.put("net",record.getNet());
-        contentValues.put("time",record.getTimestamp());
+        contentValues.put("time",record.getTimeStamp());
         db.insert(TABLE_NAME,null,contentValues);
     }
     public void clearRecords(){
@@ -99,18 +93,18 @@ public class RecordDBHelper extends SQLiteOpenHelper {
     }
 
     public List<Record> queryLast(int limit) {
-        String sql = "SELECT id,appname,time,battery,charging,net FROM "+TABLE_NAME +" order by id desc limit "+limit ;
+        String sql = "SELECT id,appname,time,battery,timespend,net FROM "+TABLE_NAME +" order by id desc limit "+limit ;
         Cursor cursor=db.rawQuery(sql,null);
         return readRecordsFromCursor(cursor);
     }
     public List<Record> queryAll() {
-        String sql = "SELECT id,appname,time,battery,charging,net FROM "+TABLE_NAME +" order by id desc " ;
+        String sql = "SELECT id,appname,time,battery,timespend,net FROM "+TABLE_NAME +" order by id desc " ;
         Cursor cursor=db.rawQuery(sql,null);
         return readRecordsFromCursor(cursor);
     }
     public List<Record> queryAllByName(String name){
 
-       Cursor cursor = db.query(TABLE_NAME, new String[]{"id,appname,time, battery, charging,net"},
+       Cursor cursor = db.query(TABLE_NAME, new String[]{"id,appname,time, battery, timespend,net"},
                 "appname=?", new String[]{name},
                 null, null,
                 "id desc");
@@ -123,14 +117,14 @@ public class RecordDBHelper extends SQLiteOpenHelper {
             String appname=cursor.getString(cursor.getColumnIndex("appname"));
             long timestamp=cursor.getLong(cursor.getColumnIndex("time"));
             int battery=cursor.getInt(cursor.getColumnIndex("battery"));
-            int charging=cursor.getInt(cursor.getColumnIndex("charging"));
+            int timespend=cursor.getInt(cursor.getColumnIndex("timespend"));
             int net=cursor.getInt(cursor.getColumnIndex("net"));
             Record record=new Record();
             record.setId(id);
             record.setAppname(appname);
-            record.setTimestamp(timestamp);
+            record.setTimeStamp(timestamp);
             record.setBattery(battery);
-            record.setCharging(charging);
+            record.setTimeSpend(timespend);
             record.setNet(net);
             records.add(record);
         }

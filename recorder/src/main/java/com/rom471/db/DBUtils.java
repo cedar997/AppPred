@@ -13,7 +13,7 @@ public class DBUtils {
         BatteryManager manager = (BatteryManager)context.getSystemService(BATTERY_SERVICE);
 
         record.setBattery(manager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY));
-        record.setCharging(manager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW));
+        //record.setCharging(manager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW));
     }
     //给record附加网络信息
     public static void storeNetworkInfo(Context context, Record record){

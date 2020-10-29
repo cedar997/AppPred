@@ -81,7 +81,7 @@ public class RecordListViewAdapter extends BaseAdapter {
         holder.id=convertView.findViewById(R.id.id);
         holder.appname=convertView.findViewById(R.id.appname);
         holder.battery =convertView.findViewById(R.id.battery_tv);
-        holder.power =convertView.findViewById(R.id.power_tv);
+        holder.power =convertView.findViewById(R.id.spend_tv);
         holder.net=convertView.findViewById(R.id.net_tv);
         holder.time=convertView.findViewById(R.id.time_tv);
     }
@@ -93,7 +93,7 @@ public class RecordListViewAdapter extends BaseAdapter {
         holder.id.setText(""+record.getId());
         holder.appname.setText(record.getAppname());
         holder.battery.setText(""+record.getBattery());
-        holder.power.setText(record.getChargingString());
+        holder.power.setText(""+(record.getTimeSpend()/1000)+"秒");
         holder.net.setText(record.getNetString());
         holder.time.setText(record.getDatatime());
 

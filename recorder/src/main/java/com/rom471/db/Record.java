@@ -10,17 +10,27 @@ import java.util.Locale;
 public class Record {
     int id;
     String appname;
-    long timestamp;
+    long timeStamp;
+    long timeSpend;
+
     private int battery;
     private int charging;
     private int net;
 
-    public Long getTimestamp() {
-        return timestamp;
+    public long getTimeSpend() {
+        return timeSpend;
     }
 
-    public void setTimestamp(Long timestamp) {
-        this.timestamp = timestamp;
+    public void setTimeSpend(long timeSpend) {
+        this.timeSpend = timeSpend;
+    }
+
+    public Long getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(Long timeStamp) {
+        this.timeStamp = timeStamp;
     }
 
     public int getNet() {
@@ -72,9 +82,9 @@ public class Record {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public String getDatatime() {
-        SimpleDateFormat sdf=new SimpleDateFormat("MM/dd HH:mm:ss.SSS", Locale.getDefault());
+        SimpleDateFormat sdf=new SimpleDateFormat("MM/dd HH:mm:ss", Locale.getDefault());
 
-        return sdf.format(timestamp);
+        return sdf.format(timeStamp);
 
     }
 
