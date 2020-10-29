@@ -31,6 +31,7 @@ public class AccessibilityMonitorService extends AccessibilityService {
         excludes.add("搜狗输入法小米版");
         excludes.add("系统 UI");
         excludes.add("系统桌面");
+        excludes.add("智能服务");
         return excludes;
     }
 
