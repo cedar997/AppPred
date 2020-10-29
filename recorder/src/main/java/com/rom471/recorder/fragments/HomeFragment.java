@@ -7,28 +7,29 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.rom471.app.AppsAdapter;
 import com.rom471.db.RecordDBHelper;
 import com.rom471.app.AppBean;
-import com.rom471.app.AppListViewAdapter;
 import com.rom471.recorder.R;
 
 import java.util.List;
 
 public class HomeFragment extends Fragment {
-    ListView list_view;
-    ListView total_list_view;
+    RecyclerView list_view;
+    RecyclerView total_list_view;
     List<AppBean> lastApps;
     List<AppBean> totalApps;
     Context context;
     RecordDBHelper db;
-    AppListViewAdapter totalAdapter;
-    AppListViewAdapter lastAdapter;
+    AppsAdapter totalAdapter;
+    AppsAdapter lastAdapter;
     public static final int APP_LIST_SIZE=5;
     @Nullable
     @Override
@@ -53,12 +54,20 @@ public class HomeFragment extends Fragment {
         super.onResume();
 
         lastApps = db.getLastAppBean(APP_LIST_SIZE);
-         totalApps = db.getAppTotalTime(10);
-
-        totalAdapter =new AppListViewAdapter(context, totalApps);
-        lastAdapter=new AppListViewAdapter(context, lastApps);
-        total_list_view.setAdapter(totalAdapter);
+        LinearLayoutManager layoutManager1 = new LinearLayoutManager(context);
+        layoutManager1.setOrientation(LinearLayoutManager.HORIZONTAL);
+        list_view.setLayoutManager(layoutManager1);
+        lastAdapter=new AppsAdapter(lastApps);
         list_view.setAdapter(lastAdapter);
+
+        totalApps = db.getAppTotalTime(10);
+        totalAdapter =new AppsAdapter(totalApps);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        total_list_view.setLayoutManager(layoutManager);
+        total_list_view.setAdapter(totalAdapter);
+
+
 
     }
 }

@@ -15,8 +15,14 @@ public class AppBean {
     }
     public String getTimeSpendString() {
         long sec=timeSpend/1000;
+        if(sec<60)
+            return sec+"秒";
+        long min=sec/60;
+        sec=sec%60;
 
-        return sec+"秒";
+        return min+"分"+sec+"秒";
+
+
     }
 
     public void setTimeSpend(long timeSpend) {
