@@ -51,6 +51,9 @@ public class AccessibilityMonitorService extends AccessibilityService {
         excludes.add("小米画报");
         excludes.add("安卓系统");
         excludes.add("系统 UI");
+        excludes.add("手机管家");
+        excludes.add("Android 系统");
+
         return excludes;
     }
     @Override
