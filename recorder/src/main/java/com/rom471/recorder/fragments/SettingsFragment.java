@@ -6,6 +6,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.icu.util.Calendar;
@@ -33,12 +34,14 @@ import androidx.core.app.ActivityCompat;
 import com.rom471.db.RecordDBHelper;
 import com.rom471.recorder.R;
 import com.rom471.recorder.RecordService;
+import com.rom471.utils.MyProperties;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.util.Properties;
 
 
 public class SettingsFragment extends Fragment implements View.OnClickListener{
@@ -49,10 +52,12 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
     Button ouput_db_btn;
     RecordDBHelper db;
     Context context;
+    SharedPreferences properties;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.main_fragment_settings,container,false);
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -70,8 +75,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         ouput_db_btn.setOnClickListener(this);
         clearRecord_btn.setOnClickListener(this);
         normal_service_btn.setOnClickListener(this);
-
-
+        Log.d("cedar", "onActivityCreated: "+ MyProperties.getProperties(context).getString("dbname",""));
+        properties = MyProperties.getProperties(context);//共享配置
     }
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -91,7 +96,12 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
                 toast(context,"记录服务已经启动");
                 break;
             case R.id.output_db_btn:
-                export_db();
+                if(verifyStoragePermissions(getActivity())) {
+                    export_db();
+                }
+                else {
+
+                }
                 break;
         }
     }
@@ -110,23 +120,19 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void export_db(){
-        verifyStoragePermissions(getActivity());
+
         File sd = Environment.getExternalStorageDirectory();
         File data = Environment.getDataDirectory();
         FileChannel source=null;
         FileChannel destination=null;
-        String DB_NAME="app.db";
-        String currentDBPath = "/data/"+ "com.rom471.recorder" +"/databases/"+DB_NAME;
-        Calendar calendar = Calendar.getInstance();
 
-        String backupDBName =""+(calendar.get(Calendar.MONTH)+1)+"月"+
-                calendar.get(Calendar.DAY_OF_MONTH)+"日"+
-                calendar.get(Calendar.HOUR_OF_DAY)+"时"+
-                calendar.get(Calendar.MINUTE)+"分"+
-                ".db" ;
+        int db_index=0;//数据库序号
+
+
+        String currentDBPath = "/data/"+ "com.rom471.recorder" +"/databases/"+"app.db";
         String backupPath=sd+"/rom471/";
         File backupPathFile = new File(backupPath);
-        if (!backupPathFile.exists()) {
+        if (!backupPathFile.exists()) { //检查目录是否存在
             try {
                 //按照指定的路径创建文件夹
                 backupPathFile.mkdirs();
@@ -134,7 +140,10 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
                 // TODO: handle exception
             }
         }
-
+        int db_id =Integer.valueOf(properties.getString("db_index", ""));
+        properties.edit().putString("db_index",""+(db_id+1));
+        String backupDBName="app"+db_id+".db";
+        Log.d("cedar", "export_db: "+backupDBName);
         File currentDB = new File(data, currentDBPath);
         File backupDB = new File(backupPath, backupDBName);
 
@@ -211,7 +220,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
             "android.permission.WRITE_EXTERNAL_STORAGE" };
 
     //然后通过一个函数来申请
-    public static void verifyStoragePermissions(Activity activity) {
+    public static boolean verifyStoragePermissions(Activity activity) {
+
         try {
             //检测是否有写的权限
             int permission = ActivityCompat.checkSelfPermission(activity,
@@ -220,8 +230,10 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
                 // 没有写的权限，去申请写的权限，会弹出对话框
                 ActivityCompat.requestPermissions(activity, PERMISSIONS_STORAGE,REQUEST_EXTERNAL_STORAGE);
             }
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
     }
 }

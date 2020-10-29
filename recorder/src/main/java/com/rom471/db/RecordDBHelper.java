@@ -45,7 +45,24 @@ public class RecordDBHelper extends SQLiteOpenHelper {
                 + "time integer DEFAULT  CURRENT_TIMESTAMP )";  //时间
         db.execSQL(sql);
     }
+    public List<Record> query1(){
 
+        String sql="select appname,count(*) from apptime";
+        Cursor cursor=db.rawQuery(sql,null);
+        List<Record> records=new ArrayList<>();
+        while(cursor.moveToNext()){
+
+            String appname=cursor.getString(cursor.getColumnIndex("appname"));
+
+            int count=cursor.getInt(cursor.getColumnIndex("count(*)"));
+            Record record=new Record();
+
+            records.add(record);
+        }
+        cursor.close();
+        return records;
+
+    }
     @Override
     public void onCreate(SQLiteDatabase db) {
 

@@ -29,6 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="5dp"
         android:text="手动服务"
+        android:visibility="invisible"
         android:id="@+id/start_service_btn"
         />
     <Button
