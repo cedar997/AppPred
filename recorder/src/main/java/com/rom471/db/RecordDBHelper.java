@@ -2,9 +2,14 @@ package com.rom471.db;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.drawable.Drawable;
+
+import com.rom471.present.AppBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +38,7 @@ public class RecordDBHelper extends SQLiteOpenHelper {
         String sql="create table if not exists "+TABLE_NAME+" ("
                 + "id integer primary key autoincrement,"
                 + "appname text ,"     //应用名
+                +" pkgname text ," //包名
                 + "battery integer,"    //电池电量
                 + "timespend integer,"    //使用时间
                 + "net integer,"         //网络信息
@@ -80,6 +86,7 @@ public class RecordDBHelper extends SQLiteOpenHelper {
         ContentValues contentValues=new ContentValues();
         //contentValues.put("id",user.getId());
         contentValues.put("appname",record.getAppname());
+        contentValues.put("pkgname",record.getPkgname());
         contentValues.put("battery",record.getBattery());
         contentValues.put("timespend",record.getTimeSpend());
         contentValues.put("net",record.getNet());
@@ -96,18 +103,18 @@ public class RecordDBHelper extends SQLiteOpenHelper {
     }
 
     public List<Record> queryLast(int limit) {
-        String sql = "SELECT id,appname,time,battery,charging,timespend,net FROM "+TABLE_NAME +" order by id desc limit "+limit ;
+        String sql = "SELECT id,appname,pkgname,time,battery,charging,timespend,net FROM "+TABLE_NAME +" order by id desc limit "+limit ;
         Cursor cursor=db.rawQuery(sql,null);
         return readRecordsFromCursor(cursor);
     }
     public List<Record> queryAll() {
-        String sql = "SELECT id,appname,time,battery,charging,timespend,net FROM "+TABLE_NAME +" order by id desc " ;
+        String sql = "SELECT id,appname,pkgname,time,battery,charging,timespend,net FROM "+TABLE_NAME +" order by id desc " ;
         Cursor cursor=db.rawQuery(sql,null);
         return readRecordsFromCursor(cursor);
     }
     public List<Record> queryAllByName(String name){
 
-       Cursor cursor = db.query(TABLE_NAME, new String[]{"id,appname,time, battery,charging, timespend,net"},
+       Cursor cursor = db.query(TABLE_NAME, new String[]{"id,appname,pkgname,time, battery,charging, timespend,net"},
                 "appname=?", new String[]{name},
                 null, null,
                 "id desc");
@@ -118,6 +125,7 @@ public class RecordDBHelper extends SQLiteOpenHelper {
         while(cursor.moveToNext()){
             int id=cursor.getInt(cursor.getColumnIndex("id"));
             String appname=cursor.getString(cursor.getColumnIndex("appname"));
+            String pkgname=cursor.getString(cursor.getColumnIndex("pkgname"));
             long timestamp=cursor.getLong(cursor.getColumnIndex("time"));
             int battery=cursor.getInt(cursor.getColumnIndex("battery"));
             int charging=cursor.getInt(cursor.getColumnIndex("charging"));
@@ -126,6 +134,7 @@ public class RecordDBHelper extends SQLiteOpenHelper {
             Record record=new Record();
             record.setId(id);
             record.setAppname(appname);
+            record.setPkgname(pkgname);
             record.setTimeStamp(timestamp);
             record.setBattery(battery);
             record.setTimeSpend(timespend);
@@ -136,4 +145,40 @@ public class RecordDBHelper extends SQLiteOpenHelper {
         cursor.close();
         return records;
     }
+    public List<AppBean> getLastAppBean(int limit){
+        List<AppBean> apps=new ArrayList<>();
+        String sql = "SELECT id,appname,pkgname,time from "+TABLE_NAME +" order by id desc limit "+limit ;
+        Cursor cursor=db.rawQuery(sql,null);
+        while(cursor.moveToNext()){
+            int id=cursor.getInt(cursor.getColumnIndex("id"));
+            String appname=cursor.getString(cursor.getColumnIndex("appname"));
+            String pkgname=cursor.getString(cursor.getColumnIndex("pkgname"));
+            long timestamp=cursor.getLong(cursor.getColumnIndex("time"));
+            AppBean app=new AppBean();
+            app.setAppname(appname);
+            app.setPkgname(pkgname);
+            app.setIcon(getIcon(pkgname));
+            apps.add(app);
+        }
+        cursor.close();
+        return apps;
+    }
+
+    private Drawable getIcon(String pkgname) {
+        PackageManager pm =context.getPackageManager();
+        ApplicationInfo appInfo;
+        Drawable appIcon;
+        try {
+            appInfo = pm.getApplicationInfo(pkgname, PackageManager.GET_META_DATA);
+
+            appIcon = pm.getApplicationIcon(appInfo);
+            return appIcon;
+
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
 }

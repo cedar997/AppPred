@@ -10,12 +10,22 @@ import java.util.Locale;
 public class Record {
     int id;
     String appname;
+    String pkgname;
+
     long timeStamp;
     long timeSpend;
 
     private int battery;
     private int charging;
     private int net;
+
+    public String getPkgname() {
+        return pkgname;
+    }
+
+    public void setPkgname(String pkgname) {
+        this.pkgname = pkgname;
+    }
 
     public long getTimeSpend() {
         return timeSpend;

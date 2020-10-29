@@ -4,15 +4,15 @@
     android:orientation="vertical"
     android:layout_height="match_parent">
 
-    <HorizontalScrollView
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        >
-        <ListView
-            android:layout_width="wrap_content"
-
-            android:layout_height="650dp"
-            android:id="@+id/app_list"
-            />
-    </HorizontalScrollView>
+        android:id="@+id/appicon"
+        />
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/appname"
+        android:layout_marginLeft="3dip"
+        />
 </LinearLayout>

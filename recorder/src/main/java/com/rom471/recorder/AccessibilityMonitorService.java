@@ -1,10 +1,7 @@
 package com.rom471.recorder;
 
 import android.accessibilityservice.AccessibilityService;
-import android.content.ComponentName;
-import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
-import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 
 import com.rom471.db.DBUtils;
@@ -14,17 +11,11 @@ import com.rom471.db.RecordDBHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.view.accessibility.AccessibilityEvent.TYPES_ALL_MASK;
-import static android.view.accessibility.AccessibilityEvent.TYPE_TOUCH_INTERACTION_END;
-import static android.view.accessibility.AccessibilityEvent.TYPE_TOUCH_INTERACTION_START;
 import static android.view.accessibility.AccessibilityEvent.TYPE_VIEW_CLICKED;
-import static android.view.accessibility.AccessibilityEvent.TYPE_VIEW_FOCUSED;
-import static android.view.accessibility.AccessibilityEvent.TYPE_VIEW_LONG_CLICKED;
-import static android.view.accessibility.AccessibilityEvent.TYPE_VIEW_SCROLLED;
 
 public class AccessibilityMonitorService extends AccessibilityService {
     private CharSequence mWindowClassName;
-    private String last ="";
+    private String lastPkgname ="";
     RecordDBHelper db;
     Record record;
     PackageManager pm;
@@ -76,11 +67,10 @@ public class AccessibilityMonitorService extends AccessibilityService {
     }
 
     //获得应用名称
-    private String getAppLabel(AccessibilityEvent event){
-        String package_str= event.getPackageName()==null?"":event.getPackageName().toString();
+    private String getAppLabel(String pkgname){
         String appLabel="";
         try {
-            appLabel = pm.getPackageInfo(package_str,PackageManager.GET_ACTIVITIES).applicationInfo.loadLabel(pm).toString();
+            appLabel = pm.getPackageInfo(pkgname,PackageManager.GET_ACTIVITIES).applicationInfo.loadLabel(pm).toString();
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
@@ -88,51 +78,55 @@ public class AccessibilityMonitorService extends AccessibilityService {
 
     }
     //开始记录
-    private void record_start(String name){
+    private void record_start(String pkgname){
         record=new Record();
-        record.setAppname(name);
+        record.setPkgname(pkgname);
+        record.setAppname(getAppLabel(pkgname));
         long l = System.currentTimeMillis();
         record.setTimeStamp(l);
 
     }
     //结束记录
-    private void record_finish(String name){
-        if(record.getAppname().equals(name)){
+    private void record_finish(String pkgname){
+        if(record.getPkgname().equals(pkgname)){
             long l = System.currentTimeMillis();
             long spend=l-record.getTimeStamp();
+            record.setAppname(getAppLabel(pkgname));
             record.setTimeSpend(spend);
             DBUtils.storeBatteryInfo(getApplicationContext(),record);
             DBUtils.storeNetworkInfo(getApplicationContext(),record);
             db.insertRecord(record);
         }
         else {
-            record_start(name);
+            record_start(pkgname);
         }
     }
     private void record(AccessibilityEvent event){
-        String appLabel = getAppLabel(event) ;
+        String pkgname= event.getPackageName()==null?"":event.getPackageName().toString();
+        String appLabel= getAppLabel(pkgname);
+//        String appLabel = getAppLabel(event) ;
         switch (event.getEventType()){
             //窗口变化时触发
 
             case AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED: //后台弹出也会触发，用skip
                 if(filter_skip&& skip_names.contains(appLabel))return;
                 if(filter_exclude && exclude_names.contains(appLabel)){
-                    if(last!="")
-                        record_finish(last);
-                    last="";
+                    if(lastPkgname !="")
+                        record_finish(lastPkgname);
+                    lastPkgname ="";
                     return;
 
                 }
                 //Log.d("cedar", "skip "+appLabel);
                 if(appLabel.equals("") || appLabel==null) return;
 
-                if(appLabel.equals(last)){
+                if(pkgname.equals(lastPkgname)){
 
                 }else{
-                    if(!last.equals(""))
-                        record_finish(last);
-                    record_start(appLabel);
-                    last=appLabel;
+                    if(!lastPkgname.equals(""))
+                        record_finish(lastPkgname);
+                    record_start(pkgname);
+                    lastPkgname =pkgname;
                 }
 
                 break;
@@ -141,21 +135,21 @@ public class AccessibilityMonitorService extends AccessibilityService {
             //case TYPE_TOUCH_INTERACTION_START: //no
             case TYPE_VIEW_CLICKED: //点击时才触发,滑动没用，用exclude
                 if(filter_exclude&& exclude_names.contains(appLabel)) {
-                    if(last!="")
-                        record_finish(last);
-                    last="";
+                    if(lastPkgname !="")
+                        record_finish(lastPkgname);
+                    lastPkgname ="";
                     return;
                 }
                 //Log.d("cedar", "exclude "+appLabel);
                 if(appLabel.equals("") || appLabel==null) return;
 
-                if(appLabel.equals(last)){
+                if(pkgname.equals(lastPkgname)){
 
                 }else{
-                    if(!last.equals(""))
-                        record_finish(last);
-                    record_start(appLabel);
-                    last=appLabel;
+                    if(!lastPkgname.equals(""))
+                        record_finish(lastPkgname);
+                    record_start(pkgname);
+                    lastPkgname =pkgname;
                 }
                 break;
 
