@@ -45,6 +45,7 @@ public class AccessibilityMonitorService extends AccessibilityService {
         excludes.add("系统 UI");
         excludes.add("手机管家");
         excludes.add("Android 系统");
+        excludes.add("权限管理服务");
 
         return excludes;
     }
