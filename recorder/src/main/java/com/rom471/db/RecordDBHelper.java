@@ -36,6 +36,7 @@ public class RecordDBHelper extends SQLiteOpenHelper {
                 + "battery integer,"    //电池电量
                 + "timespend integer,"    //使用时间
                 + "net integer,"         //网络信息
+                + "charging integer,"
                 + "time integer DEFAULT  CURRENT_TIMESTAMP )";  //开始时间
         db.execSQL(sql);
     }
@@ -82,6 +83,8 @@ public class RecordDBHelper extends SQLiteOpenHelper {
         contentValues.put("battery",record.getBattery());
         contentValues.put("timespend",record.getTimeSpend());
         contentValues.put("net",record.getNet());
+        contentValues.put("charging",record.getCharging());
+
         contentValues.put("time",record.getTimeStamp());
         db.insert(TABLE_NAME,null,contentValues);
     }
@@ -93,18 +96,18 @@ public class RecordDBHelper extends SQLiteOpenHelper {
     }
 
     public List<Record> queryLast(int limit) {
-        String sql = "SELECT id,appname,time,battery,timespend,net FROM "+TABLE_NAME +" order by id desc limit "+limit ;
+        String sql = "SELECT id,appname,time,battery,charging,timespend,net FROM "+TABLE_NAME +" order by id desc limit "+limit ;
         Cursor cursor=db.rawQuery(sql,null);
         return readRecordsFromCursor(cursor);
     }
     public List<Record> queryAll() {
-        String sql = "SELECT id,appname,time,battery,timespend,net FROM "+TABLE_NAME +" order by id desc " ;
+        String sql = "SELECT id,appname,time,battery,charging,timespend,net FROM "+TABLE_NAME +" order by id desc " ;
         Cursor cursor=db.rawQuery(sql,null);
         return readRecordsFromCursor(cursor);
     }
     public List<Record> queryAllByName(String name){
 
-       Cursor cursor = db.query(TABLE_NAME, new String[]{"id,appname,time, battery, timespend,net"},
+       Cursor cursor = db.query(TABLE_NAME, new String[]{"id,appname,time, battery,charging, timespend,net"},
                 "appname=?", new String[]{name},
                 null, null,
                 "id desc");
@@ -117,6 +120,7 @@ public class RecordDBHelper extends SQLiteOpenHelper {
             String appname=cursor.getString(cursor.getColumnIndex("appname"));
             long timestamp=cursor.getLong(cursor.getColumnIndex("time"));
             int battery=cursor.getInt(cursor.getColumnIndex("battery"));
+            int charging=cursor.getInt(cursor.getColumnIndex("charging"));
             int timespend=cursor.getInt(cursor.getColumnIndex("timespend"));
             int net=cursor.getInt(cursor.getColumnIndex("net"));
             Record record=new Record();
@@ -126,6 +130,7 @@ public class RecordDBHelper extends SQLiteOpenHelper {
             record.setBattery(battery);
             record.setTimeSpend(timespend);
             record.setNet(net);
+            record.setCharging(charging);
             records.add(record);
         }
         cursor.close();

@@ -1,6 +1,8 @@
 package com.rom471.db;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.BatteryManager;
@@ -13,7 +15,23 @@ public class DBUtils {
         BatteryManager manager = (BatteryManager)context.getSystemService(BATTERY_SERVICE);
 
         record.setBattery(manager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY));
-        //record.setCharging(manager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW));
+
+        IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+        Intent batteryStatus = context.registerReceiver(null, ifilter);
+        // Are we charging / charged?
+        int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+//        boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
+//                status == BatteryManager.BATTERY_STATUS_FULL;
+
+        // How are we charging?
+        int chargePlug = batteryStatus.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
+        boolean usbCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_USB;
+        boolean acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC;
+        int charging=0;
+        if(acCharge)charging=1;
+        if(usbCharge) charging=2;
+        record.setCharging(charging);
+
     }
     //给record附加网络信息
     public static void storeNetworkInfo(Context context, Record record){

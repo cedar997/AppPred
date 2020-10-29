@@ -31,7 +31,7 @@
         android:layout_marginLeft="3dip"
         />
     <TextView
-        android:layout_width="30dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:id="@+id/battery_tv"
         android:layout_marginLeft="3dip"

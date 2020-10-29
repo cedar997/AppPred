@@ -92,7 +92,7 @@ public class RecordListViewAdapter extends BaseAdapter {
         holder.icon.setBackground(icon);
         holder.id.setText(""+record.getId());
         holder.appname.setText(record.getAppname());
-        holder.battery.setText(""+record.getBattery());
+        holder.battery.setText(""+record.getBattery()+"% "+ record.getChargingString());
         holder.power.setText(""+(record.getTimeSpend()/1000)+"秒");
         holder.net.setText(record.getNetString());
         holder.time.setText(record.getDatatime());

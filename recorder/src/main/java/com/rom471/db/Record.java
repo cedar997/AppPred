@@ -53,9 +53,13 @@ public class Record {
     public int getCharging() {
         return charging;
     }
-    public String getChargingString(){
-        return ""+charging/1000+" mW";
+    public String getChargingString() {
+
+        if(charging==1) return "充电中";
+        else if(charging==2) return "USB充电";
+        return "未充电";
     }
+
     public void setCharging(int charging) {
         this.charging = charging;
     }
