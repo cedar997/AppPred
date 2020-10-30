@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
-import com.rom471.lab1.R;
 
 import java.io.ByteArrayOutputStream;
 

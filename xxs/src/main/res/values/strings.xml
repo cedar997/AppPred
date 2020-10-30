@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyQQ</string>
+    <string name="app_name">应用收藏</string>
     <string name="share_name">发送到Base64</string>
 
     <string name="bt1_text">加密</string>
@@ -20,8 +20,8 @@
     <string name="name_reset">需要找回的用户名</string>
     <string name="signin">用户注册</string>
     <string name="forget">忘记密码</string>
-    <string name="radio_btn1">用户列表</string>
-    <string name="radio_btn2">应用列表</string>
+    <string name="radio_btn1">所有应用</string>
+    <string name="radio_btn2">我的收藏</string>
     <string name="radio_btn3">设置</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Home</string>

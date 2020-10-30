@@ -23,8 +23,6 @@ import com.rom471.userdb.MyUtils;
 import com.rom471.userdb.User;
 import com.rom471.userdb.UsersDBHelper;
 
-import java.io.File;
-
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
     Button register_btn;
     EditText name_et;
@@ -32,7 +30,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     EditText email_et;
     ImageView avatar_img;
     UsersDBHelper db;
-    User user=new User();
+    com.rom471.userdb.User User =new User();
     public final static int PICTURE=10;
     public final static int PHOTO=11;
     @Override
@@ -58,11 +56,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 String name=name_et.getText().toString();
                 String password=password_et.getText().toString();
                 String email=name_et.getText().toString();
-                user.setName(name);
-                user.setPassword(password);
-                user.setEmail(email);
+                User.setName(name);
+                User.setPassword(password);
+                User.setEmail(email);
 
-                db.insertUser(user);
+                db.insertUser(User);
                 MyUtils.toast(this,"注册完成");
                 db.close();
                 //this.finish();
@@ -110,7 +108,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             Bitmap zoomBitmap = MyUtils.zoomImg(decodeFile,200,200);
             Drawable avatar_drawable=new BitmapDrawable(zoomBitmap);
             avatar_img.setImageDrawable(avatar_drawable);
-            user.setAvatar(avatar_drawable);
+            User.setAvatar(avatar_drawable);
         }
         else if(requestCode==PHOTO && resultCode==RESULT_OK && data!=null){
             Bundle bundle = data.getExtras();
@@ -120,7 +118,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             Bitmap zoomBitmap = MyUtils.zoomImg(bitmap,200,200);
             Drawable avatar_drawable=new BitmapDrawable(zoomBitmap);
             avatar_img.setImageDrawable(avatar_drawable);
-            user.setAvatar(avatar_drawable);
+            User.setAvatar(avatar_drawable);
         }
     }
 

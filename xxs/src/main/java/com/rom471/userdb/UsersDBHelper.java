@@ -8,9 +8,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
-
-import androidx.annotation.Nullable;
 
 import com.rom471.lab1.R;
 
@@ -100,27 +97,27 @@ public class UsersDBHelper extends SQLiteOpenHelper {
     }
     //添加带头像的用户
     private void addUserWithAvatar(String name,String password,String email,int rid){
-        User user=new User(name,password,email);
-        user.setAvatarResource(context,rid);
-        this.insertUser(user);
+        User User =new User(name,password,email);
+        User.setAvatarResource(context,rid);
+        this.insertUser(User);
     }
     private void addUserBasic(String name,String password){
-        User user=new User(name,password,null);
-        this.insertUser(user);
+        User User =new User(name,password,null);
+        this.insertUser(User);
     }
     //向表中插入一个用户
-    public void insertUser(User user){
+    public void insertUser(User User){
             ContentValues contentValues=new ContentValues();
             //contentValues.put("id",user.getId());
-            contentValues.put("name",user.getName());
-            contentValues.put("password",user.getPassword());
-            contentValues.put("email",user.getEmail());
-            contentValues.put("avatar",user.getAvatarBytes());
+            contentValues.put("name", User.getName());
+            contentValues.put("password", User.getPassword());
+            contentValues.put("email", User.getEmail());
+            contentValues.put("avatar", User.getAvatarBytes());
             db.insert(TABLE_NAME,null,contentValues);
     }
     //查询所有用户并返回
     public List<User> queryAll(){
-        List<User> users=new ArrayList<>();
+        List<User> Users =new ArrayList<>();
         String sql = "SELECT uid,name,password,email,avatar FROM "+TABLE_NAME +" ";
         Cursor cursor=db.rawQuery(sql,null);
 
@@ -129,25 +126,25 @@ public class UsersDBHelper extends SQLiteOpenHelper {
             String name=cursor.getString(cursor.getColumnIndex("name"));
             String password=cursor.getString(cursor.getColumnIndex("password"));
             String email=cursor.getString(cursor.getColumnIndex("email"));
-            User user=new User(name,password,email);
-            user.setId(id);
+            User User =new User(name,password,email);
+            User.setId(id);
             byte [] bytes=null;
             Drawable avatar=null;
             bytes=cursor.getBlob(cursor.getColumnIndex("avatar"));
 
             if(bytes!=null){
                 avatar= new BitmapDrawable(BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
-                user.setAvatar(avatar);
+                User.setAvatar(avatar);
 
             }
 
 
-            users.add(user);
+            Users.add(User);
 
 
         }
         cursor.close();
-        return users;
+        return Users;
     }
     //判断用户名是否存在
     public boolean haveUser(String name){

@@ -4,9 +4,15 @@
     android:layout_height="match_parent"
     android:background="#F7F7F7"
     android:orientation="vertical">
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/like_tile"
+    android:textSize="20dp"
+    android:gravity="center"/>
 
     <ListView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/users_listview"/>
 

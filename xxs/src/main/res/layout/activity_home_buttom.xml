@@ -24,8 +24,12 @@
 
                  android:text="@string/radio_btn1"
                     style="@style/style_RadioButton"
-                    android:drawableTop="@drawable/userlist_selector"/>
-
+                    android:drawableTop="@drawable/apps_selector"/>
+            <TextView
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="#ffffff"
+                />
              <RadioButton
                  android:id="@+id/radio2"
                  android:layout_width="0dp"
@@ -33,14 +37,16 @@
                  android:layout_weight="1"
                  android:text="@string/radio_btn2"
                     style="@style/style_RadioButton"
-                    android:drawableTop="@drawable/home_selector"/>
+                 android:checked="true"
+                    android:drawableTop="@drawable/like_selector"/>
 
               <RadioButton
                  android:id="@+id/radio3"
                   android:layout_width="0dp"
                   android:layout_height="wrap_content"
-                  android:layout_weight="1"
+                  android:layout_weight="0"
                  android:text="@string/radio_btn3"
+                  android:visibility="invisible"
                     style="@style/style_RadioButton"
                     android:drawableTop="@drawable/settings_selector"/>
          </RadioGroup>

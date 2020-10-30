@@ -95,14 +95,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     if(!name.equals("")){
                         Drawable avatar_drawable = db.getAvatarByName(name);
                         if(avatar_drawable==null){
-                            avatar_img.setImageResource(R.drawable.head);
+                            avatar_img.setImageResource(R.drawable.boy);
                         }
                         else {
                             avatar_img.setImageDrawable(avatar_drawable);
                         }
                     }
                     else {
-                        avatar_img.setImageResource(R.drawable.head);
+                        avatar_img.setImageResource(R.drawable.boy);
                     }
                 }
                 break;

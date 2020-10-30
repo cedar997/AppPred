@@ -16,7 +16,7 @@
 
             android:layout_centerHorizontal="true"
             android:layout_margin="40dp"
-            android:src="@drawable/head"/>
+            android:src="@drawable/boy"/>
 
 
     <EditText

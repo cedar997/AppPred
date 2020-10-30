@@ -13,10 +13,7 @@ import android.widget.ImageView;
 
 import com.rom471.lab1.R;
 import com.rom471.userdb.MyUtils;
-import com.rom471.userdb.User;
 import com.rom471.userdb.UsersDBHelper;
-
-import java.io.File;
 
 public class ResetPasswordActivity extends AppCompatActivity implements View.OnClickListener {
     Button resetPassword_btn;
