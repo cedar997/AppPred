@@ -1,4 +1,4 @@
-package com.rom471.room;
+package com.rom471.appsdb;
 
 import androidx.room.Database;
 import androidx.room.RoomDatabase;

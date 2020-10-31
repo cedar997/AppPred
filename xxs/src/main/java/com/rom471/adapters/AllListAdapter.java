@@ -1,31 +1,32 @@
-package com.rom471.appdb;
+package com.rom471.adapters;
 
 
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 
 import com.rom471.lab1.R;
-import com.rom471.room.AppBean;
+import com.rom471.appsdb.AppBean;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AppListViewAdapter extends BaseAdapter implements Filterable {
-    public static final String TAG= AppListViewAdapter.class.getSimpleName();
+public class AllListAdapter extends BaseAdapter implements Filterable {
+    public static final String TAG= AllListAdapter.class.getSimpleName();
     private List<AppBean> appList;
     private List<AppBean> allAppList;
 
@@ -33,18 +34,13 @@ public class AppListViewAdapter extends BaseAdapter implements Filterable {
     PackageManager pm;
 
 
-    public AppListViewAdapter(Context context){
+    public AllListAdapter(Context context){
         appList =new ArrayList<>();
 
         mInflater=LayoutInflater.from(context);
         pm=context.getPackageManager();
     }
-    public AppListViewAdapter(Context context, List<AppBean> mList){
-        this.appList =mList;
-        this.allAppList=mList;
-        mInflater=LayoutInflater.from(context);
-        pm=context.getPackageManager();
-    }
+
 
     public void add(AppBean app){
         this.appList.add(app);
@@ -83,16 +79,20 @@ public class AppListViewAdapter extends BaseAdapter implements Filterable {
     }
     public void bindView(View convertView,ViewHolder holder){
         holder.icon=convertView.findViewById(R.id.appicon);
-        holder.id=convertView.findViewById(R.id.id);
+        holder.liked =convertView.findViewById(R.id.liked);
         holder.appname=convertView.findViewById(R.id.appname);
-        holder.total_run_time=convertView.findViewById(R.id.total_run_time);
+
     }
     @RequiresApi(api = Build.VERSION_CODES.Q)
     public void renderView(int position, ViewHolder holder){
         AppBean appinfo= appList.get(position);
+        if(appinfo.isLiked()){
+            holder.liked.setBackgroundResource(R.drawable.stared);
+        }else {
+            holder.liked.setBackgroundResource(R.drawable.star);
+        }
         Drawable icon=appinfo.getIcon();
         holder.icon.setBackground(icon);
-        holder.id.setText(""+position);
         holder.appname.setText(appinfo.getAppname());
 
     }
@@ -136,11 +136,9 @@ public class AppListViewAdapter extends BaseAdapter implements Filterable {
 
     class ViewHolder{
         public ImageView icon;
-        public TextView id;
+        public ImageView liked;
         public TextView appname;
-        public TextView first_run_time;
-        public TextView last_run_time;
-        public TextView total_run_time;
+
     }
 
 }

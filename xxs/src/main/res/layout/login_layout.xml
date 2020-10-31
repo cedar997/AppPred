@@ -1,101 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusableInTouchMode="true"
 
     >
 
-        <ImageView
-            android:id="@+id/pic"
-            android:layout_height="150dp"
-            android:layout_width="370dp"
-            android:scaleType="fitCenter"
-
-            android:layout_centerHorizontal="true"
-            android:layout_margin="40dp"
-            android:src="@drawable/boy"/>
+    <ImageView
+        android:id="@+id/pic"
+        android:layout_width="370dp"
+        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="40dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/boy" />
 
 
     <EditText
         android:id="@+id/Acount"
         android:layout_width="match_parent"
         android:layout_height="65dp"
+        android:layout_below="@+id/pic"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_below="@+id/pic"
         android:layout_weight="1"
 
         android:background="@drawable/edittext_selector"
         android:hint="@string/account"
         android:selectAllOnFocus="false"
         android:singleLine="true"
-        android:visibility="visible"
-        android:textAlignment="center"/>
+        android:textAlignment="center"
+        android:visibility="visible" />
 
     <EditText
         android:id="@+id/passwd"
-        android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="65dp"
-        android:layout_marginTop="10dp"
+        android:layout_below="@+id/Acount"
         android:layout_marginLeft="30dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="30dp"
         android:layout_marginBottom="35dp"
-        android:layout_below="@+id/Acount"
         android:layout_weight="1"
         android:background="@drawable/edittext_selector"
         android:hint="@string/passwd"
+        android:inputType="textPassword"
         android:selectAllOnFocus="false"
         android:singleLine="false"
-        android:visibility="visible"
-        android:textAlignment="center"/>
-        <Button
-            android:id="@+id/loginbutton"
-            android:layout_width="80dp"
-            android:layout_height="50dp"
-            android:layout_below="@+id/passwd"
-            android:layout_centerHorizontal="true"
-            android:text="@string/login"
-            android:background="@drawable/button_selector"/>
+        android:textAlignment="center"
+        android:visibility="visible" />
+
+    <Button
+        android:id="@+id/loginbutton"
+        android:layout_width="80dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/passwd"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/button_selector"
+        android:text="@string/login" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+
+        android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="20dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-            android:orientation="horizontal">
-          <LinearLayout
+            <TextView
+                android:id="@+id/forget"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:hint="@string/forget"
+                android:textSize="10pt" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1">
-                <TextView
-                    android:id="@+id/forget"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:hint="@string/forget"
-                    android:textSize="10pt"
-                    android:layout_gravity="center_horizontal"/>
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1">
-                <TextView
-                    android:id="@+id/register_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:textSize="10pt"
-                    android:hint="@string/signin"
-                    android:layout_gravity="center_horizontal"/>
-            </LinearLayout>
+            <TextView
+                android:id="@+id/register_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:hint="@string/signin"
+                android:textSize="10pt" />
         </LinearLayout>
+    </LinearLayout>
 
 
 </RelativeLayout>

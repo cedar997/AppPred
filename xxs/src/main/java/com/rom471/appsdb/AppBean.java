@@ -1,4 +1,4 @@
-package com.rom471.room;
+package com.rom471.appsdb;
 
 import android.graphics.drawable.Drawable;
 
@@ -19,6 +19,26 @@ public class AppBean {
     String pkgname;
     @Ignore
     Drawable icon;
+    @Ignore
+    private boolean showMenu = false;
+    @Ignore
+    private boolean liked=false;
+
+    public boolean isLiked() {
+        return liked;
+    }
+
+    public void setLiked(boolean liked) {
+        this.liked = liked;
+    }
+
+    public boolean isShowMenu() {
+        return showMenu;
+    }
+
+    public void setShowMenu(boolean showMenu) {
+        this.showMenu = showMenu;
+    }
 
     public Drawable getIcon() {
         return icon;

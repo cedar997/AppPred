@@ -27,4 +27,5 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="empty_hint">收藏列表为空\n请在“所有应用”界面添加收藏</string>
 </resources>

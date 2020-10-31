@@ -1,6 +1,5 @@
-package com.rom471.room;
+package com.rom471.appsdb;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -22,5 +21,5 @@ public interface AppDAO {
     @Query("delete from AppBean")
     void deleteALl();
     @Query("select * from AppBean order by id desc")
-    LiveData<List<AppBean>> getAllApps();
+    List<AppBean> getAllApps();
 }
