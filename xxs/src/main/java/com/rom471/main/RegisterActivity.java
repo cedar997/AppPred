@@ -79,7 +79,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         String name=name_et.getText().toString();
         String password=password_et.getText().toString();
-        String email=name_et.getText().toString();
+        String email=email_et.getText().toString();
         switch (v.getId()){
             case R.id.register_button:
                 if(registerFinish){
