@@ -112,13 +112,11 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mHolder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    notifyItemRemoved(position);
+
                     dao.deleteApp(mAppsList.get(position));
                     mAppsList.remove(position);
-                   // notifyDataSetChanged();
-
-//
-
+                    notifyItemRemoved(position);
+                    notifyItemRangeChanged(position,mAppsList.size()-position);
                 }
             });
             mHolder.open.setOnClickListener(new MyOnclickListenr(context,mAppsList.get(position).getPkgname()));
