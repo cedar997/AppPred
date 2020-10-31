@@ -85,6 +85,7 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     //渲染数据到View中
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+
         if(holder instanceof ViewHolder){
             ViewHolder mHolder=(ViewHolder) holder;
             AppBean app=mAppsList.get(position);
@@ -93,7 +94,8 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mHolder.list.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showMenu(position);
+                    if(position<mAppsList.size())
+                        showMenu(position);
 
                 }
             });
@@ -101,7 +103,6 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if(holder instanceof MenuViewHolder){
             MenuViewHolder mHolder=(MenuViewHolder) holder;
             AppBean app=mAppsList.get(position);
-//            mHolder.appIcon.setBackground(app.getIcon());
             mHolder.appName.setText(app.getAppname());
             mHolder.list.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -112,11 +113,11 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mHolder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     dao.deleteApp(mAppsList.get(position));
                     mAppsList.remove(position);
                     notifyItemRemoved(position);
                     notifyItemRangeChanged(position,mAppsList.size()-position);
+
                 }
             });
             mHolder.open.setOnClickListener(new MyOnclickListenr(context,mAppsList.get(position).getPkgname()));
