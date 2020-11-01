@@ -1,13 +1,10 @@
 <resources>
     <string name="app_name">应用收藏</string>
     <string name="share_name">发送到Base64</string>
-
     <string name="bt1_text">加密</string>
     <string name="bt2_text">解密</string>
     <string name="tv1_text">原始数据</string>
     <string name="tv2_text">加密后数据</string>
-
-
     <string name="account">用户名/邮箱</string>
     <string name="passwd">密码</string>
     <string name="passwd_new">新密码</string>

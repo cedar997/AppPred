@@ -1,5 +1,4 @@
 package com.rom471.adapters;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -14,17 +13,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
-
-
 import com.rom471.lab1.R;
 import com.rom471.appsdb.AppBean;
 import com.rom471.appsdb.AppDAO;
 import com.rom471.appsdb.AppDataBase;
-
 import java.util.List;
 
 public class FavoriteListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -40,7 +35,6 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         dao=getDao(db_name);
         initApps();
     }
-
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -54,9 +48,6 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ViewHolder holder=new ViewHolder(view);
             return holder;
         }
-
-
-
     }
     public void showMenu(int position) {
         for(int i=0; i<mAppsList.size(); i++){
@@ -65,17 +56,6 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         mAppsList.get(position).setShowMenu(true);
         notifyDataSetChanged();
     }
-
-
-    public boolean isMenuShown() {
-        for(int i=0; i<mAppsList.size(); i++){
-            if(mAppsList.get(i).isShowMenu()){
-                return true;
-            }
-        }
-        return false;
-    }
-
     public void closeMenu() {
         for(int i=0; i<mAppsList.size(); i++){
             mAppsList.get(i).setShowMenu(false);
@@ -85,7 +65,7 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     //渲染数据到View中
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-
+        //默认项目
         if(holder instanceof ViewHolder){
             ViewHolder mHolder=(ViewHolder) holder;
             AppBean app=mAppsList.get(position);
@@ -100,6 +80,7 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
             });
         }
+        //项目菜单
         if(holder instanceof MenuViewHolder){
             MenuViewHolder mHolder=(MenuViewHolder) holder;
             AppBean app=mAppsList.get(position);
@@ -117,13 +98,12 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     mAppsList.remove(position);
                     notifyItemRemoved(position);
                     notifyItemRangeChanged(position,mAppsList.size()-position);
-
                 }
             });
             mHolder.open.setOnClickListener(new MyOnclickListenr(context,mAppsList.get(position).getPkgname()));
         }
-
     }
+    //可以接受参数的点击监听器
     private class MyOnclickListenr implements View.OnClickListener{
         Context context;
         String pkgname;
@@ -140,7 +120,6 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }catch (Exception e){
                 toast("打开失败");
             }
-
         }
     }
     @Override
@@ -155,12 +134,10 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public int getItemCount() {
         return mAppsList.size();
     }
-
     static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView appIcon;
         TextView appName;
         LinearLayout list;
-
         public ViewHolder(View view) {
             super(view);
             appIcon = (ImageView) view.findViewById(R.id.item_icon);
@@ -168,10 +145,8 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             list=view.findViewById(R.id.item_list_layout);
 
         }
-
     }
     public class MenuViewHolder extends RecyclerView.ViewHolder{
-//        ImageView appIcon;
         TextView appName;
         LinearLayout list;
         Button delete;
@@ -180,13 +155,13 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         public MenuViewHolder(View view){
             super(view);
             list=view.findViewById(R.id.item_list_layout);
-//            appIcon = (ImageView) view.findViewById(R.id.item_icon);
             appName = (TextView) view.findViewById(R.id.item_name);
             delete=(Button) view.findViewById(R.id.recycle_menu_delete);
             open=(Button) view.findViewById(R.id.recycle_menu_open);
 
         }
     }
+    //获得收藏应用数据库操作对象
     private AppDAO getDao(String db_name){
         AppDataBase db = Room.databaseBuilder(context, AppDataBase.class, db_name).allowMainThreadQueries().build();
         return db.getAppDAO();
@@ -219,11 +194,11 @@ public class FavoriteListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
         return false;
     }
+    //添加进收藏
     public void insertApp(AppBean app){
         app.setLiked(true);
         mAppsList.add(app);
         dao.insertApp(app);
-
     }
     public  void toast( String text){
         Toast toast=Toast.makeText(context, text, Toast.LENGTH_SHORT);

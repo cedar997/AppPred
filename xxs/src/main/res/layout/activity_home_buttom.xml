@@ -40,15 +40,7 @@
                  android:checked="true"
                     android:drawableTop="@drawable/like_selector"/>
 
-              <RadioButton
-                 android:id="@+id/radio3"
-                  android:layout_width="0dp"
-                  android:layout_height="wrap_content"
-                  android:layout_weight="0"
-                 android:text="@string/radio_btn3"
-                  android:visibility="invisible"
-                    style="@style/style_RadioButton"
-                    android:drawableTop="@drawable/settings_selector"/>
+
          </RadioGroup>
 
      </LinearLayout>

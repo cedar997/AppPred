@@ -18,16 +18,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-
 import com.rom471.adapters.AllListAdapter;
 import com.rom471.lab1.R;
 import com.rom471.appsdb.AppBean;
-import com.rom471.appsdb.AppDAO;
-
 import java.util.List;
 
 public class AllAppsFragment extends Fragment  implements View.OnClickListener, TextWatcher {
@@ -66,7 +61,6 @@ public class AllAppsFragment extends Fragment  implements View.OnClickListener, 
                 }
                 try {
                     favoriteFragment.insertApp(app);
-
                     Animation animation = AnimationUtils.loadAnimation(getContext(),R.anim.item_add_anim);
                     view.startAnimation(animation);
                     appAdapter.notifyDataSetChanged();
@@ -76,8 +70,6 @@ public class AllAppsFragment extends Fragment  implements View.OnClickListener, 
                 }
             }
         });
-
-
     }
     private void getApplist(){
 
@@ -94,15 +86,19 @@ public class AllAppsFragment extends Fragment  implements View.OnClickListener, 
                 app.setLiked(favoriteFragment.hasAppName(name));
                 appAdapter.add(app);
             }
-            else{
+            else{ //系统应用，暂时不添加
 //                ApplicationInfo info = new ApplicationInfo();
 //                info.name = packageInfo.applicationInfo.loadLabel(pm).toString();
-//                mList.add(info);
+//                AppBean app=new AppBean();
+//                String name = info.loadLabel(pm).toString();
+//                app.setAppname(name);
+//                app.setPkgname(info.packageName);
+//                app.setIcon(info.loadIcon(pm));
+//                app.setLiked(favoriteFragment.hasAppName(name));
+//                appAdapter.add(app);
             }
         }
-
         app_list_view.setAdapter(appAdapter);
-
     }
 
 

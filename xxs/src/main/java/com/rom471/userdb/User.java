@@ -1,34 +1,25 @@
 package com.rom471.userdb;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-
-
 import java.io.ByteArrayOutputStream;
-
 public class User {
     private int id;
     private String name;
     private String password;
     private String email;
-
     private Drawable avatar;
-
     public void setAvatar(Drawable avatar) {
         this.avatar = avatar;
     }
-
-
     public User() {
         this.name = null;
         this.password = null;
         this.email = null;
     }
-
     @Override
     public String toString() {
         return "User{" +
@@ -57,15 +48,10 @@ public class User {
     public Drawable getAvatar() {
         return avatar;
     }
-
     public byte[] getAvatarBytes(){
         return MyUtils.drawableToByteArray(this.avatar);
     }
-
-
-
     public static Drawable byteToDrawable(byte[] data) {
-
         if (data == null)
             return null;
         else

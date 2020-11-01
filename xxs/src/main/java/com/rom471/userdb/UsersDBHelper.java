@@ -8,9 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-
 import com.rom471.lab1.R;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,19 +23,15 @@ public class UsersDBHelper extends SQLiteOpenHelper {
     private Context context;
     //内部数据库引用
     private SQLiteDatabase db;
-
     public void close(){
         db.close();
         super.close();
     }
-
-
     @Override
     public void onCreate(SQLiteDatabase db) {
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
     }
     //初始化内部引用
     public UsersDBHelper(Context context){
@@ -131,17 +125,11 @@ public class UsersDBHelper extends SQLiteOpenHelper {
             byte [] bytes=null;
             Drawable avatar=null;
             bytes=cursor.getBlob(cursor.getColumnIndex("avatar"));
-
             if(bytes!=null){
                 avatar= new BitmapDrawable(BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
                 User.setAvatar(avatar);
-
             }
-
-
             Users.add(User);
-
-
         }
         cursor.close();
         return Users;
@@ -170,9 +158,7 @@ public class UsersDBHelper extends SQLiteOpenHelper {
     }
     //由用户名获取头像
     public Drawable getAvatarByName(String name){
-
         String sql = "SELECT avatar FROM "+TABLE_NAME +" WHERE name = ?";
-
         Drawable avatar=null;
         byte[] bytes;
         Cursor cursor=db.rawQuery(sql,new String[]{name});
@@ -181,7 +167,6 @@ public class UsersDBHelper extends SQLiteOpenHelper {
                 avatar= new BitmapDrawable(BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
             }
         }
-
         cursor.close();
         return avatar;
     }

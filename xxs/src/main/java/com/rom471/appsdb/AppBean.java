@@ -1,12 +1,10 @@
 package com.rom471.appsdb;
 
 import android.graphics.drawable.Drawable;
-
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
-
 @Entity(indices = {
         @Index(value = "id"),
         @Index(value = "pkgname",unique = true)
@@ -15,7 +13,6 @@ public class AppBean {
     @PrimaryKey(autoGenerate = true)
     private int id;
     String appname;
-
     String pkgname;
     @Ignore
     Drawable icon;
