@@ -1,12 +1,15 @@
-package com.rom471.app;
+package com.rom471.room;
 
 import android.graphics.drawable.Drawable;
+
+import androidx.room.Ignore;
 
 public class AppBean {
     String appname;
     String pkgname;
-    Drawable icon;
     long timeSpend;
+    @Ignore
+    Drawable icon;
     public AppBean() {
     }
 

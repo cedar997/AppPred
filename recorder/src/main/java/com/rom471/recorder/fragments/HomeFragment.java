@@ -2,6 +2,9 @@ package com.rom471.recorder.fragments;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,11 +16,13 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
-import com.rom471.app.AppsAdapter;
-import com.rom471.db.RecordDBHelper;
-import com.rom471.beans.AppBean;
+import com.rom471.adapter.AppsAdapter;
 import com.rom471.recorder.R;
+import com.rom471.room.AppBean;
+import com.rom471.room.RecordDAO;
+import com.rom471.room.RecordDataBase;
 
 import java.util.List;
 
@@ -27,7 +32,9 @@ public class HomeFragment extends Fragment {
     List<AppBean> lastApps;
     List<AppBean> totalApps;
     Context context;
-    RecordDBHelper db;
+    RecordDataBase recordDataBase;
+    RecordDAO dao;
+    //RecordDBHelper db;
     AppsAdapter totalAdapter;
     AppsAdapter lastAdapter;
     public static final int APP_LIST_SIZE=5;
@@ -43,7 +50,9 @@ public class HomeFragment extends Fragment {
         context=getContext();
         list_view=getActivity().findViewById(R.id.app_list);
         total_list_view =getActivity().findViewById(R.id.pred_app_list);
-        db=new RecordDBHelper(getContext(),"app.db");
+        //db=new RecordDBHelper(getContext(),"app.db");
+        recordDataBase= Room.databaseBuilder(context, RecordDataBase.class, "records.db").allowMainThreadQueries().build();
+        dao=recordDataBase.getRecordDAO();
 
 
 
@@ -53,14 +62,16 @@ public class HomeFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        lastApps = db.getLastAppBean(APP_LIST_SIZE);
+        lastApps = dao.getLastApp(APP_LIST_SIZE);
+        setAppIcon(lastApps);
         LinearLayoutManager layoutManager1 = new LinearLayoutManager(context);
         layoutManager1.setOrientation(LinearLayoutManager.HORIZONTAL);
         list_view.setLayoutManager(layoutManager1);
         lastAdapter=new AppsAdapter(lastApps);
         list_view.setAdapter(lastAdapter);
 
-        totalApps = db.getAppTotalTime(10);
+        totalApps = dao.getAppTotalTime(10);
+        setAppIcon(totalApps);
         totalAdapter =new AppsAdapter(totalApps);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -70,4 +81,20 @@ public class HomeFragment extends Fragment {
 
 
     }
+    private void setAppIcon(List<AppBean> apps){
+        PackageManager pm =context.getPackageManager();
+        ApplicationInfo appInfo;
+        Drawable appIcon;
+        for (AppBean app:apps
+             ) {
+            try {
+                appInfo = pm.getApplicationInfo(app.getPkgname(), PackageManager.GET_META_DATA);
+                appIcon = pm.getApplicationIcon(appInfo);
+                app.setIcon(appIcon);
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }

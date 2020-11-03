@@ -1,4 +1,4 @@
-package com.rom471.db;
+package com.rom471.adapter;
 
 
 import android.content.Context;
@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 
-import com.rom471.beans.Record;
+import com.rom471.room.Record;
 import com.rom471.recorder.R;
 
 import java.util.ArrayList;

@@ -8,15 +8,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.icu.util.Calendar;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
 import android.text.TextUtils;
-import android.text.format.Time;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -29,11 +25,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
+import androidx.room.Room;
 
 
-import com.rom471.db.RecordDBHelper;
 import com.rom471.recorder.R;
 import com.rom471.recorder.RecordService;
+import com.rom471.room.RecordDAO;
+import com.rom471.room.RecordDataBase;
 import com.rom471.utils.MyProperties;
 
 import java.io.File;
@@ -41,7 +39,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
-import java.util.Properties;
 
 
 public class SettingsFragment extends Fragment implements View.OnClickListener{
@@ -50,9 +47,12 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
     Button clearRecord_btn;
     Button normal_service_btn;
     Button ouput_db_btn;
-    RecordDBHelper db;
+
     Context context;
     SharedPreferences properties;
+    private RecordDataBase recordDataBase;
+    private RecordDAO recordDAO;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -65,7 +65,9 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         context=getContext();
-        db=new RecordDBHelper(getContext(),"app.db");
+        //db=new RecordDBHelper(getContext(),"app.db");
+        recordDataBase= Room.databaseBuilder(context, RecordDataBase.class, "records.db").allowMainThreadQueries().build();
+        recordDAO=recordDataBase.getRecordDAO();
         accessibility_btn=getActivity().findViewById(R.id.open_accessibility_btn);
         normal_service_btn=getActivity().findViewById(R.id.start_service_btn);
 
@@ -169,7 +171,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        db.clearRecords();
+                        recordDAO.deleteALl();
                     }
                 });
         normalDialog.setNegativeButton("关闭",

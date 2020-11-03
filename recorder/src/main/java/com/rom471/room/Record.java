@@ -116,6 +116,17 @@ public class Record implements Serializable {
         else if(charging==2) return "USB充电";
         return "未充电";
     }
+    public String getTimeSpendString() {
+        long sec=timeSpend/1000;
+        if(sec<60)
+            return sec+"秒";
+        long min=sec/60;
+        sec=sec%60;
+
+        return min+"分"+sec+"秒";
+
+
+    }
 
 
 

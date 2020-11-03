@@ -1,10 +1,7 @@
 package com.rom471.recorder;
 
-import android.app.ActivityManager;
 import android.app.Service;
 import android.app.usage.UsageEvents;
-import android.app.usage.UsageStats;
-import android.app.usage.UsageStatsManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.BatteryManager;
@@ -12,23 +9,19 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
-import com.rom471.db.RecordDBHelper;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Queue;
 
 public class RecordService extends Service {
     public static final String TAG ="CEDAR";
     private  int intCounter;
     private Handler myhandler =  new Handler();
-    private RecordDBHelper db;
+
     public RecordService() {
 
     }
@@ -37,7 +30,7 @@ public class RecordService extends Service {
     public void onCreate() {
         super.onCreate();
         Log.d(TAG, "onCreate: ");
-        db=new RecordDBHelper(getApplicationContext(),"app.db");
+
         //db.createTable();
     }
     private Runnable myTasks= new Runnable() {
@@ -55,7 +48,7 @@ public class RecordService extends Service {
             BatteryManager manager = (BatteryManager) getSystemService(Context.BATTERY_SERVICE);
             int intProperty = manager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW);
             Toast.makeText(getApplicationContext(),"电量："+intProperty,Toast.LENGTH_SHORT).show();
-            db.insertRecord(app_name);
+
 
             myhandler.postDelayed(myTasks, 2000);
         }

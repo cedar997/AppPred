@@ -1,4 +1,4 @@
-package com.rom471.db;
+package com.rom471.utils;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,7 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.BatteryManager;
 
-import com.rom471.beans.Record;
+import com.rom471.room.Record;
 
 import static android.content.Context.BATTERY_SERVICE;
 

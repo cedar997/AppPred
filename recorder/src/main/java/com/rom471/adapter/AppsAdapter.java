@@ -1,4 +1,4 @@
-package com.rom471.app;
+package com.rom471.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,8 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.rom471.beans.AppBean;
 import com.rom471.recorder.R;
+import com.rom471.room.AppBean;
 
 import java.util.List;
 

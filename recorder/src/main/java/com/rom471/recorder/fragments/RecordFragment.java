@@ -15,22 +15,26 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.room.Room;
 
-import com.rom471.beans.Record;
-import com.rom471.db.RecordDBHelper;
-import com.rom471.db.RecordListViewAdapter;
+import com.rom471.room.Record;
+import com.rom471.adapter.RecordListViewAdapter;
 import com.rom471.recorder.R;
+import com.rom471.room.RecordDAO;
+import com.rom471.room.RecordDataBase;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RecordFragment extends Fragment implements View.OnClickListener {
     ListView list_view;
-    RecordDBHelper db;
+    //RecordDBHelper db;
+    RecordDataBase recordDataBase;
+    RecordDAO recordDAO;
     RecordListViewAdapter mAdapter;
     Button record_search_btn;
     Button record_update_btn;
-    List<Record> mRecords;
+    List<com.rom471.room.Record> mRecords;
     EditText record_search_et;
     TextView record_stat_tv;
     Context context;
@@ -46,8 +50,11 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         super.onActivityCreated(savedInstanceState);
         context=getContext();
         list_view=getActivity().findViewById(R.id.record_list);
-        db=new RecordDBHelper(getContext(),"app.db");
-        mRecords = db.queryLast(100);
+        recordDataBase= Room.databaseBuilder(context, RecordDataBase.class, "records.db").allowMainThreadQueries().build();
+        recordDAO=recordDataBase.getRecordDAO();
+        //db=new RecordDBHelper(getContext(),"app.db");
+        //mRecords = db.queryLast(100);
+        mRecords = recordDAO.getRecords(100);
         mAdapter=new RecordListViewAdapter(getContext(),mRecords);
 
         list_view.setAdapter(mAdapter);
@@ -68,13 +75,14 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                 list_view.setAdapter(mAdapter);
                 break;
             case R.id.record_update_btn:
-                mRecords = db.queryLast(500);
+                //mRecords = db.queryLast(500);
+                mRecords=recordDAO.getRecords(100);
                 mAdapter.setRecords(mRecords);
                 list_view.setAdapter(mAdapter);
                 break;
         }
     }
-    private List<Record> filterByName(String appname,List<Record> old_list){
+    private List<Record> filterByName(String appname, List<Record> old_list){
         List<Record> new_list=new ArrayList<>();
         for (Record r:old_list
              ) {

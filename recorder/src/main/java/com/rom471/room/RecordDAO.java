@@ -21,5 +21,12 @@ public interface RecordDAO {
     @Query("delete from Record")
     void deleteALl();
     @Query("select * from Record order by id desc")
-    List<Record> getAllApps();
+    List<Record> getAllRecords();
+    @Query("select * from Record order by id desc limit :limit")
+    List<Record> getRecords(int limit);
+    @Query("select appname,pkgname, timeSpend from Record order by id desc  limit :limit")
+    public List<AppBean> getLastApp(int limit);
+    @Query("select appname,pkgname, sum(timeSpend) timeSpend from Record group by appname order by sum(timeSpend) desc limit :limit")
+    public List<AppBean> getAppTotalTime(int limit);
+
 }

@@ -1,13 +1,16 @@
 package com.rom471.recorder;
 
 import android.accessibilityservice.AccessibilityService;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.view.accessibility.AccessibilityEvent;
 
-import com.rom471.daoimpl.RecordDaoImpl;
-import com.rom471.db.DBUtils;
-import com.rom471.beans.Record;
-import com.rom471.db.RecordDBHelper;
+import androidx.room.Room;
+
+import com.rom471.utils.DBUtils;
+import com.rom471.room.Record;
+import com.rom471.room.RecordDAO;
+import com.rom471.room.RecordDataBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,14 +20,14 @@ import static android.view.accessibility.AccessibilityEvent.TYPE_VIEW_CLICKED;
 public class AccessibilityMonitorService extends AccessibilityService {
     private CharSequence mWindowClassName;
     private String lastPkgname ="";
-    RecordDBHelper db;
-    RecordDaoImpl dao;
+    RecordDAO dao;
     Record record;
     PackageManager pm;
     List<String> exclude_names;
     List<String> skip_names;
     boolean filter_exclude=false;
     boolean filter_skip=false;
+    RecordDataBase recordDB;
     public AccessibilityMonitorService() {
     }
 
@@ -54,8 +57,9 @@ public class AccessibilityMonitorService extends AccessibilityService {
     @Override
     protected void onServiceConnected() {
         super.onServiceConnected();
-        db=new RecordDBHelper(getApplicationContext(),"app.db");
-        dao=new RecordDaoImpl(getApplicationContext());
+        //room数据库
+        recordDB = Room.databaseBuilder(getApplicationContext(), RecordDataBase.class,"records.db").allowMainThreadQueries().build();
+        dao=recordDB.getRecordDAO();
         record=new Record();
         pm = getPackageManager();//初始化包管理器
         exclude_names=getExclude_names();//初始化过滤应用名列表
@@ -100,8 +104,8 @@ public class AccessibilityMonitorService extends AccessibilityService {
             record.setTimeSpend(spend);
             DBUtils.storeBatteryInfo(getApplicationContext(),record);
             DBUtils.storeNetworkInfo(getApplicationContext(),record);
-            db.insertRecord(record);
-            dao.add(record);
+
+            dao.insertRecord(record);
         }
         else {
             record_start(pkgname);
@@ -168,9 +172,14 @@ public class AccessibilityMonitorService extends AccessibilityService {
     
     @Override
     public void onInterrupt() {
-
+        recordDB.close();
     }
+///将会迁移的函数
+private RecordDAO getRecordDao(Context context, String db_name){
+    RecordDataBase db = Room.databaseBuilder(context, RecordDataBase.class, db_name).allowMainThreadQueries().build();
 
+    return db.getRecordDAO();
+}
 
 
 }
