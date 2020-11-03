@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.rom471.recorder.R;
-import com.rom471.room.AppBean;
+import com.rom471.db.AppBean;
 
 import java.util.List;
 

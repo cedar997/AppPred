@@ -7,7 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.BatteryManager;
 
-import com.rom471.room.Record;
+import com.rom471.db.Record;
 
 import static android.content.Context.BATTERY_SERVICE;
 

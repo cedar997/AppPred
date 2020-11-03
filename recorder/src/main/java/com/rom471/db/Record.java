@@ -1,4 +1,4 @@
-package com.rom471.room;
+package com.rom471.db;
 
 import android.graphics.drawable.Drawable;
 import android.icu.text.SimpleDateFormat;

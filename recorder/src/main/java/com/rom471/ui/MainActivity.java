@@ -1,4 +1,4 @@
-package com.rom471.recorder;
+package com.rom471.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,9 +11,10 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.rom471.recorder.fragments.HomeFragment;
-import com.rom471.recorder.fragments.RecordFragment;
-import com.rom471.recorder.fragments.SettingsFragment;
+import com.rom471.recorder.R;
+import com.rom471.ui.fragments.HomeFragment;
+import com.rom471.ui.fragments.RecordFragment;
+import com.rom471.ui.fragments.SettingsFragment;
 import com.rom471.utils.MyProperties;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.rom471.recorder;
+package com.rom471.service;
 
 import android.app.Service;
 import android.app.usage.UsageEvents;

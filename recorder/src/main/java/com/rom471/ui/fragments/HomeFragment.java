@@ -1,4 +1,4 @@
-package com.rom471.recorder.fragments;
+package com.rom471.ui.fragments;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -20,9 +20,9 @@ import androidx.room.Room;
 
 import com.rom471.adapter.AppsAdapter;
 import com.rom471.recorder.R;
-import com.rom471.room.AppBean;
-import com.rom471.room.RecordDAO;
-import com.rom471.room.RecordDataBase;
+import com.rom471.db.AppBean;
+import com.rom471.db.RecordDAO;
+import com.rom471.db.RecordDataBase;
 
 import java.util.List;
 

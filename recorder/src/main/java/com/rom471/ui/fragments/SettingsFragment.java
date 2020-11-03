@@ -1,4 +1,4 @@
-package com.rom471.recorder.fragments;
+package com.rom471.ui.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -29,9 +29,9 @@ import androidx.room.Room;
 
 
 import com.rom471.recorder.R;
-import com.rom471.recorder.RecordService;
-import com.rom471.room.RecordDAO;
-import com.rom471.room.RecordDataBase;
+import com.rom471.service.RecordService;
+import com.rom471.db.RecordDAO;
+import com.rom471.db.RecordDataBase;
 import com.rom471.utils.MyProperties;
 
 import java.io.File;
@@ -93,7 +93,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
                 getAccessibilityPermission(getContext());
                 break;
             case R.id.start_service_btn:
-                Intent recoder_service=new Intent(context,RecordService.class);
+                Intent recoder_service=new Intent(context, RecordService.class);
                 context.startService(recoder_service);
                 toast(context,"记录服务已经启动");
                 break;

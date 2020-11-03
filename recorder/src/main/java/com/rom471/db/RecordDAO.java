@@ -1,4 +1,4 @@
-package com.rom471.room;
+package com.rom471.db;
 
 import androidx.room.Dao;
 import androidx.room.Delete;

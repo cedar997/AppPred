@@ -1,4 +1,4 @@
-package com.rom471.recorder.fragments;
+package com.rom471.ui.fragments;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -17,11 +17,11 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.room.Room;
 
-import com.rom471.room.Record;
+import com.rom471.db.Record;
 import com.rom471.adapter.RecordListViewAdapter;
 import com.rom471.recorder.R;
-import com.rom471.room.RecordDAO;
-import com.rom471.room.RecordDataBase;
+import com.rom471.db.RecordDAO;
+import com.rom471.db.RecordDataBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +34,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
     RecordListViewAdapter mAdapter;
     Button record_search_btn;
     Button record_update_btn;
-    List<com.rom471.room.Record> mRecords;
+    List<com.rom471.db.Record> mRecords;
     EditText record_search_et;
     TextView record_stat_tv;
     Context context;

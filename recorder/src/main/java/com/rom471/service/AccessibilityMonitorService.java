@@ -1,4 +1,4 @@
-package com.rom471.recorder;
+package com.rom471.service;
 
 import android.accessibilityservice.AccessibilityService;
 import android.content.Context;
@@ -8,9 +8,9 @@ import android.view.accessibility.AccessibilityEvent;
 import androidx.room.Room;
 
 import com.rom471.utils.DBUtils;
-import com.rom471.room.Record;
-import com.rom471.room.RecordDAO;
-import com.rom471.room.RecordDataBase;
+import com.rom471.db.Record;
+import com.rom471.db.RecordDAO;
+import com.rom471.db.RecordDataBase;
 
 import java.util.ArrayList;
 import java.util.List;
