@@ -7,6 +7,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.BatteryManager;
 
+import com.rom471.beans.Record;
+
 import static android.content.Context.BATTERY_SERVICE;
 
 public class DBUtils {

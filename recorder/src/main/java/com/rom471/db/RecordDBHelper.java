@@ -9,7 +9,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.drawable.Drawable;
 
-import com.rom471.app.AppBean;
+import com.rom471.beans.AppBean;
+import com.rom471.beans.Record;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,19 @@ public class RecordDBHelper extends SQLiteOpenHelper {
     }
 
     public void createTable(){
+        String sql="create table if not exists "+TABLE_NAME+" ("
+                + "id integer primary key autoincrement,"
+                + "appname text ,"     //应用名
+                +" pkgname text ," //包名
+                + "battery integer,"    //电池电量
+                + "timespend integer,"    //使用时间
+                + "net integer,"         //网络信息
+                + "charging integer,"
+                + "time integer DEFAULT  CURRENT_TIMESTAMP )";  //开始时间
+        db.execSQL(sql);
+    }
+    public void createFavoriteTable(String username){
+
         String sql="create table if not exists "+TABLE_NAME+" ("
                 + "id integer primary key autoincrement,"
                 + "appname text ,"     //应用名

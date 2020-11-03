@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 
+import com.rom471.beans.Record;
 import com.rom471.recorder.R;
 
 import java.util.ArrayList;

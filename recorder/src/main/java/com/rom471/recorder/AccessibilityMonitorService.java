@@ -4,8 +4,9 @@ import android.accessibilityservice.AccessibilityService;
 import android.content.pm.PackageManager;
 import android.view.accessibility.AccessibilityEvent;
 
+import com.rom471.daoimpl.RecordDaoImpl;
 import com.rom471.db.DBUtils;
-import com.rom471.db.Record;
+import com.rom471.beans.Record;
 import com.rom471.db.RecordDBHelper;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ public class AccessibilityMonitorService extends AccessibilityService {
     private CharSequence mWindowClassName;
     private String lastPkgname ="";
     RecordDBHelper db;
+    RecordDaoImpl dao;
     Record record;
     PackageManager pm;
     List<String> exclude_names;
@@ -53,6 +55,7 @@ public class AccessibilityMonitorService extends AccessibilityService {
     protected void onServiceConnected() {
         super.onServiceConnected();
         db=new RecordDBHelper(getApplicationContext(),"app.db");
+        dao=new RecordDaoImpl(getApplicationContext());
         record=new Record();
         pm = getPackageManager();//初始化包管理器
         exclude_names=getExclude_names();//初始化过滤应用名列表
@@ -98,6 +101,7 @@ public class AccessibilityMonitorService extends AccessibilityService {
             DBUtils.storeBatteryInfo(getApplicationContext(),record);
             DBUtils.storeNetworkInfo(getApplicationContext(),record);
             db.insertRecord(record);
+            dao.add(record);
         }
         else {
             record_start(pkgname);

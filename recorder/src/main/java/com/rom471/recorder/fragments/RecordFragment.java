@@ -16,7 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
-import com.rom471.db.Record;
+import com.rom471.beans.Record;
 import com.rom471.db.RecordDBHelper;
 import com.rom471.db.RecordListViewAdapter;
 import com.rom471.recorder.R;

@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.rom471.beans.AppBean;
 import com.rom471.recorder.R;
 
 import java.util.List;

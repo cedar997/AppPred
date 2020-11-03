@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.rom471.app.AppsAdapter;
 import com.rom471.db.RecordDBHelper;
-import com.rom471.app.AppBean;
+import com.rom471.beans.AppBean;
 import com.rom471.recorder.R;
 
 import java.util.List;
