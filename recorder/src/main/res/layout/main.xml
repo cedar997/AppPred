@@ -12,11 +12,11 @@
     </LinearLayout>
 
     <!-- 中间 -->
-    <FrameLayout
+    <androidx.viewpager.widget.ViewPager
         android:layout_width="match_parent"
         android:layout_height="600dp"
         android:layout_weight="1"
-        android:id="@+id/mFragment"
+        android:id="@+id/vpager"
         />
 
     <!-- 底部 -->

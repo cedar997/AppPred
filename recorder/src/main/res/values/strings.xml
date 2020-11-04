@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Recorder</string>
+    <string name="app_name">用户行为</string>
     <string name="radio_btn1">历史记录</string>
     <string name="radio_btn2">主界面</string>
     <string name="radio_btn3">设置</string>

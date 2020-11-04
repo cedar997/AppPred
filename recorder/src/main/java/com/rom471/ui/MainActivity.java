@@ -1,61 +1,45 @@
 package com.rom471.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
+import com.rom471.adapter.MyFragmentPagerAdapter;
 import com.rom471.recorder.R;
-import com.rom471.ui.fragments.HomeFragment;
-import com.rom471.ui.fragments.RecordFragment;
-import com.rom471.ui.fragments.SettingsFragment;
 import com.rom471.utils.MyProperties;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
+public class MainActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener , ViewPager.OnPageChangeListener {
     public static final String TAG="cedar";
     RadioGroup mRadioGroup;
     RadioButton rb1,rb2,rb3;
-    ImageView search_btn;
-    EditText search_box;
-    private List<Fragment> fragments = new ArrayList<>();
-    private Fragment fragment;
-    private FragmentManager fm;
-    private FragmentTransaction transaction;
+    ViewPager vp;
+    private MyFragmentPagerAdapter mAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        mAdapter=new MyFragmentPagerAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         bindView();//绑定资源
-        initFragments();
+        vp.setAdapter(mAdapter);
+        vp.setCurrentItem(0);
+        vp.addOnPageChangeListener(this);
         mRadioGroup.setOnCheckedChangeListener(this);
-        setDefaultFragment();
-
         initProperties();
+    }
 
-    }
-    private void setDefaultFragment(){
-        fm=getFragmentManager();
-        transaction=fm.beginTransaction();
-        fragment=fragments.get(1);
-        transaction.replace(R.id.mFragment,fragment);
-        transaction.commit();
-    }
     private void bindView(){
         mRadioGroup=findViewById(R.id.radioGroup1);
         rb1=findViewById(R.id.radio1);
         rb2=findViewById(R.id.radio2);
         rb3=findViewById(R.id.radio3);
+        vp=findViewById(R.id.vpager);
 
 
     }
@@ -68,36 +52,54 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         config_map.put("db_index","0");
         MyProperties.setPropertiesMap(this,config_map);
     }
-    private void initFragments(){
-        fragments.add(new RecordFragment());
-        fragments.add(new HomeFragment());
 
-        fragments.add(new SettingsFragment());
-    }
-    public void print(String ... s){
 
-    }
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
-        transaction=fm.beginTransaction();
+
         switch (checkedId){
             case R.id.radio1:
-                fragment=fragments.get(0);
-                transaction.replace(R.id.mFragment,fragment);
+                vp.setCurrentItem(0);
+
                 break;
             case R.id.radio2:
-                fragment=fragments.get(1);
-                transaction.replace(R.id.mFragment,fragment);
+                vp.setCurrentItem(1);
+
                 break;
             case R.id.radio3:
-                fragment=fragments.get(2);
-                transaction.replace(R.id.mFragment,fragment);
+                vp.setCurrentItem(2);
                 break;
 
         }
-        transaction.commit();
+
     }
 
 
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+        if(state==2){
+            switch (vp.getCurrentItem()){
+                case 0:
+                    rb1.setChecked(true);
+
+                    break;
+                case 1:
+                    rb2.setChecked(true);
+
+                    break;
+                case 2:
+                    rb3.setChecked(true);
+                    break;
+            }
+        }
+    }
 }

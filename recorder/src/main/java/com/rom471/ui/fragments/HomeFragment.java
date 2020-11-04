@@ -1,6 +1,6 @@
 package com.rom471.ui.fragments;
 
-import android.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;

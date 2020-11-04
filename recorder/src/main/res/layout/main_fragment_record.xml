@@ -3,50 +3,19 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent">
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        >
 
-    </LinearLayout>
-    <HorizontalScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        >
-        <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="400dp"
-            android:id="@+id/record_list"
-            />
-    </HorizontalScrollView>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="更新数据"
-        android:id="@+id/record_update_btn"
+    <!-- 中间 -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
+        android:layout_weight="1"
+        android:id="@+id/record_fragment"
         />
 
+    <!-- 底部 -->
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        >
-        <EditText
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:id="@+id/record_search_et"
-            />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="查找"
-            android:id="@+id/record_search_btn"
-            />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        <include layout="@layout/fragment_record_buttom"/>
     </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/record_stat_tv"
-        />
 </LinearLayout>

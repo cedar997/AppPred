@@ -25,6 +25,8 @@ public class Record implements Serializable {
     private int charging;
     private int net;
     @Ignore
+    boolean  updated;//是否上传到服务器
+    @Ignore
     private Drawable icon;
 
     public Drawable getIcon() {

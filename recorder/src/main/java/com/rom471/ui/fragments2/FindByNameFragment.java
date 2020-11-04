@@ -1,6 +1,7 @@
-package com.rom471.ui.fragments;
+package com.rom471.ui.fragments2;
 
-import android.app.Fragment;
+import androidx.fragment.app.Fragment;
+
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,7 +27,7 @@ import com.rom471.db.RecordDataBase;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecordFragment extends Fragment implements View.OnClickListener {
+public class FindByNameFragment extends Fragment implements View.OnClickListener {
     ListView list_view;
     //RecordDBHelper db;
     RecordDataBase recordDataBase;
@@ -41,7 +42,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.main_fragment_record,container,false);
+        return inflater.inflate(R.layout.main_fragment_record_find_by_name,container,false);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)

@@ -17,30 +17,30 @@
 
 
              <RadioButton
-                 android:id="@+id/radio1"
+                 android:id="@+id/record_findbyname"
                  android:layout_width="0dp"
                  android:layout_height="wrap_content"
                  android:layout_weight="1"
 
-                 android:text="@string/radio_btn1"
+                 android:text="按名字查找"
                     style="@style/style_RadioButton"
                     android:drawableTop="@drawable/list_selector"/>
 
              <RadioButton
-                 android:id="@+id/radio2"
+                 android:id="@+id/record_find_by_date"
                  android:layout_width="0dp"
                  android:layout_height="wrap_content"
                  android:layout_weight="1"
-                 android:text="@string/radio_btn2"
+                 android:text="按日期查找"
                     style="@style/style_RadioButton"
                     android:drawableTop="@drawable/home_selector"/>
 
               <RadioButton
-                 android:id="@+id/radio3"
+                 android:id="@+id/record_find_by_time"
                   android:layout_width="0dp"
                   android:layout_height="wrap_content"
                   android:layout_weight="1"
-                 android:text="@string/radio_btn3"
+                 android:text="按时间查找"
                     style="@style/style_RadioButton"
                     android:drawableTop="@drawable/settings_selector"/>
          </RadioGroup>
