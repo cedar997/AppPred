@@ -84,14 +84,19 @@ public class FindByDateFragment extends Fragment  implements View.OnClickListene
         end_date_tv=getActivity().findViewById(R.id.record_date_end_tv);
         result_tv=getActivity().findViewById(R.id.date_search_result);
     }
-
+    //过滤日期
     private List<Record> filterByDate( List<Record> old_list,long start,long end){
+        if(start_timestamp==0&&end_timestamp==0) //未指定时间则返回所有记录
+            return old_list;
         List<Record> new_list=new ArrayList<>();
         for (Record r:old_list
              ) {
-            if (r.getTimeStamp()>start && r.getTimeStamp()<end){
-                new_list.add(r);
-            }
+            long timestamp= r.getTimeStamp();
+            if(start_timestamp!=0&&timestamp<start)
+                continue;
+            if(end_timestamp!=0&&timestamp>end)
+                continue;
+            new_list.add(r);
         }
         return  new_list;
     }
