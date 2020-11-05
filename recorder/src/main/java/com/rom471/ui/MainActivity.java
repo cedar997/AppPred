@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         mAdapter=new MyFragmentPagerAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         bindView();//绑定资源
         vp.setAdapter(mAdapter);
-        vp.setCurrentItem(0);
+        vp.setCurrentItem(1);
         vp.addOnPageChangeListener(this);
         mRadioGroup.setOnCheckedChangeListener(this);
         initProperties();

@@ -10,15 +10,17 @@
 
     </LinearLayout>
     <HorizontalScrollView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
-        <ListView
+        <androidx.recyclerview.widget.RecyclerView
             android:layout_width="wrap_content"
             android:layout_height="400dp"
-            android:id="@+id/record_list"
+            android:id="@+id/record_list_by_name"
             />
     </HorizontalScrollView>
+
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -3,11 +3,17 @@ package com.rom471.utils;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.BatteryManager;
 
+import com.rom471.db.AppBean;
 import com.rom471.db.Record;
+
+import java.util.List;
 
 import static android.content.Context.BATTERY_SERVICE;
 
@@ -53,5 +59,20 @@ public class DBUtils {
         record.setNet(net_state);
 
     }
-
+    //给记录设置应用图标
+    public static void setAppIcon(Context context,List<Record> apps){
+        PackageManager pm =context.getPackageManager();
+        ApplicationInfo appInfo;
+        Drawable appIcon;
+        for (Record app:apps
+        ) {
+            try {
+                appInfo = pm.getApplicationInfo(app.getPkgname(), PackageManager.GET_META_DATA);
+                appIcon = pm.getApplicationIcon(appInfo);
+                app.setIcon(appIcon);
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

@@ -3,6 +3,11 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        <include layout="@layout/fragment_record_buttom"/>
+    </LinearLayout>
 
     <!-- 中间 -->
     <FrameLayout
@@ -12,10 +17,6 @@
         android:id="@+id/record_fragment"
         />
 
-    <!-- 底部 -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-        <include layout="@layout/fragment_record_buttom"/>
-    </LinearLayout>
+
+
 </LinearLayout>

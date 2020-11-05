@@ -44,7 +44,7 @@ public class RcordFragment extends Fragment implements RadioGroup.OnCheckedChang
         initFragments();
         mRadioGroup.setOnCheckedChangeListener(this);
         showFragmnet(fragments.get(0));
-
+        rb1.setChecked(true);
     }
 
     @Override
@@ -59,6 +59,7 @@ public class RcordFragment extends Fragment implements RadioGroup.OnCheckedChang
         fragments.add(new FindByDateFragment());
 
         fragments.add(new FindByTimeFragment());
+
     }
     private void showFragmnet(Fragment fragment){
         FragmentTransaction transaction = fm.beginTransaction();

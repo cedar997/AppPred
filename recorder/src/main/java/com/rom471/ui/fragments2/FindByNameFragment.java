@@ -10,32 +10,34 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import com.rom471.adapter.RecordsAdapter;
 import com.rom471.db.Record;
-import com.rom471.adapter.RecordListViewAdapter;
 import com.rom471.recorder.R;
 import com.rom471.db.RecordDAO;
 import com.rom471.db.RecordDataBase;
+import com.rom471.utils.DBUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class FindByNameFragment extends Fragment implements View.OnClickListener {
-    ListView list_view;
+    RecyclerView list_view;
     //RecordDBHelper db;
     RecordDataBase recordDataBase;
     RecordDAO recordDAO;
-    RecordListViewAdapter mAdapter;
+    RecordsAdapter mAdapter;
     Button record_search_btn;
     Button record_update_btn;
-    List<com.rom471.db.Record> mRecords;
+    List<Record> mRecords;
     EditText record_search_et;
     TextView record_stat_tv;
     Context context;
@@ -50,15 +52,17 @@ public class FindByNameFragment extends Fragment implements View.OnClickListener
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         context=getContext();
-        list_view=getActivity().findViewById(R.id.record_list);
+        list_view=getActivity().findViewById(R.id.record_list_by_name);
         recordDataBase= Room.databaseBuilder(context, RecordDataBase.class, "records.db").allowMainThreadQueries().build();
         recordDAO=recordDataBase.getRecordDAO();
-        //db=new RecordDBHelper(getContext(),"app.db");
-        //mRecords = db.queryLast(100);
         mRecords = recordDAO.getRecords(100);
-        mAdapter=new RecordListViewAdapter(getContext(),mRecords);
-
+        DBUtils.setAppIcon(context,mRecords);
+        mAdapter=new RecordsAdapter(mRecords);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        list_view.setLayoutManager(layoutManager);
         list_view.setAdapter(mAdapter);
+
         record_search_btn=getActivity().findViewById(R.id.record_search_btn);
         record_search_et=getActivity().findViewById(R.id.record_search_et);
         record_stat_tv=getActivity().findViewById(R.id.record_stat_tv);
@@ -87,7 +91,7 @@ public class FindByNameFragment extends Fragment implements View.OnClickListener
         List<Record> new_list=new ArrayList<>();
         for (Record r:old_list
              ) {
-            if (appname.equals(r.getAppname())){
+            if (r.getAppname().toLowerCase().contains(appname.toLowerCase())){
                 new_list.add(r);
             }
         }

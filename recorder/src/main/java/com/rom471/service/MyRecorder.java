@@ -61,6 +61,8 @@ public class MyRecorder {
         excludes.add("手机管家");
         excludes.add("Android 系统");
         excludes.add("权限管理服务");
+        excludes.add("用户行为");
+        excludes.add("搜狗输入法小米版");
 
         return excludes;
     }
