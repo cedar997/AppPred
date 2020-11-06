@@ -17,11 +17,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import com.rom471.adapter.RecordsAdapter;
+import com.rom471.adapter.RecordsViewModel;
 import com.rom471.db.Record;
 import com.rom471.db.RecordDAO;
 import com.rom471.db.RecordDataBase;
@@ -35,8 +37,7 @@ import java.util.List;
 public class FindByDateFragment extends Fragment  implements View.OnClickListener {
    RecyclerView list_view;
     //RecordDBHelper db;
-    RecordDataBase recordDataBase;
-    RecordDAO recordDAO;
+
     RecordsAdapter mAdapter;
 
     List<Record> mRecords;
@@ -55,7 +56,19 @@ public class FindByDateFragment extends Fragment  implements View.OnClickListene
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.main_fragment_record_find_by_date,container,false);
     }
-
+    private void registRecords(){
+        RecordsViewModel recordsViewModel;
+        recordsViewModel=new RecordsViewModel(getActivity().getApplication());
+        recordsViewModel.getAllRecords().observe(this,new Observer<List<Record>>(){
+            @Override
+            public void onChanged(List<Record> records) {
+                mRecords=records;
+                DBUtils.setAppIcon(context,mRecords);
+                mAdapter.setRecords(mRecords);
+                list_view.setAdapter(mAdapter);
+            }
+        });
+    }
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -65,10 +78,8 @@ public class FindByDateFragment extends Fragment  implements View.OnClickListene
         start_date_btn.setOnClickListener(this);
         end_date_btn.setOnClickListener(this);
         start_btn.setOnClickListener(this);
-        recordDataBase= Room.databaseBuilder(context, RecordDataBase.class, "records.db").allowMainThreadQueries().build();
-        recordDAO=recordDataBase.getRecordDAO();
-        mRecords = recordDAO.getRecords(100);
-        DBUtils.setAppIcon(context,mRecords);
+        registRecords();
+
         mAdapter=new RecordsAdapter(mRecords);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);

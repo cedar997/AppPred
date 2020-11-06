@@ -15,15 +15,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
 import com.rom471.adapter.RecordsAdapter;
+import com.rom471.adapter.RecordsViewModel;
 import com.rom471.db.Record;
 import com.rom471.recorder.R;
-import com.rom471.db.RecordDAO;
-import com.rom471.db.RecordDataBase;
 import com.rom471.utils.DBUtils;
 
 import java.util.ArrayList;
@@ -32,14 +31,13 @@ import java.util.List;
 public class FindByNameFragment extends Fragment implements View.OnClickListener {
     RecyclerView list_view;
     //RecordDBHelper db;
-    RecordDataBase recordDataBase;
-    RecordDAO recordDAO;
+
     RecordsAdapter mAdapter;
     Button record_search_btn;
-    Button record_update_btn;
+
     List<Record> mRecords;
     EditText record_search_et;
-    TextView record_stat_tv;
+    TextView record_result_tv;
     Context context;
     @Nullable
     @Override
@@ -51,12 +49,16 @@ public class FindByNameFragment extends Fragment implements View.OnClickListener
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+//        RecordsViewModelFactory recordsViewModelFactory=new RecordsViewModelFactory();
+        //recordsViewModel= new ViewModelProvider(getActivity()).get(RecordsViewModel.class);
+
+
         context=getContext();
         list_view=getActivity().findViewById(R.id.record_list_by_name);
-        recordDataBase= Room.databaseBuilder(context, RecordDataBase.class, "records.db").allowMainThreadQueries().build();
-        recordDAO=recordDataBase.getRecordDAO();
-        mRecords = recordDAO.getRecords(100);
-        DBUtils.setAppIcon(context,mRecords);
+
+        registRecords();
+
+
         mAdapter=new RecordsAdapter(mRecords);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -65,26 +67,35 @@ public class FindByNameFragment extends Fragment implements View.OnClickListener
 
         record_search_btn=getActivity().findViewById(R.id.record_search_btn);
         record_search_et=getActivity().findViewById(R.id.record_search_et);
-        record_stat_tv=getActivity().findViewById(R.id.record_stat_tv);
-        record_update_btn=getActivity().findViewById(R.id.record_update_btn);
-        record_search_btn.setOnClickListener(this);
-        record_update_btn.setOnClickListener(this);
-    }
+        record_result_tv =getActivity().findViewById(R.id.record_serch_result);
 
+        record_search_btn.setOnClickListener(this);
+
+    }
+    private void registRecords(){
+        RecordsViewModel recordsViewModel;
+        recordsViewModel=new RecordsViewModel(getActivity().getApplication());
+        recordsViewModel.getAllRecords().observe(this,new Observer<List<Record>>(){
+            @Override
+            public void onChanged(List<Record> records) {
+                mRecords=records;
+                DBUtils.setAppIcon(context,mRecords);
+                mAdapter.setRecords(mRecords);
+                list_view.setAdapter(mAdapter);
+            }
+        });
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.record_search_btn:
                 String appname=record_search_et.getText().toString();
-                mAdapter.setRecords(filterByName(appname,mRecords));
+                List<Record> records = filterByName(appname, mRecords);
+                mAdapter.setRecords(records);
+                record_result_tv.setText("查到记录："+records.size()+"条");
                 list_view.setAdapter(mAdapter);
                 break;
-            case R.id.record_update_btn:
-                //mRecords = db.queryLast(500);
-                mRecords=recordDAO.getRecords(100);
-                mAdapter.setRecords(mRecords);
-                list_view.setAdapter(mAdapter);
-                break;
+
         }
     }
     private List<Record> filterByName(String appname, List<Record> old_list){

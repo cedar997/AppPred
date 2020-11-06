@@ -21,34 +21,34 @@
     </HorizontalScrollView>
 
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="更新数据"
-        android:id="@+id/record_update_btn"
-        />
+
+
+
+
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         >
-        <EditText
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:id="@+id/record_search_et"
-            />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="查找"
             android:id="@+id/record_search_btn"
             />
-    </LinearLayout>
+        <EditText
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:id="@+id/record_search_et"
+            />
 
+
+    </LinearLayout>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/record_stat_tv"
+        android:id="@+id/record_serch_result"
         />
+
 </LinearLayout>

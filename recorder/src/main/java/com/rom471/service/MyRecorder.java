@@ -1,11 +1,13 @@
 package com.rom471.service;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.view.accessibility.AccessibilityEvent;
 
 import androidx.room.Room;
 
+import com.rom471.adapter.RecordsViewModel;
 import com.rom471.db.Record;
 import com.rom471.db.RecordDAO;
 import com.rom471.db.RecordDataBase;
@@ -19,7 +21,8 @@ import static android.view.accessibility.AccessibilityEvent.TYPE_VIEW_CLICKED;
 
 public class MyRecorder {
     private String lastPkgname = "";
-    RecordDAO dao;
+   // RecordDAO dao;
+    RecordsViewModel recordsViewModel;
     Record record;
     Context context;
     PackageManager pm;
@@ -32,13 +35,14 @@ public class MyRecorder {
     public MyRecorder(Context context) {
         this.context=context;
         recordDB = Room.databaseBuilder(context, RecordDataBase.class, "records.db").allowMainThreadQueries().build();
-        dao = recordDB.getRecordDAO();
+        //dao = recordDB.getRecordDAO();
         record = new Record();
         pm = context.getPackageManager();//初始化包管理器
         exclude_names = getExclude_names();//初始化过滤应用名列表
         skip_names = getSkip_names();
         filter_exclude = true;//过滤开关
         filter_skip = true;//过滤开关
+        recordsViewModel=new RecordsViewModel((Application) context);
     }
 
     public List<String> getSkip_names() {
@@ -99,7 +103,8 @@ public class MyRecorder {
             record.setTimeSpend(spend);
             DBUtils.storeBatteryInfo(context, record);
             DBUtils.storeNetworkInfo(context, record);
-            dao.insertRecord(record);
+            recordsViewModel.insert(record);
+            //dao.insertRecord(record);
         } else {
             record_start(pkgname);
         }

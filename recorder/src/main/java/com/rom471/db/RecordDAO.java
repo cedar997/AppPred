@@ -1,5 +1,6 @@
 package com.rom471.db;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -24,6 +25,8 @@ public interface RecordDAO {
     List<Record> getAllRecords();
     @Query("select * from Record order by id desc limit :limit")
     List<Record> getRecords(int limit);
+    @Query("select * from Record order by id desc limit :limit")
+    LiveData<List<Record>>  getRecordsLive(int limit);
     @Query("select appname,pkgname, timeSpend from Record order by id desc  limit :limit")
     public List<AppBean> getLastApp(int limit);
     @Query("select appname,pkgname, sum(timeSpend) timeSpend from Record group by appname order by sum(timeSpend) desc limit :limit")

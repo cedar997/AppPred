@@ -32,6 +32,7 @@ public class RcordFragment extends Fragment implements RadioGroup.OnCheckedChang
     RadioGroup mRadioGroup;
     RadioButton rb1,rb2,rb3;
     Context context;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -40,11 +41,17 @@ public class RcordFragment extends Fragment implements RadioGroup.OnCheckedChang
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         context=getActivity();
+
         bindView();
         initFragments();
         mRadioGroup.setOnCheckedChangeListener(this);
         showFragmnet(fragments.get(0));
         rb1.setChecked(true);
+
+
+
+
+
     }
 
     @Override

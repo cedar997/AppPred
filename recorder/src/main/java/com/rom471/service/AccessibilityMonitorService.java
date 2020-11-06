@@ -26,7 +26,7 @@ public class AccessibilityMonitorService extends AccessibilityService {
     protected void onServiceConnected() {
         super.onServiceConnected();
 
-        myRecorder=new MyRecorder(getApplicationContext());
+        myRecorder=new MyRecorder(getApplication());
     }
 
     @Override

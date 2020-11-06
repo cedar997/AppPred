@@ -14,11 +14,13 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import com.rom471.adapter.AppsAdapter;
+import com.rom471.adapter.RecordsViewModel;
 import com.rom471.recorder.R;
 import com.rom471.db.AppBean;
 import com.rom471.db.RecordDAO;
@@ -34,6 +36,7 @@ public class HomeFragment extends Fragment {
     Context context;
     RecordDataBase recordDataBase;
     RecordDAO dao;
+
     //RecordDBHelper db;
     AppsAdapter totalAdapter;
     AppsAdapter lastAdapter;
@@ -48,6 +51,7 @@ public class HomeFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         context=getContext();
+
         list_view=getActivity().findViewById(R.id.app_list);
         total_list_view =getActivity().findViewById(R.id.pred_app_list);
         //db=new RecordDBHelper(getContext(),"app.db");

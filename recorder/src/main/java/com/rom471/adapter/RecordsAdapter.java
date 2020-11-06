@@ -46,6 +46,8 @@ public class RecordsAdapter extends RecyclerView.Adapter<RecordsAdapter.ViewHold
 
     @Override
     public int getItemCount() {
+        if( mRecordsList==null)
+            return 0;
         return mRecordsList.size();
     }
 
