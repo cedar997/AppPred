@@ -98,7 +98,8 @@ public class MyRecorder {
         if (record.getPkgname().equals(pkgname)) {
             long l = System.currentTimeMillis();
             long spend = l - record.getTimeStamp();
-
+            //不记录1秒内的
+            if(spend<1000) return;
             record.setAppname(getAppLabel(pkgname));
             record.setTimeSpend(spend);
             DBUtils.storeBatteryInfo(context, record);
