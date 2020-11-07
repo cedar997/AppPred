@@ -2,12 +2,15 @@ package com.rom471.ui.fragments2;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.LayoutRes;
@@ -15,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,6 +34,7 @@ public abstract class RecordFindFragment extends Fragment implements View.OnClic
     //RecordDBHelper db;
     int laytoutResource;
     int listviewResource;
+    RecordsViewModel recordsViewModel;
     RecordsAdapter mAdapter;
     List<Record> mRecords;
     Context context;
@@ -53,12 +58,17 @@ public abstract class RecordFindFragment extends Fragment implements View.OnClic
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         list_view.setLayoutManager(layoutManager);
+
         list_view.setAdapter(mAdapter);
+        //设置动画
+        DefaultItemAnimator defaultItemAnimator = new DefaultItemAnimator();
+        defaultItemAnimator.setRemoveDuration(600);
+        list_view.setItemAnimator(defaultItemAnimator);
+        registerForContextMenu(list_view);
 
     }
     abstract void bindView();
     private void registRecords(){
-        RecordsViewModel recordsViewModel;
         recordsViewModel=new RecordsViewModel(getActivity().getApplication());
         recordsViewModel.getAllRecords().observe(this,new Observer<List<Record>>(){
             @Override
@@ -66,7 +76,8 @@ public abstract class RecordFindFragment extends Fragment implements View.OnClic
                 mRecords=records;
                 DBUtils.setAppIcon(context,mRecords);
                 mAdapter.setRecords(mRecords);
-                list_view.setAdapter(mAdapter);
+                //list_view.setAdapter(mAdapter);
+                mAdapter.notifyDataSetChanged();
             }
         });
     }
@@ -77,4 +88,21 @@ public abstract class RecordFindFragment extends Fragment implements View.OnClic
     }
     @Override
     public abstract void onClick(View v);
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        int position=mAdapter.getPosition();
+        Record record=mRecords.get(position);
+
+        switch (item.getItemId()){
+            case 0:
+                recordsViewModel.delete(record);
+                Toast.makeText(context,"记录已经删除",Toast.LENGTH_SHORT).show();
+//                mAdapter.notifyDataSetChanged();
+//                mAdapter.notifyItemRemoved(position);
+//                mAdapter.notifyItemRangeChanged(position,mRecords.size()-position);
+                break;
+        }
+        return super.onContextItemSelected(item);
+    }
 }

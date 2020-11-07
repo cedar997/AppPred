@@ -1,11 +1,17 @@
 package com.rom471.adapter;
 
 import android.os.Build;
+import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -18,6 +24,15 @@ import java.util.List;
 
 public class RecordsAdapter extends RecyclerView.Adapter<RecordsAdapter.ViewHolder> {
     private List<Record> mRecordsList;
+    private int position;
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
 
     public RecordsAdapter(List<Record> mRecordsList) {
         this.mRecordsList = mRecordsList;
@@ -42,6 +57,15 @@ public class RecordsAdapter extends RecyclerView.Adapter<RecordsAdapter.ViewHold
         holder.battery.setText(""+app.getBattery());
         holder.charging.setText(app.getChargingString());
         holder.net.setText(app.getNetString());
+        holder.listView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                setPosition(position);
+
+                Log.d("TAG", "onLongClick: "+position);
+                return false;
+            }
+        });
     }
 
     @Override
@@ -55,7 +79,8 @@ public class RecordsAdapter extends RecyclerView.Adapter<RecordsAdapter.ViewHold
         this.mRecordsList=filterByName;
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder{
+    static class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener{
+        LinearLayout listView;
         ImageView appIcon;
         TextView id;
         TextView appName;
@@ -68,6 +93,8 @@ public class RecordsAdapter extends RecyclerView.Adapter<RecordsAdapter.ViewHold
         public ViewHolder (View view)
         {
             super(view);
+            view.setOnCreateContextMenuListener(this);
+            listView=view.findViewById(R.id.list_view);
             appIcon = (ImageView) view.findViewById(R.id.appicon_img);
             id = (TextView) view.findViewById(R.id.id_tv);
             appName = (TextView) view.findViewById(R.id.appname_tv);
@@ -78,5 +105,15 @@ public class RecordsAdapter extends RecyclerView.Adapter<RecordsAdapter.ViewHold
            net = (TextView) view.findViewById(R.id.net_tv);
         }
 
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+           menu.setHeaderTitle(appName.getText());
+            menu.add(0, 0, 0, "删除记录");
+
+
+        }
+
     }
+
+
 }

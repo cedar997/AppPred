@@ -20,7 +20,7 @@ public class RecordsRepository {
     RecordsRepository(Application application){
         RecordDataBase recordDataBase=RecordDataBase.getDatabase(application);
         recordDAO=recordDataBase.getRecordDAO();
-        allRecords= recordDAO.getRecordsLive(100);
+        allRecords= recordDAO.getRecordsLive(1000);
     }
 
     public LiveData<List<Record>> getAllRecords() {
@@ -28,6 +28,9 @@ public class RecordsRepository {
     }
     public void insert (Record word) {
         new insertAsyncTask(recordDAO).execute(word);
+    }
+    public void delete (Record record) {
+        new delteAsyncTask(recordDAO).execute(record);
     }
     private static class insertAsyncTask extends AsyncTask<Record, Void, Void> {
 
@@ -40,6 +43,20 @@ public class RecordsRepository {
         @Override
         protected Void doInBackground(final Record... params) {
             mAsyncTaskDao.insertRecord(params[0]);
+            return null;
+        }
+    }
+    private static class delteAsyncTask extends AsyncTask<Record, Void, Void> {
+
+        private RecordDAO mAsyncTaskDao;
+
+        delteAsyncTask(RecordDAO dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final Record... params) {
+            mAsyncTaskDao.deleteRecord(params[0]);
             return null;
         }
     }

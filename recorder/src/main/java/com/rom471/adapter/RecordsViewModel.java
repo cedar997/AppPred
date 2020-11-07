@@ -35,6 +35,9 @@ public class RecordsViewModel extends AndroidViewModel {
     public void insert(Record record){
         recordsRepository.insert(record);
     }
+    public void delete(Record record){
+        recordsRepository.delete(record);
+    }
     @Override
     protected void onCleared() {
         super.onCleared();
