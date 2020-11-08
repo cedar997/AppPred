@@ -1,15 +1,17 @@
 package com.rom471.service;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 
+import androidx.lifecycle.Observer;
 import androidx.room.Room;
 
-import com.rom471.db.RecordsViewModel;
-import com.rom471.db.Record;
-import com.rom471.db.RecordDataBase;
+import com.rom471.db2.App;
+import com.rom471.db2.AppDao;
+import com.rom471.db2.AppDataBase;
+import com.rom471.db2.OneUse;
 import com.rom471.utils.DBUtils;
 
 import java.util.ArrayList;
@@ -17,37 +19,42 @@ import java.util.List;
 
 import static android.view.accessibility.AccessibilityEvent.TYPE_VIEW_CLICKED;
 
-public class MyRecorder {
+public class MyRecorder2 {
     private String lastPkgname = "";
    // RecordDAO dao;
-    RecordsViewModel recordsViewModel;
-    Record record;
+
+    AppDao appDao;
+    App app;
+    OneUse oneUse;
     Context context;
     PackageManager pm;
     List<String> exclude_names;
     List<String> skip_names;
     boolean filter_exclude = false;
     boolean filter_skip = false;
-    RecordDataBase recordDB;
+    boolean app_first=false;//当前app是否是第一次插入
+    AppDataBase appDB;
 
-    public MyRecorder(Context context) {
+    public MyRecorder2(Context context) {
         this.context=context;
-        recordDB = Room.databaseBuilder(context, RecordDataBase.class, "records.db").allowMainThreadQueries().build();
+        appDB =AppDataBase.getInstance(context);
+
         //dao = recordDB.getRecordDAO();
-        record = new Record();
+        appDao= appDB.getAppDao();
         pm = context.getPackageManager();//初始化包管理器
         exclude_names = getExclude_names();//初始化过滤应用名列表
         skip_names = getSkip_names();
         filter_exclude = true;//过滤开关
         filter_skip = true;//过滤开关
-        recordsViewModel=new RecordsViewModel((Application) context);
+
+
     }
 
     public List<String> getSkip_names() {
         List<String> excludes = new ArrayList<>();
         excludes.add("搜狗输入法小米版");
         excludes.add("系统 UI");
-        excludes.add("系统桌面");
+
         excludes.add("智能服务");
         return excludes;
     }
@@ -83,27 +90,47 @@ public class MyRecorder {
 
     //开始记录
     private void record_start(String pkgname) {
-        record = new Record();
-        record.setPkgname(pkgname);
-        record.setAppname(getAppLabel(pkgname));
+        String appName = getAppLabel(pkgname);
         long l = System.currentTimeMillis();
-        record.setTimeStamp(l);
+        app_first=false;
+        app= appDao.getAppByName(appName);
+
+        if(app==null){
+            app=new App();
+            app.setFirstRunningTime(l);
+            app.setPkgName(pkgname);
+            app.setAppName(appName);
+            app_first=true;
+        }
+
+        Log.d("TAG", "got app: "+app.toString()+" first="+app_first);
+
+        oneUse=new OneUse();
+        oneUse.setPkgName(pkgname);
+        oneUse.setAppName(appName);
+        oneUse.setStartTimestamp(l);
 
     }
 
     //结束记录
     private void record_finish(String pkgname) {
-        if (record.getPkgname().equals(pkgname)) {
+        if (oneUse.getPkgName().equals(pkgname)) {
             long l = System.currentTimeMillis();
-            long spend = l - record.getTimeStamp();
+            long spend = l - oneUse.getStartTimestamp();
             //不记录1秒内的
             if(spend<1000) return;
-            record.setAppname(getAppLabel(pkgname));
-            record.setTimeSpend(spend);
-            DBUtils.storeBatteryInfo(context, record);
-            DBUtils.storeNetworkInfo(context, record);
-            recordsViewModel.insert(record);
-            //dao.insertRecord(record);
+            oneUse.setSpendTime(spend);
+            app.setLastRuningTime(l);
+            app.addTotalRuningTime(spend);//增加统计表的时间
+            DBUtils.storeBatteryInfo(context,oneUse);
+            DBUtils.storeNetworkInfo(context, oneUse);
+            Log.d("TAG", "got app: "+app.toString()+" first="+app_first);
+            if(app_first)
+                appDao.insert(app);
+            else
+                appDao.updateApp(app);
+
+            appDao.insert(oneUse);
         } else {
             record_start(pkgname);
         }
@@ -166,6 +193,6 @@ public class MyRecorder {
 
     }
     public void close(){
-        recordDB.close();
+        appDB.close();
     }
 }

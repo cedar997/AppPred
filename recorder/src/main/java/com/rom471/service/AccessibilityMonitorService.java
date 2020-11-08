@@ -18,6 +18,7 @@ import static android.view.accessibility.AccessibilityEvent.TYPE_VIEW_CLICKED;
 
 public class AccessibilityMonitorService extends AccessibilityService {
     MyRecorder myRecorder;
+    MyRecorder2 myRecorder2;
     public AccessibilityMonitorService() {
     }
 
@@ -27,12 +28,14 @@ public class AccessibilityMonitorService extends AccessibilityService {
         super.onServiceConnected();
 
         myRecorder=new MyRecorder(getApplication());
+        myRecorder2=new MyRecorder2(getApplication());
     }
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
         int type=event.getEventType();
         myRecorder.record(event);
+        myRecorder2.record(event);
 
     }
 

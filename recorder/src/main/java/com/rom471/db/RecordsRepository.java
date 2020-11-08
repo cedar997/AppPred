@@ -1,4 +1,4 @@
-package com.rom471.adapter;
+package com.rom471.db;
 
 import android.app.Application;
 import android.os.AsyncTask;

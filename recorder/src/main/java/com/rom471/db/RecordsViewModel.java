@@ -1,15 +1,10 @@
-package com.rom471.adapter;
+package com.rom471.db;
 
 import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModel;
-
-import com.rom471.db.Record;
-import com.rom471.db.RecordDAO;
-import com.rom471.db.RecordDataBase;
 
 import java.util.List;
 

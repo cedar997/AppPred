@@ -18,27 +18,28 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.rom471.adapter.RecordsAdapter;
-import com.rom471.db.RecordsViewModel;
-import com.rom471.db.Record;
+import com.rom471.adapter.OneUseAdapter;
+import com.rom471.db2.AppRecordsRepository;
+import com.rom471.db2.OneUse;
+
 import com.rom471.utils.DBUtils;
 
 import java.util.List;
 
-public abstract class RecordFindFragment extends Fragment implements View.OnClickListener {
+public abstract class OneUseFindFragment extends Fragment implements View.OnClickListener {
     RecyclerView list_view;
     //RecordDBHelper db;
     int laytoutResource;
     int listviewResource;
-    RecordsViewModel recordsViewModel;
-    RecordsAdapter mAdapter;
-    List<Record> mRecords;
+    AppRecordsRepository appOneUsesRepository;
+    OneUseAdapter mAdapter;
+    List<OneUse> mOneUses;
     Context context;
-    public RecordFindFragment(@LayoutRes int layoutResource,@IdRes int listviewResouce){
+    public OneUseFindFragment(@LayoutRes int layoutResource, @IdRes int listviewResouce){
         this.laytoutResource=layoutResource;
         this.listviewResource=listviewResouce;
     }
-    public RecordFindFragment(){
+    public OneUseFindFragment(){
 
     }
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -50,7 +51,7 @@ public abstract class RecordFindFragment extends Fragment implements View.OnClic
         context=getContext();
         list_view=getActivity().findViewById(listviewResource);
         registRecords();
-        mAdapter=new RecordsAdapter(mRecords);
+        mAdapter=new OneUseAdapter(mOneUses);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         list_view.setLayoutManager(layoutManager);
@@ -65,21 +66,21 @@ public abstract class RecordFindFragment extends Fragment implements View.OnClic
     }
     abstract void bindView();
     private void registRecords(){
-        recordsViewModel=new RecordsViewModel(getActivity().getApplication());
-        recordsViewModel.getAllRecords().observe(this,new Observer<List<Record>>(){
+        appOneUsesRepository=new AppRecordsRepository(getActivity().getApplication());
+        appOneUsesRepository.getAllOneUses().observe(this,new Observer<List<OneUse>>(){
             @Override
-            public void onChanged(List<Record> records) {
-                mRecords=records;
-                DBUtils.setAppIcon(context,mRecords);
-                mAdapter.setRecords(mRecords);
+            public void onChanged(List<OneUse> records) {
+                mOneUses=records;
+                DBUtils.setOneUseIcon(context,mOneUses);
+                mAdapter.setOneUses(mOneUses);
                 //list_view.setAdapter(mAdapter);
                 mAdapter.notifyDataSetChanged();
             }
         });
     }
-    void updateWithFoundRecords(List<Record> records){
-        DBUtils.setAppIcon(context,records);
-        mAdapter.setRecords(records);
+    void updateWithFoundRecords(List<OneUse> records){
+        DBUtils.setOneUseIcon(context,records);
+        mAdapter.setOneUses(records);
         list_view.setAdapter(mAdapter);
     }
     @Override
@@ -88,11 +89,11 @@ public abstract class RecordFindFragment extends Fragment implements View.OnClic
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         int position=mAdapter.getPosition();
-        Record record=mRecords.get(position);
+        OneUse record=mOneUses.get(position);
 
         switch (item.getItemId()){
             case 0:
-                recordsViewModel.delete(record);
+                appOneUsesRepository.delete(record);
                 Toast.makeText(context,"记录已经删除",Toast.LENGTH_SHORT).show();
 //                mAdapter.notifyDataSetChanged();
 //                mAdapter.notifyItemRemoved(position);

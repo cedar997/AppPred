@@ -20,13 +20,13 @@ import androidx.annotation.RequiresApi;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
+import com.rom471.adapter.OneUseAdapter;
 import com.rom471.adapter.RecordsAdapter;
-import com.rom471.adapter.RecordsViewModel;
+import com.rom471.db.RecordsViewModel;
 import com.rom471.db.Record;
-import com.rom471.db.RecordDAO;
-import com.rom471.db.RecordDataBase;
+import com.rom471.db2.AppRecordsRepository;
+import com.rom471.db2.OneUse;
 import com.rom471.recorder.R;
 import com.rom471.utils.DBUtils;
 
@@ -38,9 +38,9 @@ public class FindByDateFragment extends Fragment  implements View.OnClickListene
    RecyclerView list_view;
     //RecordDBHelper db;
 
-    RecordsAdapter mAdapter;
+    OneUseAdapter mAdapter;
 
-    List<Record> mRecords;
+    List<OneUse> mRecords;
     Button start_date_btn;
     Button end_date_btn;
     Button start_btn;
@@ -57,14 +57,13 @@ public class FindByDateFragment extends Fragment  implements View.OnClickListene
         return inflater.inflate(R.layout.main_fragment_record_find_by_date,container,false);
     }
     private void registRecords(){
-        RecordsViewModel recordsViewModel;
-        recordsViewModel=new RecordsViewModel(getActivity().getApplication());
-        recordsViewModel.getAllRecords().observe(this,new Observer<List<Record>>(){
+        AppRecordsRepository appRecordsRepository;
+        appRecordsRepository=new AppRecordsRepository(getActivity().getApplication());
+        appRecordsRepository.getAllOneUses().observe(this,new Observer<List<OneUse>>(){
             @Override
-            public void onChanged(List<Record> records) {
-                mRecords=records;
-                DBUtils.setAppIcon(context,mRecords);
-                mAdapter.setRecords(mRecords);
+            public void onChanged(List<OneUse> records) {
+                DBUtils.setOneUseIcon(context,records);
+                mAdapter.setOneUses(records);
                 list_view.setAdapter(mAdapter);
             }
         });
@@ -80,7 +79,7 @@ public class FindByDateFragment extends Fragment  implements View.OnClickListene
         start_btn.setOnClickListener(this);
         registRecords();
 
-        mAdapter=new RecordsAdapter(mRecords);
+        mAdapter=new OneUseAdapter();
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         list_view.setLayoutManager(layoutManager);
@@ -96,13 +95,13 @@ public class FindByDateFragment extends Fragment  implements View.OnClickListene
         result_tv=getActivity().findViewById(R.id.date_search_result);
     }
     //过滤日期
-    private List<Record> filterByDate( List<Record> old_list,long start,long end){
+    private List<OneUse> filterByDate( List<OneUse> old_list,long start,long end){
         if(start_timestamp==0&&end_timestamp==0) //未指定时间则返回所有记录
             return old_list;
-        List<Record> new_list=new ArrayList<>();
-        for (Record r:old_list
+        List<OneUse> new_list=new ArrayList<>();
+        for (OneUse r:old_list
              ) {
-            long timestamp= r.getTimeStamp();
+            long timestamp= r.getStartTimestamp();
             if(start_timestamp!=0&&timestamp<start)
                 continue;
             if(end_timestamp!=0&&timestamp>end)
@@ -124,9 +123,9 @@ public class FindByDateFragment extends Fragment  implements View.OnClickListene
                 showDatePickerDialog(context,false);
                 break;
             case R.id.date_start_search:
-                List<Record> records = filterByDate(mRecords, start_timestamp, end_timestamp);
+                List<OneUse> records = filterByDate(mRecords, start_timestamp, end_timestamp);
                 result_tv.setText("查到记录："+records.size()+"条");
-                mAdapter.setRecords(records);
+                mAdapter.setOneUses(records);
                 list_view.setAdapter(mAdapter);
 
                 break;

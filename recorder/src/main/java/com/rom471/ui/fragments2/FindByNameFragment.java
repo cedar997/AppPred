@@ -6,12 +6,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.rom471.db.Record;
+import com.rom471.db2.OneUse;
 import com.rom471.recorder.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FindByNameFragment extends RecordFindFragment{
+public class FindByNameFragment extends OneUseFindFragment{
     Button record_search_btn;
     EditText record_search_et;
     TextView record_result_tv;
@@ -33,18 +34,18 @@ public class FindByNameFragment extends RecordFindFragment{
         switch (v.getId()){
             case R.id.record_search_btn:
                 String appname=record_search_et.getText().toString();
-                List<Record> records = filterByName(appname, mRecords);
+                List<OneUse> records = filterByName(appname, mOneUses);
                 updateWithFoundRecords(records);
                 record_result_tv.setText("查到记录："+records.size()+"条");
                 break;
 
         }
     }
-    private List<Record> filterByName(String appname, List<Record> old_list){
-        List<Record> new_list=new ArrayList<>();
-        for (Record r:old_list
+    private List<OneUse> filterByName(String appname, List<OneUse> old_list){
+        List<OneUse> new_list=new ArrayList<>();
+        for (OneUse r:old_list
         ) {
-            if (r.getAppname().toLowerCase().contains(appname.toLowerCase())){
+            if (r.getAppName().toLowerCase().contains(appname.toLowerCase())){
                 new_list.add(r);
             }
         }

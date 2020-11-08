@@ -14,13 +14,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import com.rom471.adapter.AppsAdapter;
-import com.rom471.adapter.RecordsViewModel;
 import com.rom471.recorder.R;
 import com.rom471.db.AppBean;
 import com.rom471.db.RecordDAO;

@@ -9,7 +9,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.rom471.adapter.MyFragmentPagerAdapter;
-import com.rom471.adapter.RecordsViewModel;
+import com.rom471.db.RecordsViewModel;
 import com.rom471.recorder.R;
 import com.rom471.utils.MyProperties;
 

@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 
 import com.rom471.ui.fragments.HomeFragment;
+import com.rom471.ui.fragments.HomeFragment2;
 import com.rom471.ui.fragments.RcordFragment;
 import com.rom471.ui.fragments.SettingsFragment;
 
@@ -20,7 +21,7 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
     private List<Fragment> fragments = new ArrayList<>();
     private void initFragments(){
         fragments.add(new RcordFragment());
-        fragments.add(new HomeFragment());
+        fragments.add(new HomeFragment2());
         fragments.add(new SettingsFragment());
     }
     public MyFragmentPagerAdapter(@NonNull FragmentManager fm, int behavior) {
