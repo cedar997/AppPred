@@ -122,6 +122,7 @@ public class MyRecorder2 {
             oneUse.setSpendTime(spend);
             app.setLastRuningTime(l);
             app.addTotalRuningTime(spend);//增加统计表的时间
+            app.addUseCount();//增加使用次数
             DBUtils.storeBatteryInfo(context,oneUse);
             DBUtils.storeNetworkInfo(context, oneUse);
             Log.d("TAG", "got app: "+app.toString()+" first="+app_first);

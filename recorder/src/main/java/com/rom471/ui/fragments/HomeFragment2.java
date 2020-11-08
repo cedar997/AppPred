@@ -20,6 +20,7 @@ import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.rom471.adapter.AppsAdapter1;
 import com.rom471.adapter.AppsAdapter2;
 import com.rom471.db2.App;
 import com.rom471.db2.AppRecordsRepository;
@@ -38,7 +39,7 @@ public class HomeFragment2 extends Fragment {
 
     //RecordDBHelper db;
     AppsAdapter2 appAdapter;
-    AppsAdapter2 lastAdapter;
+    AppsAdapter1 lastAdapter;
     public static final int APP_LIST_SIZE=5;
     @Nullable
     @Override
@@ -55,7 +56,7 @@ public class HomeFragment2 extends Fragment {
         total_list_view =getActivity().findViewById(R.id.pred_app_list);
 
         appAdapter=new AppsAdapter2();
-        lastAdapter=new AppsAdapter2();
+        lastAdapter=new AppsAdapter1();
         appRecordsRepository=new AppRecordsRepository(getActivity().getApplication());
         //
         appRecordsRepository.getMostUsedApps(APP_LIST_SIZE).observe(this, new Observer<List<App>>() {

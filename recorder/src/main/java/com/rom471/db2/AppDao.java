@@ -40,6 +40,10 @@ public abstract class AppDao {
     public abstract void insert(OneUse oneUse);
     @Delete
     public abstract void delete(OneUse oneUse);
+    @Query("delete from App")
+    public abstract void deleteApps();
+    @Query("delete from OneUse")
+    public abstract void deleteOneUses();
 //    @Query("select appname,pkgname, timeSpend from Record order by id desc  limit :limit")
 //    public List<AppBean> getLastApp(int limit);
 //    @Query("select appname,pkgname, sum(timeSpend) timeSpend from Record group by appname order by sum(timeSpend) desc limit :limit")

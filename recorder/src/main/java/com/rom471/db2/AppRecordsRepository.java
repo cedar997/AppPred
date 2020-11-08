@@ -47,33 +47,10 @@ public class AppRecordsRepository {
     public void delete(OneUse oneUse){
         appDao.delete(oneUse);
     }
-//    private static class getAsyncTask extends AsyncTask<String, Void, Void> {
-//
-//        private AppDao getAsyncTaskDao;
-//        private App retApp;
-//        getAsyncTask(AppDao dao) {
-//            getAsyncTaskDao = dao;
-//        }
-//
-//        @Override
-//        protected Void doInBackground(final String... params) {
-//            App[] app=null;
-//            try{
-//                app=getAsyncTaskDao.getAppByName(params[0]);
-//            }catch (Exception e){
-//                e.printStackTrace();
-//            }
-//            if(app!=null&& app.length>0)
-//                retApp=app[0];
-//            return null;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Void aVoid) {
-//            super.onPostExecute(aVoid);
-//            getApp=retApp;
-//        }
-//    }
+    public void deleteAll(){
+        appDao.deleteApps();
+        appDao.deleteOneUses();
+    }
     private static class insertAsyncTask extends AsyncTask<App, Void, Void> {
 
         private AppDao mAsyncTaskDao;

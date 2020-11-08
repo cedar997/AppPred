@@ -21,4 +21,10 @@
         android:id="@+id/spend_time"
         android:layout_marginLeft="3dip"
         />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/use_count"
+        android:layout_marginLeft="3dip"
+        />
 </LinearLayout>

@@ -28,6 +28,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.room.Room;
 
 
+import com.rom471.db2.AppRecordsRepository;
 import com.rom471.recorder.R;
 import com.rom471.service.RecordService;
 
@@ -46,7 +47,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
     Button clearRecord_btn;
     Button normal_service_btn;
     Button ouput_db_btn;
-
+    AppRecordsRepository appRecordsRepository;
     Context context;
     SharedPreferences properties;
 
@@ -64,7 +65,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         super.onActivityCreated(savedInstanceState);
         context=getContext();
         //db=new RecordDBHelper(getContext(),"app.db");
-
+        appRecordsRepository=new AppRecordsRepository(getActivity().getApplication());
         accessibility_btn=getActivity().findViewById(R.id.open_accessibility_btn);
         normal_service_btn=getActivity().findViewById(R.id.start_service_btn);
 
@@ -128,7 +129,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         int db_index=0;//数据库序号
 
 
-        String currentDBPath = "/data/"+ "com.rom471.recorder" +"/databases/"+"app.db";
+        String currentDBPath = "/data/"+ "com.rom471.recorder2" +"/databases/"+"apps.db";
         String backupPath=sd+"/rom471/";
         File backupPathFile = new File(backupPath);
         if (!backupPathFile.exists()) { //检查目录是否存在
@@ -168,7 +169,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        appRecordsRepository.deleteAll();
                     }
                 });
         normalDialog.setNegativeButton("关闭",

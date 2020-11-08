@@ -1,12 +1,15 @@
 package com.rom471.db2;
 
 import android.graphics.drawable.Drawable;
+import android.icu.text.SimpleDateFormat;
 
 import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+
+import java.util.Locale;
 
 @Entity(indices = {@Index(value = {"pkgName"},
         unique = true)})
@@ -17,6 +20,7 @@ public class App {
     String appName;
     //包名
     String pkgName;
+    //应用图标
     @Ignore
     Drawable icon;
     //应用第一次运行时间
@@ -25,7 +29,19 @@ public class App {
     long lastRuningTime;
     //应用总使用时间
     long totalRuningTime;
+    //使用次数
+    long useCount;
 
+    public long getUseCount() {
+        return useCount;
+    }
+
+    public void setUseCount(long useCount) {
+        this.useCount = useCount;
+    }
+    public void addUseCount(){
+        this.useCount++;
+    }
     public long getFirstRunningTime() {
         return firstRunningTime;
     }
@@ -97,16 +113,5 @@ public class App {
                 '}';
     }
 
-    ////////
-    public String getTimeSpendString() {
-        long sec=totalRuningTime/1000;
-        if(sec<60)
-            return sec+"秒";
-        long min=sec/60;
-        sec=sec%60;
 
-        return min+"分"+sec+"秒";
-
-
-    }
 }

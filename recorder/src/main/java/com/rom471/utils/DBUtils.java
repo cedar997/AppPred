@@ -6,6 +6,7 @@ import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.icu.text.SimpleDateFormat;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.BatteryManager;
@@ -14,6 +15,7 @@ import android.os.BatteryManager;
 import com.rom471.db2.OneUse;
 
 import java.util.List;
+import java.util.Locale;
 
 import static android.content.Context.BATTERY_SERVICE;
 
@@ -75,5 +77,38 @@ public class DBUtils {
                 e.printStackTrace();
             }
         }
+    }
+    public static  String getDatatimeLong(long timeStamp) {
+        return getDatatime(timeStamp,"MM/dd HH:mm:ss");
+    }
+    public static long since(long start){
+        return System.currentTimeMillis()-start;
+
+    }
+    public static String getSinceTimeString(long start){
+        return getTimeSpendString(since(start));
+    }
+    public static  String getDatatime(long timeStamp,String pattern) {
+        SimpleDateFormat sdf=new SimpleDateFormat(pattern, Locale.getDefault());
+        return sdf.format(timeStamp);
+
+    }
+    public static String getTimeSpendString(long timeStamp) {
+        long sec=timeStamp/1000;
+        if(sec<60)
+            return sec+"秒";
+        long min=sec/60;
+        sec=sec%60;
+        if(min<60)
+        return min+"分"+sec+"秒";
+        long hour=min/60;
+        min=min%60;
+        if(hour<24)
+            return hour+"时"+min+"分";
+        long day=hour/24;
+        hour=hour%24;
+        return day+"天"+hour+"时";
+
+
     }
 }
