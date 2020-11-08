@@ -1,34 +1,20 @@
 package com.rom471.ui.fragments2;
 
-import androidx.fragment.app.Fragment;
-
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.os.Build;
-import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.lifecycle.Observer;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.rom471.adapter.RecordsAdapter;
-import com.rom471.db.RecordsViewModel;
-import com.rom471.db.Record;
 import com.rom471.db2.OneUse;
 import com.rom471.recorder.R;
-import com.rom471.utils.DBUtils;
 
 import java.util.ArrayList;
 import java.util.List;

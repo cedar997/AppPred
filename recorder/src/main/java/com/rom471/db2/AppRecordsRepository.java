@@ -4,10 +4,6 @@ import android.app.Application;
 import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
-import androidx.room.Query;
-
-import com.rom471.db.AppBean;
-import com.rom471.db.Record;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,11 +11,11 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class AppRecordsRepository {
-    private Record record;
+
     AppDataBase appDataBase;
     AppDao appDao;
     static App getApp;
-    LiveData<List<Record>> allRecords;
+
     public AppRecordsRepository(Application application){
         appDataBase=AppDataBase.getInstance(application);
         appDao=appDataBase.getAppDao();
@@ -27,9 +23,7 @@ public class AppRecordsRepository {
 
     }
 
-    public LiveData<List<Record>> getAllRecords() {
-        return allRecords;
-    }
+
 
     public LiveData<List<App>>  getLastApp(int limit){
          return appDao.getLastUsedApp(limit);

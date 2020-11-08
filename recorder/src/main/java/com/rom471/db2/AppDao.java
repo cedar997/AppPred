@@ -10,7 +10,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.rom471.db.AppBean;
+
 
 import java.util.List;
 

@@ -10,7 +10,6 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
-import com.rom471.db.Record;
 
 @Database(entities = {App.class,OneUse.class},version = 1,exportSchema = false)
 public abstract class AppDataBase extends RoomDatabase {

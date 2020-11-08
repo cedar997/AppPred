@@ -19,17 +19,12 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
-import com.rom471.adapter.AppsAdapter;
 import com.rom471.adapter.AppsAdapter2;
 import com.rom471.db2.App;
 import com.rom471.db2.AppRecordsRepository;
 import com.rom471.db2.OneUse;
 import com.rom471.recorder.R;
-import com.rom471.db.AppBean;
-import com.rom471.db.RecordDAO;
-import com.rom471.db.RecordDataBase;
 
 import java.util.List;
 

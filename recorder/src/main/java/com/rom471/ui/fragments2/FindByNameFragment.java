@@ -5,7 +5,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.rom471.db.Record;
 import com.rom471.db2.OneUse;
 import com.rom471.recorder.R;
 

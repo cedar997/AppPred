@@ -8,8 +8,6 @@ import android.view.accessibility.AccessibilityEvent;
 import androidx.room.Room;
 
 
-import com.rom471.db.RecordDAO;
-import com.rom471.db.RecordDataBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +15,7 @@ import java.util.List;
 import static android.view.accessibility.AccessibilityEvent.TYPE_VIEW_CLICKED;
 
 public class AccessibilityMonitorService extends AccessibilityService {
-    MyRecorder myRecorder;
+
     MyRecorder2 myRecorder2;
     public AccessibilityMonitorService() {
     }
@@ -27,14 +25,14 @@ public class AccessibilityMonitorService extends AccessibilityService {
     protected void onServiceConnected() {
         super.onServiceConnected();
 
-        myRecorder=new MyRecorder(getApplication());
+
         myRecorder2=new MyRecorder2(getApplication());
     }
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
         int type=event.getEventType();
-        myRecorder.record(event);
+
         myRecorder2.record(event);
 
     }
@@ -47,14 +45,10 @@ public class AccessibilityMonitorService extends AccessibilityService {
     
     @Override
     public void onInterrupt() {
-        myRecorder.close();
+        myRecorder2.close();
     }
 ///将会迁移的函数
-private RecordDAO getRecordDao(Context context, String db_name){
-    RecordDataBase db = Room.databaseBuilder(context, RecordDataBase.class, db_name).allowMainThreadQueries().build();
 
-    return db.getRecordDAO();
-}
 
 
 }

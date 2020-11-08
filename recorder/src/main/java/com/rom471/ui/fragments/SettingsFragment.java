@@ -30,8 +30,7 @@ import androidx.room.Room;
 
 import com.rom471.recorder.R;
 import com.rom471.service.RecordService;
-import com.rom471.db.RecordDAO;
-import com.rom471.db.RecordDataBase;
+
 import com.rom471.utils.MyProperties;
 
 import java.io.File;
@@ -50,8 +49,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
 
     Context context;
     SharedPreferences properties;
-    private RecordDataBase recordDataBase;
-    private RecordDAO recordDAO;
+
 
     @Nullable
     @Override
@@ -66,8 +64,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         super.onActivityCreated(savedInstanceState);
         context=getContext();
         //db=new RecordDBHelper(getContext(),"app.db");
-        recordDataBase= Room.databaseBuilder(context, RecordDataBase.class, "records.db").allowMainThreadQueries().build();
-        recordDAO=recordDataBase.getRecordDAO();
+
         accessibility_btn=getActivity().findViewById(R.id.open_accessibility_btn);
         normal_service_btn=getActivity().findViewById(R.id.start_service_btn);
 
@@ -171,7 +168,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        recordDAO.deleteALl();
+
                     }
                 });
         normalDialog.setNegativeButton("关闭",

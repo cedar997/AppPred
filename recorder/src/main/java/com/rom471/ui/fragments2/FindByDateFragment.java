@@ -22,9 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.rom471.adapter.OneUseAdapter;
-import com.rom471.adapter.RecordsAdapter;
-import com.rom471.db.RecordsViewModel;
-import com.rom471.db.Record;
+
 import com.rom471.db2.AppRecordsRepository;
 import com.rom471.db2.OneUse;
 import com.rom471.recorder.R;

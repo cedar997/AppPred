@@ -8,7 +8,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 
-import com.rom471.ui.fragments.HomeFragment;
 import com.rom471.ui.fragments.HomeFragment2;
 import com.rom471.ui.fragments.RcordFragment;
 import com.rom471.ui.fragments.SettingsFragment;

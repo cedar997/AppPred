@@ -9,7 +9,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.rom471.adapter.MyFragmentPagerAdapter;
-import com.rom471.db.RecordsViewModel;
+
 import com.rom471.recorder.R;
 import com.rom471.utils.MyProperties;
 
@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     RadioButton rb1,rb2,rb3;
     ViewPager vp;
 
-    RecordsViewModel recordsViewModel;
+
     private MyFragmentPagerAdapter mAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
