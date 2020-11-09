@@ -47,6 +47,7 @@ public class FindByTimeFragment extends OneUseFindFragment {
         start_time_tv =getActivity().findViewById(R.id.record_time_start_tv);
         end_time_tv =getActivity().findViewById(R.id.record_time_end_tv);
         result_tv=getActivity().findViewById(R.id.time_search_result);
+
     }
     //过滤时间
     private List<OneUse> filterByTime(List<OneUse> old_list, long start, long end){
