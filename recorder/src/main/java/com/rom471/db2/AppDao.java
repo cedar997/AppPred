@@ -38,6 +38,10 @@ public abstract class AppDao {
     public abstract void insert(App app);
     @Insert
     public abstract void insert(OneUse oneUse);
+    @Insert
+    public abstract void insert(Event app);
+    @Query("select * from Event order by id desc")
+    public abstract LiveData<List<Event>>  getAllEvents();
     @Delete
     public abstract void delete(OneUse oneUse);
     @Query("delete from App")

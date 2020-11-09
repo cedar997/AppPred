@@ -22,11 +22,12 @@ import static android.content.Context.BATTERY_SERVICE;
 public class DBUtils {
 
     //给OneUse附加电池信息
-    public static void storeBatteryInfo(Context context, OneUse oneUse){
+    public static void storeBatteryInfo(Context context, OneUse oneUse,boolean start){
         BatteryManager manager = (BatteryManager)context.getSystemService(BATTERY_SERVICE);
-
-        oneUse.setBattery(manager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY));
-
+        if(start)
+            oneUse.setBattery(manager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY));
+        else
+            oneUse.setBatteryAfter(manager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY));
         IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         Intent batteryStatus = context.registerReceiver(null, ifilter);
         // Are we charging / charged?
@@ -77,6 +78,10 @@ public class DBUtils {
                 e.printStackTrace();
             }
         }
+    }
+    //用当前时间保存数据库
+    public static String getCurrentDBString(){
+        return getDatatime(System.currentTimeMillis(),"yy-MM-dd_HH");
     }
     public static  String getDatatimeLong(long timeStamp) {
         return getDatatime(timeStamp,"MM/dd HH:mm:ss");

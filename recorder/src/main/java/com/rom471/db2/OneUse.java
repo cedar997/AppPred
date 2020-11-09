@@ -4,11 +4,9 @@ import android.graphics.drawable.Drawable;
 import android.icu.text.SimpleDateFormat;
 
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-import java.sql.Timestamp;
 import java.util.Locale;
 
 @Entity
@@ -28,12 +26,22 @@ public class OneUse {
     long spendTime;
     //开始使用时的电量
     private int battery;
+    //结束时的电量
+    private int batteryAfter;
     //开始使用时，是否在充电
     private int charging;
     //开始使用时的网络状态
     private int net;
     public String getAppName() {
         return appName;
+    }
+
+    public int getBatteryAfter() {
+        return batteryAfter;
+    }
+
+    public void setBatteryAfter(int batteryAfter) {
+        this.batteryAfter = batteryAfter;
     }
 
     public void setAppName(String appName) {

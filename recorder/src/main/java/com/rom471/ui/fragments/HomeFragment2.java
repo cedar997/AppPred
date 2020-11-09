@@ -40,7 +40,7 @@ public class HomeFragment2 extends Fragment {
     //RecordDBHelper db;
     AppsAdapter2 appAdapter;
     AppsAdapter1 lastAdapter;
-    public static final int APP_LIST_SIZE=5;
+    public static final int APP_LIST_SIZE=100;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

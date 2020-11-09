@@ -11,6 +11,7 @@ import androidx.room.Room;
 import com.rom471.db2.App;
 import com.rom471.db2.AppDao;
 import com.rom471.db2.AppDataBase;
+import com.rom471.db2.Event;
 import com.rom471.db2.OneUse;
 import com.rom471.utils.DBUtils;
 
@@ -33,20 +34,19 @@ public class MyRecorder2 {
     boolean filter_exclude = false;
     boolean filter_skip = false;
     boolean app_first=false;//当前app是否是第一次插入
+    boolean record_events=false;
     AppDataBase appDB;
 
     public MyRecorder2(Context context) {
         this.context=context;
         appDB =AppDataBase.getInstance(context);
-
-        //dao = recordDB.getRecordDAO();
         appDao= appDB.getAppDao();
         pm = context.getPackageManager();//初始化包管理器
         exclude_names = getExclude_names();//初始化过滤应用名列表
         skip_names = getSkip_names();
         filter_exclude = true;//过滤开关
         filter_skip = true;//过滤开关
-
+        record_events=true;
 
     }
 
@@ -72,7 +72,6 @@ public class MyRecorder2 {
         excludes.add("权限管理服务");
         excludes.add("用户行为");
         excludes.add("搜狗输入法小米版");
-
         return excludes;
     }
 
@@ -109,6 +108,7 @@ public class MyRecorder2 {
         oneUse.setPkgName(pkgname);
         oneUse.setAppName(appName);
         oneUse.setStartTimestamp(l);
+        DBUtils.storeBatteryInfo(context,oneUse,true);
 
     }
 
@@ -123,7 +123,7 @@ public class MyRecorder2 {
             app.setLastRuningTime(l);
             app.addTotalRuningTime(spend);//增加统计表的时间
             app.addUseCount();//增加使用次数
-            DBUtils.storeBatteryInfo(context,oneUse);
+            DBUtils.storeBatteryInfo(context,oneUse,false);
             DBUtils.storeNetworkInfo(context, oneUse);
             Log.d("TAG", "got app: "+app.toString()+" first="+app_first);
             if(app_first)
@@ -140,10 +140,17 @@ public class MyRecorder2 {
     public void record(AccessibilityEvent event) {
         String pkgname = event.getPackageName() == null ? "" : event.getPackageName().toString();
         String appLabel = getAppLabel(pkgname);
-//        String appLabel = getAppLabel(event) ;
+        if(record_events){
+            Event mEvent=new Event();
+            mEvent.setAppName(appLabel);
+            mEvent.setPkgName(pkgname);
+            mEvent.setEventType(event.getEventType());
+            mEvent.setTimeStamp(System.currentTimeMillis());
+            appDao.insert(mEvent);
+        }
+
         switch (event.getEventType()) {
             //窗口变化时触发
-
             case AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED: //后台弹出也会触发，用skip
                 if (filter_skip && skip_names.contains(appLabel)) return;
                 if (filter_exclude && exclude_names.contains(appLabel)) {
@@ -151,13 +158,10 @@ public class MyRecorder2 {
                         record_finish(lastPkgname);
                     lastPkgname = "";
                     return;
-
                 }
-                //Log.d("cedar", "skip "+appLabel);
+
                 if (appLabel.equals("") || appLabel == null) return;
-
                 if (pkgname.equals(lastPkgname)) {
-
                 } else {
                     if (!lastPkgname.equals(""))
                         record_finish(lastPkgname);
@@ -167,16 +171,14 @@ public class MyRecorder2 {
 
                 break;
 
-            //case TYPE_VIEW_CLICKED:
-            //case TYPE_TOUCH_INTERACTION_START: //no
-            case TYPE_VIEW_CLICKED: //点击时才触发,滑动没用，用exclude
+            //点击时才触发,滑动没用，用exclude
+            case TYPE_VIEW_CLICKED:
                 if (filter_exclude && exclude_names.contains(appLabel)) {
                     if (lastPkgname != "")
                         record_finish(lastPkgname);
                     lastPkgname = "";
                     return;
                 }
-                //Log.d("cedar", "exclude "+appLabel);
                 if (appLabel.equals("") || appLabel == null) return;
 
                 if (pkgname.equals(lastPkgname)) {

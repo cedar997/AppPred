@@ -32,6 +32,7 @@ import com.rom471.db2.AppRecordsRepository;
 import com.rom471.recorder.R;
 import com.rom471.service.RecordService;
 
+import com.rom471.utils.DBUtils;
 import com.rom471.utils.MyProperties;
 
 import java.io.File;
@@ -75,8 +76,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         ouput_db_btn.setOnClickListener(this);
         clearRecord_btn.setOnClickListener(this);
         normal_service_btn.setOnClickListener(this);
-        Log.d("cedar", "onActivityCreated: "+ MyProperties.getProperties(context).getString("dbname",""));
-        properties = MyProperties.getProperties(context);//共享配置
+//        Log.d("cedar", "onActivityCreated: "+ MyProperties.getProperties(context).getString("dbname",""));
+
     }
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -140,10 +141,9 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
                 // TODO: handle exception
             }
         }
-        int db_id =Integer.valueOf(properties.getString("db_index", ""));
-        properties.edit().putString("db_index",""+(db_id+1));
-        String backupDBName="app"+db_id+".db";
-        Log.d("cedar", "export_db: "+backupDBName);
+       // String dbname =(String) MyProperties.get(context,"dbname","app");//共享配置
+        String dbname= DBUtils.getCurrentDBString();
+        String backupDBName=dbname+".db";
         File currentDB = new File(data, currentDBPath);
         File backupDB = new File(backupPath, backupDBName);
 

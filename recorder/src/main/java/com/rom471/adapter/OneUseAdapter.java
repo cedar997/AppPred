@@ -59,7 +59,7 @@ public class OneUseAdapter extends RecyclerView.Adapter<OneUseAdapter.ViewHolder
         holder.appName.setText(oneuse.getAppName());
         holder.spendTime.setText(oneuse.getTimeSpendString());
         holder.timeStamp.setText(oneuse.getDatatime());
-        holder.battery.setText(""+oneuse.getBattery());
+        holder.battery.setText(""+oneuse.getBattery()+"->"+oneuse.getBatteryAfter());
         holder.charging.setText(oneuse.getChargingString());
         holder.net.setText(oneuse.getNetString());
         holder.listView.setOnLongClickListener(new View.OnLongClickListener() {

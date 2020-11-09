@@ -11,7 +11,7 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
 
-@Database(entities = {App.class,OneUse.class},version = 1,exportSchema = false)
+@Database(entities = {App.class,OneUse.class,Event.class},version = 1,exportSchema = false)
 public abstract class AppDataBase extends RoomDatabase {
     private static AppDataBase INSTANCE;//单例模式
     private static final Object Lock = new Object();

@@ -55,12 +55,10 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     }
     //初始化参数
     private void initProperties(){
-        if(MyProperties.getProperties(this).contains("dbname")) //如果存在则不初始
-            return;
-        Map<String, String> config_map = new HashMap<String, String>();
-        config_map.put("dbname","app.db");
-        config_map.put("db_index","0");
-        MyProperties.setPropertiesMap(this,config_map);
+        if(!MyProperties.have(this,"dbname")){
+            MyProperties.set(this,"dbname",""+System.currentTimeMillis());
+            MyProperties.set(this,"debug",false);
+        }
     }
 
 

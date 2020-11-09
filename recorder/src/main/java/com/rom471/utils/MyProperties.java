@@ -5,45 +5,73 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import java.util.Map;
-import java.util.Properties;
 import java.util.Set;
 
 public class MyProperties {
+
     private static SharedPreferences share;
-    private static String configPath = "appSetting";
-    // 读取配置文件信息
-    public static SharedPreferences getProperties(Context context) {
-        try {
-            share = context.getSharedPreferences(configPath, Context.MODE_PRIVATE);
-        } catch (Exception e) {
-            e.printStackTrace();
+    private static String CONFIG_FILE = "app_properties";
+    public static boolean have(Context context,String key){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(CONFIG_FILE, Context.MODE_PRIVATE);
+        return sharedPreferences.contains(key);
+    }
+    public static void set(Context context , String key, Object object){
+        String type = object.getClass().getSimpleName();
+        SharedPreferences sharedPreferences = context.getSharedPreferences(CONFIG_FILE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        if("String".equals(type)){
+            editor.putString(key, (String)object);
+        }
+        else if("Integer".equals(type)){
+            editor.putInt(key, (Integer)object);
+        }
+        else if("Boolean".equals(type)){
+            editor.putBoolean(key, (Boolean)object);
+        }
+        else if("Float".equals(type)){
+            editor.putFloat(key, (Float)object);
+        }
+        else if("Long".equals(type)){
+            editor.putLong(key, (Long)object);
+        }
+        editor.commit();
+    }
+    public static Object get(Context context , String key, Object defaultObject){
+        String type = defaultObject.getClass().getSimpleName();
+        SharedPreferences sharedPreferences = context.getSharedPreferences(CONFIG_FILE, Context.MODE_PRIVATE);
 
+        if("String".equals(type)){
+            return sharedPreferences.getString(key, (String)defaultObject);
         }
 
-        return share;
-    }
-    // 修改配置文件信息
-    public static String setPropertiesMap(Context context, Map<String,String> maps) {
-        try {
-            share = context.getSharedPreferences(configPath, Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = share.edit();//取得编辑器
-            Set<Map.Entry<String, String>> set = maps.entrySet();
-            // 遍历键值对对象的集合，得到每一个键值对对象
-            for (Map.Entry<String, String> me : set) {
-                // 根据键值对对象获取键和值
-                String key = me.getKey();
-                String value = me.getValue();
-                editor.putString(key, value);//存储配置 参数1 是key 参数2 是值
-            }
-            editor.commit();//提交刷新数据
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.e("setPropertiesError", e.toString());
-            return "修改配置文件失败!";
+        else if("Integer".equals(type)){
+            return sharedPreferences.getInt(key, (Integer)defaultObject);
         }
-        return "设置成功";
+
+        else if("Boolean".equals(type)){
+            return sharedPreferences.getBoolean(key, (Boolean)defaultObject);
+        }
+
+        else if("Float".equals(type)){
+            return sharedPreferences.getFloat(key, (Float)defaultObject);
+        }
+
+        else if("Long".equals(type)){
+            return sharedPreferences.getLong(key, (Long)defaultObject);
+        }
+
+        return null;
     }
+
+
+    public static void clear(Context context) {
+        SharedPreferences sp = context.getSharedPreferences(CONFIG_FILE,
+                Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.clear().commit();
+    }
+
+
+
 
 }
