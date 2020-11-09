@@ -6,6 +6,7 @@ import android.content.Context;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.os.Build;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -24,8 +25,8 @@ public class FindByTimeFragment extends OneUseFindFragment {
 
 
 
-    Button start_date_btn;
-    Button end_date_btn;
+    Button start_time_btn;
+    Button end_time_btn;
     Button start_btn;
     TextView start_time_tv;
     TextView end_time_tv;
@@ -41,13 +42,16 @@ public class FindByTimeFragment extends OneUseFindFragment {
 
     public void bindView(){
         list_view=getActivity().findViewById(R.id.record_list_by_time);
-        start_date_btn=getActivity().findViewById(R.id.record_time_start_btn);
-        end_date_btn=getActivity().findViewById(R.id.record_time_end_btn);
+        start_time_btn =getActivity().findViewById(R.id.record_time_start_btn);
+        end_time_btn =getActivity().findViewById(R.id.record_time_end_btn);
         start_btn=getActivity().findViewById(R.id.time_start_search);
         start_time_tv =getActivity().findViewById(R.id.record_time_start_tv);
         end_time_tv =getActivity().findViewById(R.id.record_time_end_tv);
         result_tv=getActivity().findViewById(R.id.time_search_result);
-
+        start_btn.setOnClickListener(this);
+        start_time_btn.setOnClickListener(this);
+        end_time_btn.setOnClickListener(this);
+        context=getContext();
     }
     //过滤时间
     private List<OneUse> filterByTime(List<OneUse> old_list, long start, long end){
@@ -77,9 +81,10 @@ public class FindByTimeFragment extends OneUseFindFragment {
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onClick(View v) {
-
+        Log.d("TAG", "onClick:按下了 ");
         switch (v.getId()){
             case R.id.record_time_start_btn:
+
                 showTimePickerDialog(context,true  );
                 break;
             case R.id.record_time_end_btn:

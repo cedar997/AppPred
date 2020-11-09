@@ -32,13 +32,12 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-public class FindByDateFragment extends Fragment  implements View.OnClickListener {
-   RecyclerView list_view;
-    //RecordDBHelper db;
+public class FindByDateFragment extends OneUseFindFragment {
 
-    OneUseAdapter mAdapter;
 
-    List<OneUse> mRecords;
+
+
+
     Button start_date_btn;
     Button end_date_btn;
     Button start_btn;
@@ -48,11 +47,9 @@ public class FindByDateFragment extends Fragment  implements View.OnClickListene
 
     long start_timestamp;
     long end_timestamp;
-    Context context;
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.main_fragment_record_find_by_date,container,false);
+
+    public FindByDateFragment(){
+        super(R.layout.main_fragment_record_find_by_date,R.id.record_list_by_date);
     }
     private void registRecords(){
         AppRecordsRepository appRecordsRepository;
@@ -66,29 +63,17 @@ public class FindByDateFragment extends Fragment  implements View.OnClickListene
             }
         });
     }
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        context=getContext();
-        bindView();
-        start_date_btn.setOnClickListener(this);
-        end_date_btn.setOnClickListener(this);
-        start_btn.setOnClickListener(this);
-        registRecords();
 
-        mAdapter=new OneUseAdapter();
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        list_view.setLayoutManager(layoutManager);
-        list_view.setAdapter(mAdapter);
-    }
-    private void bindView(){
+    public void bindView(){
         list_view=getActivity().findViewById(R.id.record_list_by_date);
         start_date_btn=getActivity().findViewById(R.id.record_date_start_btn);
         end_date_btn=getActivity().findViewById(R.id.record_date_end_btn);
         start_btn=getActivity().findViewById(R.id.date_start_search);
+        start_btn.setOnClickListener(this);
+        start_date_btn.setOnClickListener(this);
+        end_date_btn.setOnClickListener(this);
         start_date_tv=getActivity().findViewById(R.id.record_date_start_tv);
+
         end_date_tv=getActivity().findViewById(R.id.record_date_end_tv);
         result_tv=getActivity().findViewById(R.id.date_search_result);
     }
@@ -121,7 +106,7 @@ public class FindByDateFragment extends Fragment  implements View.OnClickListene
                 showDatePickerDialog(context,false);
                 break;
             case R.id.date_start_search:
-                List<OneUse> records = filterByDate(mRecords, start_timestamp, end_timestamp);
+                List<OneUse> records = filterByDate(mOneUses, start_timestamp, end_timestamp);
                 result_tv.setText("查到记录："+records.size()+"条");
                 mAdapter.setOneUses(records);
                 list_view.setAdapter(mAdapter);
