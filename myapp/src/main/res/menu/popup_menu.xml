@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/popup_one"
+        android:title="按最近使用时间排序"/>
+
+    <item
+        android:id="@+id/popup_two"
+        android:title="按使用总时间排序"/>
+
+    <item
+        android:id="@+id/popup_three"
+        android:title="按使用次数排序"/>
+
+</menu>

@@ -13,7 +13,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/app_list"
+            android:id="@+id/app_last_use_list"
             />
 <!--        分割线-->
         <View
@@ -30,8 +30,24 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-                android:id="@+id/pred_app_list"
+                android:id="@+id/app_total_use_list"
                 />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginVertical="10dp"
+            android:background="#303F9F"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="总使用次数排行"
+            />
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/app_total_count_list"
+            />
 
 
 </LinearLayout>

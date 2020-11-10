@@ -36,13 +36,13 @@ public class AppRecordsRepository {
     }
 
     public void insert (OneUse oneUse) {
-        new AppRecordsRepository.insertOneUseAsyncTask(appDao).execute(oneUse);
+        new insertOneUseAsyncTask(appDao).execute(oneUse);
     }
     public void insert (App app) {
-        new AppRecordsRepository.insertAsyncTask(appDao).execute(app);
+        new insertAsyncTask(appDao).execute(app);
     }
     public void update (App app) {
-        new AppRecordsRepository.UpdateAsyncTask(appDao).execute(app);
+        new UpdateAsyncTask(appDao).execute(app);
     }
     public LiveData<List<OneUse>> getAllOneUses(){
         return appDao.getAllOneUse();

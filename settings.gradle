@@ -1,3 +1,6 @@
+include ':myapp'
+include ':myapp'
+include ':myapp'
 include ':recorder'
 include ':myapplication'
 include ':wjf'

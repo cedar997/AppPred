@@ -11,11 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.rom471.db2.App;
 import com.rom471.recorder.R;
-import com.rom471.utils.DBUtils;
 
 import java.util.List;
 
-public class AppsAdapter1 extends RecyclerView.Adapter<AppsAdapter1.ViewHolder> {
+public abstract class AppsAdapter1 extends RecyclerView.Adapter<AppsAdapter1.ViewHolder> {
     private List<App> mAppsList;
 
     public List<App> getmAppsList() {
@@ -46,9 +45,11 @@ public class AppsAdapter1 extends RecyclerView.Adapter<AppsAdapter1.ViewHolder> 
         App app=mAppsList.get(position);
         holder.appIcon.setBackground(app.getIcon());
         holder.appName.setText(app.getAppName());
-        holder.lastTime.setText(DBUtils.getSinceTimeString(app.getLastRuningTime())+"前");
-    }
 
+        setAppInfo(holder.appInfo,app);
+    }
+    //设置
+    public abstract void setAppInfo(TextView appInfo,App app);
     @Override
     public int getItemCount() {
         if(mAppsList!=null)
@@ -59,14 +60,14 @@ public class AppsAdapter1 extends RecyclerView.Adapter<AppsAdapter1.ViewHolder> 
     static class ViewHolder extends RecyclerView.ViewHolder{
         ImageView appIcon;
         TextView appName;
-        TextView lastTime;
+        TextView appInfo;
 
         public ViewHolder (View view)
         {
             super(view);
             appIcon = (ImageView) view.findViewById(R.id.appicon);
             appName = (TextView) view.findViewById(R.id.appname);
-            lastTime = (TextView) view.findViewById(R.id.spend_time);
+            appInfo = (TextView) view.findViewById(R.id.app_info);
         }
 
     }

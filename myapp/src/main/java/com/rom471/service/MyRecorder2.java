@@ -46,7 +46,7 @@ public class MyRecorder2 {
         skip_names = getSkip_names();
         filter_exclude = true;//过滤开关
         filter_skip = true;//过滤开关
-        //record_events=true;
+        record_events=true;
 
     }
 
