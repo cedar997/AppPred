@@ -87,9 +87,6 @@ public class HomeFragment2 extends Fragment implements View.OnClickListener {
         predicter=new MyPredicter(getActivity().getApplication());
         predAdapter=new PredAdapter();
         predResultAdapter=new PredResultAdapter();
-        OnePred onePred = new OnePred();
-        onePred.setTop1(1);
-        predResultAdapter.add(onePred);
         LinearLayoutManager layoutManager1 = new LinearLayoutManager(context);
         layoutManager1.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager1);

@@ -16,7 +16,13 @@
         android:id="@+id/clear_records_btn"
         android:text="清除数据"
         />
-
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="5dp"
+        android:id="@+id/clear_pred_btn"
+        android:text="清除预测数据"
+        />
     <Button
         android:layout_width="wrap_content"
         android:layout_marginHorizontal="5dp"

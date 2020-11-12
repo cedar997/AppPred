@@ -45,7 +45,8 @@ public class MyPredicter {
 
         simpleDao =appDataBase.getOneUseDao();
         allUseCountsTop5 = simpleDao.getMostCountsApps(5);
-
+        initAppIndex();
+        initMatrix();
     }
     private void initAppIndex(){
         app_index=simpleDao.getAllAppName();

@@ -55,6 +55,10 @@ public class AppRecordsRepository {
         appDao.deleteOneUses();
         appDao.deleteOnePreds();
     }
+    public void deletePreds(){
+
+        appDao.deleteOnePreds();
+    }
     private static class insertAsyncTask extends AsyncTask<App, Void, Void> {
 
         private AppDao mAsyncTaskDao;

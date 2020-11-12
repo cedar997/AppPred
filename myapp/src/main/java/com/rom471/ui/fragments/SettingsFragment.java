@@ -44,6 +44,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
 
     Button accessibility_btn;
     Button clearRecord_btn;
+    Button clearPred_btn;
     Button normal_service_btn;
     Button ouput_db_btn;
     AppRecordsRepository appRecordsRepository;
@@ -70,9 +71,11 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
 
         accessibility_btn.setOnClickListener(this);
         clearRecord_btn=getActivity().findViewById(R.id.clear_records_btn);
+        clearPred_btn=getActivity().findViewById(R.id.clear_pred_btn);
         ouput_db_btn=getActivity().findViewById(R.id.output_db_btn);
         ouput_db_btn.setOnClickListener(this);
         clearRecord_btn.setOnClickListener(this);
+        clearPred_btn.setOnClickListener(this);
         normal_service_btn.setOnClickListener(this);
 //        Log.d("cedar", "onActivityCreated: "+ MyProperties.getProperties(context).getString("dbname",""));
 
@@ -85,6 +88,9 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
 
                 confirmClearRecordsDialog();
 
+                break;
+            case R.id.clear_pred_btn:
+                confirmClearPredsDialog();
                 break;
             case R.id.open_accessibility_btn:
                 getAccessibilityPermission(getContext());
@@ -158,6 +164,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
     }
     //确认清除数据的弹出对话框
     public void confirmClearRecordsDialog(){
+        final boolean[] ret = {false};
         final AlertDialog.Builder normalDialog =
                 new AlertDialog.Builder(context);
         normalDialog.setIcon(R.drawable.ic_launcher_background);
@@ -168,6 +175,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         appRecordsRepository.deleteAll();
+
                     }
                 });
         normalDialog.setNegativeButton("关闭",
@@ -178,6 +186,33 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
                     }
                 });
         normalDialog.show();
+
+    }
+    //确认清除预测记录的弹出对话框
+    public void confirmClearPredsDialog(){
+        final boolean[] ret = {false};
+        final AlertDialog.Builder normalDialog =
+                new AlertDialog.Builder(context);
+        normalDialog.setIcon(R.drawable.ic_launcher_background);
+        normalDialog.setTitle("警告！");
+        normalDialog.setMessage("确认要重新开始预测吗？");
+        normalDialog.setPositiveButton("确定",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        appRecordsRepository.deletePreds();
+
+                    }
+                });
+        normalDialog.setNegativeButton("关闭",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //...To-do
+                    }
+                });
+        normalDialog.show();
+
     }
     //跳转到打开辅助功能界面
     public void getAccessibilityPermission(Context context){

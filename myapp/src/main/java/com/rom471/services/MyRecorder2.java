@@ -126,35 +126,35 @@ public class MyRecorder2 {
             long l = System.currentTimeMillis();
             long spend = l - oneUse.getStartTimestamp();
             //不记录0.5秒内的
-            if(spend<500) return;
+            if (spend < 500) return;
             oneUse.setSpendTime(spend);
             app.setLastRuningTime(l);
             app.addTotalRuningTime(spend);//增加统计表的时间
             app.addUseCount();//增加使用次数
-            DBUtils.storeBatteryInfo(context,oneUse,false);
+            DBUtils.storeBatteryInfo(context, oneUse, false);
             DBUtils.storeNetworkInfo(context, oneUse);
-            Log.d("TAG", "got app: "+app.toString()+" first="+app_first);
-            if(app_first)
+            Log.d("TAG", "got app: " + app.toString() + " first=" + app_first);
+            if (app_first)
                 appDao.insert(app);
             else
                 appDao.updateApp(app);
 
             appDao.insert(oneUse);
 
-            SimpleApp app=new SimpleApp();
+            SimpleApp app = new SimpleApp();
             app.setAppName(oneUse.getAppName());
             app.setPkgName(oneUse.getPkgName());
-            if(last_simple_app==null){
-                last_simple_app=app;
-            }else {
+            if (last_simple_app != null)
                 pedictor.updateMatrix(last_simple_app);
-                last_simple_app=app;
+            if (!app.equals(last_simple_app)) { //只有打开不同应用时，才进行预测
+                OnePred onePred = pedictor.verifyPred(app);
+                if (onePred != null)
+                    appDao.insert(onePred);
+                Log.d("cedar", "MyRecorder2: " + onePred);
             }
-            OnePred onePred = pedictor.getOnePred(app);
-            if(onePred!=null)
-                appDao.insert(onePred);
-            Log.d("cedar", "MyRecorder2: "+onePred);
-        } else {
+            last_simple_app = app;
+        }
+        else {
             record_start(pkgname);
         }
     }

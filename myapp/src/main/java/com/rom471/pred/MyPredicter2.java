@@ -175,7 +175,8 @@ public class MyPredicter2 {
         }
         return new ArrayList<>(listMap.values());
     }
-    public OnePred getOnePred(SimpleApp app){
+    //用真实结果验证预测
+    public OnePred verifyPred(SimpleApp app){
         if(currentApp==null)
             return null;
         updateIndex(currentApp);
