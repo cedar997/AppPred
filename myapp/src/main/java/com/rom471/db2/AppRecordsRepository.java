@@ -53,6 +53,7 @@ public class AppRecordsRepository {
     public void deleteAll(){
         appDao.deleteApps();
         appDao.deleteOneUses();
+        appDao.deleteOnePreds();
     }
     private static class insertAsyncTask extends AsyncTask<App, Void, Void> {
 

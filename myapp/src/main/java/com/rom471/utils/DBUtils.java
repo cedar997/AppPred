@@ -14,6 +14,7 @@ import android.os.BatteryManager;
 
 import com.rom471.db2.App;
 import com.rom471.db2.OneUse;
+import com.rom471.db2.SimpleApp;
 
 import java.util.List;
 import java.util.Locale;
@@ -64,7 +65,28 @@ public class DBUtils {
         record.setNet(net_state);
 
     }
+    public static void setSimpleAppsIcon(Context context,List<SimpleApp> apps){
+        if (apps==null)
+            return;
+        PackageManager pm =context.getPackageManager();
+        ApplicationInfo appInfo;
+        Drawable appIcon;
+        for (SimpleApp app:apps
+        ) {
+            if(app==null)
+                continue;
+            try {
+                appInfo = pm.getApplicationInfo(app.getPkgName(), PackageManager.GET_META_DATA);
+                appIcon = pm.getApplicationIcon(appInfo);
+                app.setIcon(appIcon);
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     public static void setAppsIcon(Context context,List<App> apps){
+        if (apps==null)
+            return;
         PackageManager pm =context.getPackageManager();
         ApplicationInfo appInfo;
         Drawable appIcon;

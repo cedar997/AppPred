@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">用户行为3</string>
+    <string name="app_name">应用预测</string>
     <string name="radio_btn1">查找</string>
     <string name="radio_btn2">主界面</string>
     <string name="radio_btn3">设置</string>

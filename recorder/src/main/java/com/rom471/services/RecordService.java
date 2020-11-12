@@ -1,4 +1,4 @@
-package com.rom471.service;
+package com.rom471.services;
 
 import android.app.Service;
 import android.app.usage.UsageEvents;

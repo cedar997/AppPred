@@ -1,18 +1,7 @@
-package com.rom471.service;
+package com.rom471.services;
 
 import android.accessibilityservice.AccessibilityService;
-import android.content.Context;
-import android.content.pm.PackageManager;
 import android.view.accessibility.AccessibilityEvent;
-
-import androidx.room.Room;
-
-
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static android.view.accessibility.AccessibilityEvent.TYPE_VIEW_CLICKED;
 
 public class AccessibilityMonitorService extends AccessibilityService {
 
