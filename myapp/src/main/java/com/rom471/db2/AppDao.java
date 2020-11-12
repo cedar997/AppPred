@@ -27,6 +27,8 @@ public abstract class AppDao {
     public abstract LiveData<List<App>>  getMostUsedApps(int limit);
     @Query("select * from App order by useCount desc  limit :limit")
     public abstract LiveData<List<App>>  getMostCountsApps(int limit);
+    @Query("select * from App order by useCount desc  limit :limit")
+    public abstract List<App>  getMostCountsApp(int limit);
     @Update
     public abstract void updateApp(App app);
     @Insert(onConflict = OnConflictStrategy.IGNORE)

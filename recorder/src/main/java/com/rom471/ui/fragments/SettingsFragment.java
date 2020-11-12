@@ -25,15 +25,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
-import androidx.room.Room;
 
 
 import com.rom471.db2.AppRecordsRepository;
 import com.rom471.recorder.R;
-import com.rom471.service.RecordService;
+import com.rom471.services.RecordService;
 
 import com.rom471.utils.DBUtils;
-import com.rom471.utils.MyProperties;
 
 import java.io.File;
 import java.io.FileInputStream;

@@ -16,8 +16,13 @@ public abstract class AppDataBase extends RoomDatabase {
     private static AppDataBase INSTANCE;//单例模式
     private static final Object Lock = new Object();
     public abstract AppDao appDao();
+    public abstract OneUseDao oneUseDao();
+
     public AppDao getAppDao(){
         return INSTANCE.appDao();
+    }
+    public OneUseDao getOneUseDao(){
+        return INSTANCE.oneUseDao();
     }
     public static AppDataBase getInstance(Context context){
         synchronized (Lock){

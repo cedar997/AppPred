@@ -21,18 +21,21 @@ import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.rom471.adapter.AppsLastUseAdapter;
-import com.rom471.adapter.AppsTotalCountAdapter;
-import com.rom471.adapter.AppsTotalTimeAdapter;
+import com.rom471.adapter.AppSortAdapter;
+
+import com.rom471.adapter.PredAdapter;
 import com.rom471.db2.App;
 import com.rom471.db2.AppRecordsRepository;
 import com.rom471.db2.OneUse;
+import com.rom471.pred.MyPredicter;
 import com.rom471.recorder.R;
+import com.rom471.utils.Const;
 
 import java.util.List;
 
 public class HomeFragment2 extends Fragment implements View.OnClickListener {
     RecyclerView recyclerView;
+    RecyclerView pred_app_top_5;
 
     List<App>  appLists;
     LiveData<List<OneUse>> useLists;
@@ -41,9 +44,10 @@ public class HomeFragment2 extends Fragment implements View.OnClickListener {
     Button total_time_btn;
 
     //RecordDBHelper db;
-    AppsLastUseAdapter adapter_last;
-    AppsTotalTimeAdapter adapter_time_total;
-    AppsTotalCountAdapter adapter_count_total;
+    AppSortAdapter adapter_last;
+    PredAdapter predAdapter;
+    MyPredicter predicter;
+
     public static final int APP_LIST_SIZE=100;
     @Nullable
     @Override
@@ -57,6 +61,8 @@ public class HomeFragment2 extends Fragment implements View.OnClickListener {
         context=getContext();
 
         recyclerView =getActivity().findViewById(R.id.app_list);
+        pred_app_top_5=getActivity().findViewById(R.id.app_pred);
+
         total_time_btn=getActivity().findViewById(R.id.sort_btn);
 
 
@@ -67,16 +73,22 @@ public class HomeFragment2 extends Fragment implements View.OnClickListener {
 
         appRecordsRepository=new AppRecordsRepository(getActivity().getApplication());
         //
-        adapter_time_total =new AppsTotalTimeAdapter(this,appRecordsRepository);
-        adapter_last =new AppsLastUseAdapter(this,appRecordsRepository);
 
-        adapter_count_total =new AppsTotalCountAdapter(this,appRecordsRepository);
+        adapter_last =new AppSortAdapter(this,appRecordsRepository);
+        predicter=new MyPredicter(getActivity().getApplication());
+        predAdapter=new PredAdapter();
 
         LinearLayoutManager layoutManager1 = new LinearLayoutManager(context);
         layoutManager1.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager1);
 //
         recyclerView.setAdapter(adapter_last);
+
+        LinearLayoutManager layoutManager2 = new LinearLayoutManager(context);
+        layoutManager2.setOrientation(LinearLayoutManager.HORIZONTAL);
+        pred_app_top_5.setLayoutManager(layoutManager2);
+//
+        pred_app_top_5.setAdapter(predAdapter);
 
 
 
@@ -85,22 +97,7 @@ public class HomeFragment2 extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
-
-    }
-    private void setAppIcon(List<App> apps){
-        PackageManager pm =context.getPackageManager();
-        ApplicationInfo appInfo;
-        Drawable appIcon;
-        for (App app:apps
-        ) {
-            try {
-                appInfo = pm.getApplicationInfo(app.getPkgName(), PackageManager.GET_META_DATA);
-                appIcon = pm.getApplicationIcon(appInfo);
-                app.setIcon(appIcon);
-            } catch (PackageManager.NameNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
+        predicter.updateAdapter(predAdapter);
     }
 
     @Override
@@ -108,6 +105,7 @@ public class HomeFragment2 extends Fragment implements View.OnClickListener {
         switch (v.getId()){
 
             case R.id.sort_btn:
+
                 PopupMenu popup = new PopupMenu(getActivity(), total_time_btn);
                 //Inflating the Popup using xml file
                 popup.getMenuInflater()
@@ -118,13 +116,13 @@ public class HomeFragment2 extends Fragment implements View.OnClickListener {
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()){
                             case R.id.popup_one:
-                                recyclerView.setAdapter(adapter_last);
+                                adapter_last.change(Const.CHANGE_LAST_USE);
                                 break;
                             case R.id.popup_two:
-                                recyclerView.setAdapter(adapter_time_total);
+                                adapter_last.change(Const.CHAGE_TIME_MOST);
                                 break;
                             case R.id.popup_three:
-                                recyclerView.setAdapter(adapter_count_total);
+                                adapter_last.change(Const.CHANGE_COUNT_MOST);
                                 break;
                         }
                         return true;

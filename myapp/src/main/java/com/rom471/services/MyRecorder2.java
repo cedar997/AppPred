@@ -1,12 +1,9 @@
-package com.rom471.service;
+package com.rom471.services;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
-
-import androidx.lifecycle.Observer;
-import androidx.room.Room;
 
 import com.rom471.db2.App;
 import com.rom471.db2.AppDao;
@@ -46,7 +43,7 @@ public class MyRecorder2 {
         skip_names = getSkip_names();
         filter_exclude = true;//过滤开关
         filter_skip = true;//过滤开关
-        //record_events=true;
+        record_events=true;
 
     }
 
@@ -71,7 +68,12 @@ public class MyRecorder2 {
         excludes.add("Android 系统");
         excludes.add("权限管理服务");
         excludes.add("用户行为");
+        excludes.add("用户行为3");
+        excludes.add("应用预测");
+        excludes.add("智能服务");
+
         excludes.add("搜狗输入法小米版");
+        excludes.add("设置");
         return excludes;
     }
 
