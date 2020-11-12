@@ -1,5 +1,6 @@
 package com.rom471.services;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.util.Log;
@@ -9,7 +10,10 @@ import com.rom471.db2.App;
 import com.rom471.db2.AppDao;
 import com.rom471.db2.AppDataBase;
 import com.rom471.db2.Event;
+import com.rom471.db2.OnePred;
 import com.rom471.db2.OneUse;
+import com.rom471.db2.SimpleApp;
+import com.rom471.pred.MyPredicter2;
 import com.rom471.utils.DBUtils;
 
 import java.util.ArrayList;
@@ -26,6 +30,7 @@ public class MyRecorder2 {
     OneUse oneUse;
     Context context;
     PackageManager pm;
+    SimpleApp last_simple_app;
     List<String> exclude_names;
     List<String> skip_names;
     boolean filter_exclude = false;
@@ -33,7 +38,7 @@ public class MyRecorder2 {
     boolean app_first=false;//当前app是否是第一次插入
     boolean record_events=false;
     AppDataBase appDB;
-
+    MyPredicter2 pedictor;
     public MyRecorder2(Context context) {
         this.context=context;
         appDB =AppDataBase.getInstance(context);
@@ -44,6 +49,7 @@ public class MyRecorder2 {
         filter_exclude = true;//过滤开关
         filter_skip = true;//过滤开关
         record_events=true;
+        pedictor=MyPredicter2.getInstance((Application) context.getApplicationContext());
 
     }
 
@@ -119,8 +125,8 @@ public class MyRecorder2 {
         if (oneUse.getPkgName().equals(pkgname)) {
             long l = System.currentTimeMillis();
             long spend = l - oneUse.getStartTimestamp();
-            //不记录1秒内的
-            if(spend<1000) return;
+            //不记录0.5秒内的
+            if(spend<500) return;
             oneUse.setSpendTime(spend);
             app.setLastRuningTime(l);
             app.addTotalRuningTime(spend);//增加统计表的时间
@@ -134,6 +140,20 @@ public class MyRecorder2 {
                 appDao.updateApp(app);
 
             appDao.insert(oneUse);
+
+            SimpleApp app=new SimpleApp();
+            app.setAppName(oneUse.getAppName());
+            app.setPkgName(oneUse.getPkgName());
+            if(last_simple_app==null){
+                last_simple_app=app;
+            }else {
+                pedictor.updateMatrix(last_simple_app);
+                last_simple_app=app;
+            }
+            OnePred onePred = pedictor.getOnePred(app);
+            if(onePred!=null)
+                appDao.insert(onePred);
+            Log.d("cedar", "MyRecorder2: "+onePred);
         } else {
             record_start(pkgname);
         }

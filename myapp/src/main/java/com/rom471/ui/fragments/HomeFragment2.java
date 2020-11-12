@@ -24,8 +24,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.rom471.adapter.AppSortAdapter;
 
 import com.rom471.adapter.PredAdapter;
+import com.rom471.adapter.PredResultAdapter;
 import com.rom471.db2.App;
+import com.rom471.db2.AppDao;
+import com.rom471.db2.AppDataBase;
 import com.rom471.db2.AppRecordsRepository;
+import com.rom471.db2.OnePred;
 import com.rom471.db2.OneUse;
 import com.rom471.pred.MyPredicter;
 import com.rom471.recorder.R;
@@ -36,16 +40,19 @@ import java.util.List;
 public class HomeFragment2 extends Fragment implements View.OnClickListener {
     RecyclerView recyclerView;
     RecyclerView pred_app_top_5;
+    RecyclerView pred_app_result;
 
     List<App>  appLists;
     LiveData<List<OneUse>> useLists;
     Context context;
     AppRecordsRepository appRecordsRepository;
+    AppDao appDao;
     Button total_time_btn;
 
     //RecordDBHelper db;
     AppSortAdapter adapter_last;
     PredAdapter predAdapter;
+    PredResultAdapter predResultAdapter;
     MyPredicter predicter;
 
     public static final int APP_LIST_SIZE=100;
@@ -62,6 +69,7 @@ public class HomeFragment2 extends Fragment implements View.OnClickListener {
 
         recyclerView =getActivity().findViewById(R.id.app_list);
         pred_app_top_5=getActivity().findViewById(R.id.app_pred);
+        pred_app_result=getActivity().findViewById(R.id.app_pred_result);
 
         total_time_btn=getActivity().findViewById(R.id.sort_btn);
 
@@ -69,7 +77,8 @@ public class HomeFragment2 extends Fragment implements View.OnClickListener {
         total_time_btn.setOnClickListener(this);
 
 
-
+        AppDataBase appDataBase= AppDataBase.getInstance(context);
+        appDao =appDataBase.getAppDao();
 
         appRecordsRepository=new AppRecordsRepository(getActivity().getApplication());
         //
@@ -77,7 +86,10 @@ public class HomeFragment2 extends Fragment implements View.OnClickListener {
         adapter_last =new AppSortAdapter(this,appRecordsRepository);
         predicter=new MyPredicter(getActivity().getApplication());
         predAdapter=new PredAdapter();
-
+        predResultAdapter=new PredResultAdapter();
+        OnePred onePred = new OnePred();
+        onePred.setTop1(1);
+        predResultAdapter.add(onePred);
         LinearLayoutManager layoutManager1 = new LinearLayoutManager(context);
         layoutManager1.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager1);
@@ -90,14 +102,23 @@ public class HomeFragment2 extends Fragment implements View.OnClickListener {
 //
         pred_app_top_5.setAdapter(predAdapter);
 
-
+        LinearLayoutManager layoutManager3= new LinearLayoutManager(context);
+        layoutManager3.setOrientation(LinearLayoutManager.HORIZONTAL);
+        pred_app_result.setLayoutManager(layoutManager3);
+//
+        pred_app_result.setAdapter(predResultAdapter);
 
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        OnePred onePred = predicter.getOnePred();
+        List<OnePred> aLlOnePreds = appDao.getALlOnePreds();
+        predResultAdapter.setmAppsList(aLlOnePreds);
+        predResultAdapter.notifyDataSetChanged();
         predicter.updateAdapter(predAdapter);
+
     }
 
     @Override

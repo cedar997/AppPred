@@ -56,4 +56,19 @@ public abstract class AppDao {
 //    public List<AppBean> getLastApp(int limit);
 //    @Query("select appname,pkgname, sum(timeSpend) timeSpend from Record group by appname order by sum(timeSpend) desc limit :limit")
 //    public List<AppBean> getAppTotalTime(int limit);
+
+    @Insert
+    public abstract void insert(OnePred onePred);
+
+    @Query("select count(*) from OnePred ")
+    public abstract int getPredCounts();
+
+    @Query("select count(*) from OnePred where top1=1")
+    public abstract int getPredTop1Counts();
+
+    @Query("select * from OnePred")
+    public abstract List<OnePred> getALlOnePreds();
+
+    @Query("delete from OnePred")
+    public abstract void deleteOnePreds();
 }

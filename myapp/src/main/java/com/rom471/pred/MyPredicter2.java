@@ -2,8 +2,8 @@ package com.rom471.pred;
 
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
 
+import com.google.android.material.appbar.AppBarLayout;
 import com.rom471.adapter.PredAdapter;
 import com.rom471.db2.AppDataBase;
 import com.rom471.db2.OnePred;
@@ -11,21 +11,30 @@ import com.rom471.db2.OneUseDao;
 import com.rom471.db2.SimpleApp;
 import com.rom471.utils.DBUtils;
 
+import org.w3c.dom.ls.LSException;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static android.media.CamcorderProfile.get;
-
-public class MyPredicter {
+public class MyPredicter2 {
+    static MyPredicter2 INSTANCE;
+    public static MyPredicter2 getInstance(Application context){
+        if(INSTANCE!=null)
+            return INSTANCE;
+        INSTANCE=new MyPredicter2(context);
+        return INSTANCE;
+    }
+    //面向服务的预测器
     //private static final String TAG = "cedar";
     SimpleApp top5[];
     SimpleApp near1[];
     SimpleApp near2[];
     List<SimpleApp> allUseCountsTop5;
     SimpleApp currentApp;
-    SimpleApp lastApp;
+    SimpleApp last1App;
+    SimpleApp last2App;
 
     OneUseDao simpleDao;
     Context context;
@@ -37,46 +46,44 @@ public class MyPredicter {
     int one_rate=3;
     int two_rate=2;
     int most_rate=2;
-    public MyPredicter(Application context){
+    public MyPredicter2(Application context){
         this.context=context;
-
-
         AppDataBase appDataBase= AppDataBase.getInstance(context);
-
         simpleDao =appDataBase.getOneUseDao();
         allUseCountsTop5 = simpleDao.getMostCountsApps(5);
+        initAppIndex();
+        initMatrix();
 
     }
     private void initAppIndex(){
         app_index=simpleDao.getAllAppName();
         pkg_index=simpleDao.getAllPkgName();
         mSize=app_index.size();
-        mSize=mSize+mSize/2;//1.5倍
+        mSize=mSize+20;//
+    }
+    private void updateIndex(SimpleApp lastApp){
+        if(!app_index.contains(lastApp.getAppName())){
+            app_index.add(lastApp.getAppName());
+            pkg_index.add(lastApp.getPkgName());
+            if(app_index.size()>mSize){//如果超出了预分配范围
+                initMatrix();//重新建立矩阵
+                return;
+            }
+        }
     }
     //更新矩阵
-    private void updateMatrix(SimpleApp lastApp){
-
-        List<SimpleApp> all = simpleDao.getAfter(lastApp.getStartTimestamp());
-        for(SimpleApp app:all){
-           if(!app_index.contains(app.getAppName())){
-               app_index.add(app.getAppName());
-               pkg_index.add(app.getPkgName());
-               if(app_index.size()>mSize){//如果超出了预分配范围
-                   initMatrix();//重新建立矩阵
-                   return;
-               }
-           }
-        }
-        for(int i = 0; i< all.size()-1 ; i++){
-
-            int index1=app_index.indexOf(lastApp.getAppName());
-            int index2=app_index.indexOf(all.get(i).getAppName());
-            int index3=app_index.indexOf(all.get(i+1).getAppName());
+    public void updateMatrix(SimpleApp lastApp){
+           updateIndex(lastApp);
+            int index1=app_index.indexOf(last2App.getAppName());
+            int index2=app_index.indexOf(last1App.getAppName());
+            int index3=app_index.indexOf(lastApp.getAppName());
             if(index1!=index2)
                 table[index1][index2]+=1;
             if(index1!=index3)
                 table2[index1][index3]+=1;
-        }
+            last2App=last1App;
+            last1App=lastApp;
+
     }
     //建立应用打开矩阵
     public void initMatrix(){
@@ -91,6 +98,12 @@ public class MyPredicter {
                 table[index1][index2]+=1;
             if(index1!=index3)
                 table2[index1][index3]+=1;
+
+        }
+        if(all.size()>=2) {
+            last1App = all.get(all.size() - 1);
+            last2App = all.get(all.size() - 2);
+            currentApp = last1App;
         }
     }
 
@@ -100,6 +113,7 @@ public class MyPredicter {
     public List<SimpleApp> getOneNear(SimpleApp currentApp){
 
         int current_index=app_index.indexOf(currentApp.getAppName());
+
         List<SimpleApp> ret=new ArrayList<>();
         for(int i=0;i<app_index.size();i++){
             if(table[current_index][i]!=0){
@@ -161,13 +175,10 @@ public class MyPredicter {
         }
         return new ArrayList<>(listMap.values());
     }
-    public OnePred getOnePred(){
+    public OnePred getOnePred(SimpleApp app){
         if(currentApp==null)
             return null;
-        SimpleApp pred= simpleDao.getCurrentApp();
-        //Log.d(TAG, "updateAdapter: "+currentApp.getAppName());
-
-
+        updateIndex(currentApp);
         List<SimpleApp> oneNearApps = getOneNear(currentApp);
         List<SimpleApp> twoNear = getTwoNear(currentApp);
         List<SimpleApp> most_apps = getMostCountsApps();
@@ -176,45 +187,22 @@ public class MyPredicter {
         top_apps.sort(SimpleApp.weightDescComparator);
         if(top_apps.size()>5)
             top_apps=top_apps.subList(0,5);
-        int pred_index = top_apps.indexOf(pred);
-        OnePred onePred=new OnePred();
-        if(pred_index==1){
-            onePred.setTop1(1);
-        }else if(pred_index<3){
-            onePred.setTop3(1);
+        int pred_index = top_apps.indexOf(app);
+        OnePred onePred=null;
+        switch (pred_index){
+            case 1:
+                onePred=new OnePred(1,1,1);
+                 break;
+            case 2: case 3:
+                onePred=new OnePred(0,1,1);
+                break;
+            case 4: case 5:
+                onePred=new OnePred(0,0,1);
+                break;
         }
-        else if(pred_index<5){
-            onePred.setTop5(1);
-        }
+
         return onePred;
     }
-    public void updateAdapter(PredAdapter predAdapter){
-        currentApp= simpleDao.getCurrentApp();
-        if(currentApp==null)
-            return;
-        //Log.d(TAG, "updateAdapter: "+currentApp.getAppName());
-        if(lastApp==null){ //如果第一次预测
 
-            initAppIndex();
-            initMatrix();
-            lastApp=currentApp;
-        }
-        else {
-
-            updateMatrix(lastApp);
-        }
-
-        List<SimpleApp> oneNearApps = getOneNear(currentApp);
-        List<SimpleApp> twoNear = getTwoNear(currentApp);
-        List<SimpleApp> most_apps = getMostCountsApps();
-        List<SimpleApp> top_apps =merge(oneNearApps,twoNear);
-        top_apps =merge(top_apps,most_apps);
-        top_apps.sort(SimpleApp.weightDescComparator);
-        if(top_apps.size()>5)
-            top_apps=top_apps.subList(0,5);
-        DBUtils.setSimpleAppsIcon(context,top_apps );
-        predAdapter.setmAppsList(top_apps);
-        predAdapter.notifyDataSetChanged();
-    }
 
 }

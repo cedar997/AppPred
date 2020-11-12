@@ -1,6 +1,7 @@
 package com.rom471.db2;
 
 import androidx.room.Dao;
+import androidx.room.Insert;
 import androidx.room.Query;
 
 import java.util.List;
@@ -22,4 +23,13 @@ public abstract class OneUseDao {
     public abstract List<String> getAllAppName();
     @Query("select pkgName from App order by appName")
     public abstract List<String> getAllPkgName();
+
+    @Insert
+    public abstract void insert(OnePred onePred);
+
+    @Query("select count(*) from OnePred ")
+    public abstract int getPredCounts();
+
+    @Query("select count(*) from OnePred where top1=1")
+    public abstract int getPredTop1Counts();
 }
