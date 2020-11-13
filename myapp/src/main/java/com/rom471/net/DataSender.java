@@ -4,7 +4,9 @@ import android.util.Log;
 
 import com.rom471.db2.OneUse;
 import com.rom471.db2.SimpleApp;
+import com.rom471.utils.AppUtils;
 import com.rom471.utils.Const;
+import com.rom471.utils.MyProperties;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,9 +20,13 @@ import java.net.URL;
 import java.util.List;
 
 public class DataSender {
+    public static String getUrl(){
+        String host =(String) MyProperties.get(AppUtils.getContext(), "host", "192.168.199.225");
+        return "http://"+host+":5000/";
+    }
     public static String send(SimpleApp app){
         Log.d("cedar", "sendAppToServer: "+app.getAppName());
-        String path = Const.SERVER+"send";
+        String path = getUrl()+"send";
         try {
             URL url = new URL(path);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -65,7 +71,8 @@ public class DataSender {
         }
         return null;
     }
-    public static String sendOneUses(List<OneUse> oneUses,String url_) {
+    public static String sendOneUses(List<OneUse> oneUses) {
+        String url_=getUrl();
         new Thread(new Runnable() {
             @Override
             public void run() {

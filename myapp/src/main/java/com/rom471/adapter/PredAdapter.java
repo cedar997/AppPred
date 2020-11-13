@@ -1,10 +1,15 @@
 package com.rom471.adapter;
 
+import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -20,16 +25,16 @@ public class PredAdapter extends RecyclerView.Adapter<PredAdapter.ViewHolder> {
 
     private List<SimpleApp> mAppsList;
 
-    Fragment context;
-    AppRecordsRepository appRecordsRepository;
+    Context context;
+
 
 
     public void setmAppsList(List<SimpleApp> mAppsList) {
         this.mAppsList = mAppsList;
     }
-    public PredAdapter(){
+    public PredAdapter(Context context){
         this.context=context;
-        this.appRecordsRepository=appRecordsRepository;
+
 
 
     }
@@ -56,6 +61,21 @@ public class PredAdapter extends RecyclerView.Adapter<PredAdapter.ViewHolder> {
 
         holder.appIcon.setBackground(app.getIcon());
         holder.appName.setText(app.getAppName());
+        holder.appIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                try {
+                    Intent intent =context.getPackageManager().getLaunchIntentForPackage(app.getPkgName());
+                    context.startActivity(intent);
+                    toast("启动成功");
+                }catch (Exception e){
+                    toast("打开失败");
+                }
+                Log.d("TAG", "onLongClick: "+position);
+
+            }
+        });
 
     }
 
@@ -79,5 +99,10 @@ public class PredAdapter extends RecyclerView.Adapter<PredAdapter.ViewHolder> {
             appInfo = (TextView) view.findViewById(R.id.app_info);
         }
 
+    }
+    public  void toast( String text){
+        Toast toast=Toast.makeText(context, text, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
     }
 }

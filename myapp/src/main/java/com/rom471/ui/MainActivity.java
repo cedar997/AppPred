@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         if(!MyProperties.have(this,"dbname")){
             MyProperties.set(this,"dbname",""+System.currentTimeMillis());
             MyProperties.set(this,"debug",false);
+            MyProperties.set(this,"host","cedar997.f3322.net");
         }
     }
 

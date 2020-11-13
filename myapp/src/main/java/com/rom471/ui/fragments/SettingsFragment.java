@@ -114,7 +114,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
                 break;
             case R.id.post_records_btn:
                 List<OneUse> allOneUses = appRecordsRepository.getAllOneUses();
-                DataSender.sendOneUses(allOneUses, Const.SERVER);
+                DataSender.sendOneUses(allOneUses);
                 break;
         }
     }

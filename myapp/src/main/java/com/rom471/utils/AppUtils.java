@@ -17,6 +17,9 @@ public class AppUtils {
     static
     Context context;
     static HashMap<String,String>APP_PKG=new HashMap<>();
+    public static Context getContext(){
+        return context;
+    }
     public static void init(Context context){
         AppUtils.context=context;
         PackageManager pm=context.getPackageManager();
