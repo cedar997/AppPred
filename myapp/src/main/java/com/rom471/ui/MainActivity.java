@@ -28,6 +28,11 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //开启一个线程来加载全局资源
+        new Thread(()->{
+            initProperties();
+            AppUtils.init(this);
+        }).start();
         setContentView(R.layout.main);
         mAdapter=new MyFragmentPagerAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         bindView();//绑定资源
@@ -35,8 +40,8 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         vp.setCurrentItem(1);
         vp.addOnPageChangeListener(this);
         mRadioGroup.setOnCheckedChangeListener(this);
-        initProperties();
-        AppUtils.init(this);
+
+
 
 //
 //        RecordsViewModelFactory recordsViewModelFactory=new RecordsViewModelFactory();
