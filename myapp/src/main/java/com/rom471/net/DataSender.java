@@ -70,12 +70,12 @@ public class DataSender {
             @Override
             public void run() {
                 StringBuilder sb_appnames = new StringBuilder();
-                StringBuilder sb_pkgnames = new StringBuilder();
                 StringBuilder sb_timestamps = new StringBuilder();
+                String coma="";
                 for (OneUse oneUse : oneUses) {
-                    sb_appnames.append(oneUse.getAppName()).append(",");
-                    sb_pkgnames.append(oneUse.getPkgName()).append(",");
-                    sb_timestamps.append(oneUse.getStartTimestamp()).append(",");
+                    sb_appnames.append(coma).append(oneUse.getAppName());
+                    sb_timestamps.append(coma).append(oneUse.getStartTimestamp());
+                    coma=",";
                 }
 
                 try {
@@ -86,8 +86,7 @@ public class DataSender {
 
                     //数据准备
                     String data = "appnames=" + sb_appnames.toString() +
-                            "&pkgnames=" + sb_pkgnames.toString()
-                            + "&timestamps=" + sb_timestamps.toString();
+                            "&timestamps=" + sb_timestamps.toString();
                     //至少要设置的两个请求头
                     connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                     //connection.setRequestProperty("Content-Length", data.length()+"");

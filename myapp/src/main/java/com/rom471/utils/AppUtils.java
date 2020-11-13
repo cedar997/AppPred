@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import com.rom471.db2.SimpleApp;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -66,5 +67,8 @@ public class AppUtils {
                 e.printStackTrace();
             }
         }
+    }
+    public static void setSimpleAppsIcon(SimpleApp... apps){
+        setSimpleAppsIcon(Arrays.asList(apps));
     }
 }

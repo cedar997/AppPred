@@ -38,7 +38,7 @@ public class MyRecorder2 {
     boolean app_first=false;//当前app是否是第一次插入
     boolean record_events=false;
     AppDataBase appDB;
-    MyPredicter2 pedictor;
+
     public MyRecorder2(Context context) {
         this.context=context;
         appDB =AppDataBase.getInstance(context);
@@ -49,7 +49,7 @@ public class MyRecorder2 {
         filter_exclude = true;//过滤开关
         filter_skip = true;//过滤开关
         record_events=true;
-        pedictor=MyPredicter2.getInstance((Application) context.getApplicationContext());
+
 
     }
 
@@ -57,7 +57,6 @@ public class MyRecorder2 {
         List<String> excludes = new ArrayList<>();
         excludes.add("搜狗输入法小米版");
         excludes.add("系统 UI");
-
         excludes.add("智能服务");
         return excludes;
     }
@@ -77,7 +76,6 @@ public class MyRecorder2 {
         excludes.add("用户行为3");
         excludes.add("应用预测");
         excludes.add("智能服务");
-
         excludes.add("搜狗输入法小米版");
         excludes.add("设置");
         return excludes;
@@ -101,7 +99,6 @@ public class MyRecorder2 {
         long l = System.currentTimeMillis();
         app_first=false;
         app= appDao.getAppByName(appName);
-
         if(app==null){
             app=new App();
             app.setFirstRunningTime(l);
@@ -144,18 +141,7 @@ public class MyRecorder2 {
             SimpleApp app = new SimpleApp();
             app.setAppName(oneUse.getAppName());
             app.setPkgName(oneUse.getPkgName());
-            if (last_simple_app != null){
-                pedictor.updateMatrix(last_simple_app);
-                Log.d("cedar", "MyRecorder2: " + app.getAppName()+" "+last_simple_app.getAppName());
-                if (!app.equals(last_simple_app)) { //只有打开不同应用时，才进行预测
-                    OnePred onePred = pedictor.verifyPred(app);
-                    if (onePred != null) {
-                        appDao.insert(onePred);
-                        Log.d("cedar", "MyRecorder2: 添加" + app.getAppName());
-                    }
 
-                }
-            }
             last_simple_app = app;
         }
         else {

@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.rom471.adapter.AppSortAdapter;
+import com.rom471.adapter.AppViewHolder;
 import com.rom471.adapter.PredAdapter;
 import com.rom471.adapter.PredResultAdapter;
 import com.rom471.db2.App;
@@ -41,8 +42,8 @@ import java.util.List;
 public class PredFragment extends Fragment implements View.OnClickListener {
 
     RecyclerView pred_app_top_5;
-    RecyclerView pred_app_result;
 
+    AppViewHolder appholder;
     List<App>  appLists;
     LiveData<List<OneUse>> useLists;
     Context context;
@@ -54,7 +55,7 @@ public class PredFragment extends Fragment implements View.OnClickListener {
 
     PredAdapter predAdapter;
     PredAdapter predServerAdapter;
-    PredResultAdapter predResultAdapter;
+
     MyPredicter predicter;
 
     public static final int APP_LIST_SIZE=100;
@@ -71,7 +72,7 @@ public class PredFragment extends Fragment implements View.OnClickListener {
 
 
         pred_app_top_5=getActivity().findViewById(R.id.app_pred);
-        pred_app_result=getActivity().findViewById(R.id.app_pred_result);
+        appholder=new AppViewHolder(getActivity().findViewById(R.id.app_view_holder));
         pred_app_from_server =getActivity().findViewById(R.id.app_pred_from_server);
 
 
@@ -87,7 +88,7 @@ public class PredFragment extends Fragment implements View.OnClickListener {
         predicter=new MyPredicter(getActivity().getApplication());
         predAdapter=new PredAdapter();
         predServerAdapter=new PredAdapter();
-        predResultAdapter=new PredResultAdapter();
+
         LinearLayoutManager layoutManager1 = new LinearLayoutManager(context);
         layoutManager1.setOrientation(LinearLayoutManager.VERTICAL);
 
@@ -100,9 +101,9 @@ public class PredFragment extends Fragment implements View.OnClickListener {
 
         LinearLayoutManager layoutManager3= new LinearLayoutManager(context);
         layoutManager3.setOrientation(LinearLayoutManager.HORIZONTAL);
-        pred_app_result.setLayoutManager(layoutManager3);
+
 //
-        pred_app_result.setAdapter(predResultAdapter);
+
         LinearLayoutManager layoutManager4= new LinearLayoutManager(context);
         layoutManager4.setOrientation(LinearLayoutManager.HORIZONTAL);
         pred_app_from_server.setLayoutManager(layoutManager4);
@@ -114,8 +115,7 @@ public class PredFragment extends Fragment implements View.OnClickListener {
         super.onResume();
         OnePred onePred = predicter.getOnePred();
         List<OnePred> aLlOnePreds = appDao.getALlOnePreds();
-        predResultAdapter.setmAppsList(aLlOnePreds);
-        predResultAdapter.notifyDataSetChanged();
+
         predicter.updateAdapter(predAdapter);
         //上传当前app名字到服务器，并获得推荐
         SimpleApp currentApp=appDao.getCurrentApp();
@@ -133,6 +133,7 @@ public class PredFragment extends Fragment implements View.OnClickListener {
             }
         };
         if(currentApp!=null){
+            appholder.update(currentApp);
             new Thread(()->{
                 String ret = DataSender.send(currentApp);
                 if(ret!=null) {

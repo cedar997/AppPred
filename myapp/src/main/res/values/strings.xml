@@ -4,4 +4,8 @@
     <string name="radio_sort">排序</string>
     <string name="radio_set">设置</string>
     <string name="radio_pred">预测</string>
+    <string name="sort_1">按最近使用时间排序</string>
+    <string name="sort_2">按使用总时间排序</string>
+    <string name="sort_3">按使用次数排序</string>
+
 </resources>

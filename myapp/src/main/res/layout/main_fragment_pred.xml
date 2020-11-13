@@ -7,17 +7,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="预测"
+            android:text="当前应用"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/app_view_holder">
+                <include layout="@layout/pred_app_item"/>
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="本地预测"
             />
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:id="@+id/app_pred"
             />
-        <androidx.recyclerview.widget.RecyclerView
+
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:id="@+id/app_pred_result"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="服务器预测"
             />
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="wrap_content"

@@ -4,15 +4,12 @@ import androidx.fragment.app.Fragment;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.PopupMenu;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,21 +20,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.rom471.adapter.AppSortAdapter;
 
-import com.rom471.adapter.PredAdapter;
-import com.rom471.adapter.PredResultAdapter;
 import com.rom471.db2.App;
 import com.rom471.db2.AppDao;
 import com.rom471.db2.AppDataBase;
-import com.rom471.db2.OnePred;
 import com.rom471.db2.OneUse;
-import com.rom471.db2.SimpleApp;
-import com.rom471.net.DataSender;
-import com.rom471.pred.MyPredicter;
 import com.rom471.recorder.R;
-import com.rom471.utils.AppUtils;
 import com.rom471.utils.Const;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class SortFragment extends Fragment implements View.OnClickListener {
@@ -49,7 +38,7 @@ public class SortFragment extends Fragment implements View.OnClickListener {
     Context context;
 
     AppDao appDao;
-    Button total_time_btn;
+    Button sortBtn;
 
     //RecordDBHelper db;
     AppSortAdapter adapter_last;
@@ -61,7 +50,7 @@ public class SortFragment extends Fragment implements View.OnClickListener {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.main_fragment_home,container,false);
+        return inflater.inflate(R.layout.main_fragment_sort,container,false);
     }
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -72,10 +61,10 @@ public class SortFragment extends Fragment implements View.OnClickListener {
         recyclerView =getActivity().findViewById(R.id.app_list);
 
 
-        total_time_btn=getActivity().findViewById(R.id.sort_btn);
+        sortBtn =getActivity().findViewById(R.id.sort_btn);
 
 
-        total_time_btn.setOnClickListener(this);
+        sortBtn.setOnClickListener(this);
 
 
         AppDataBase appDataBase= AppDataBase.getInstance(context);
@@ -123,7 +112,8 @@ public class SortFragment extends Fragment implements View.OnClickListener {
 
             case R.id.sort_btn:
 
-                PopupMenu popup = new PopupMenu(getActivity(), total_time_btn);
+                PopupMenu popup = new PopupMenu(getActivity(), sortBtn);
+
                 //Inflating the Popup using xml file
                 popup.getMenuInflater()
                         .inflate(R.menu.popup_menu, popup.getMenu());
@@ -134,12 +124,15 @@ public class SortFragment extends Fragment implements View.OnClickListener {
                         switch (item.getItemId()){
                             case R.id.popup_one:
                                 adapter_last.change(Const.CHANGE_LAST_USE);
+                                sortBtn.setText(R.string.sort_1);
                                 break;
                             case R.id.popup_two:
                                 adapter_last.change(Const.CHAGE_TIME_MOST);
+                                sortBtn.setText(R.string.sort_2);
                                 break;
                             case R.id.popup_three:
                                 adapter_last.change(Const.CHANGE_COUNT_MOST);
+                                sortBtn.setText(R.string.sort_3);
                                 break;
                         }
                         return true;

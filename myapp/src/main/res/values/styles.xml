@@ -28,5 +28,17 @@
         <item name="android:textSize">12sp</item>
         <item name="android:scaleType">matrix</item>
     </style>
-
+<!--    设置界面的按钮风格-->
+    <style name="style_SettingsButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:button">@null</item>
+        <item name="android:background">#ddffdd</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textColor">#111111</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:scaleType">matrix</item>
+    </style>
 </resources>

@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.rom471.db2.App;
 import com.rom471.db2.AppDao;
-import com.rom471.db2.AppRecordsRepository;
 import com.rom471.recorder.R;
 import com.rom471.utils.Const;
 import com.rom471.utils.DBUtils;
@@ -72,7 +71,7 @@ public class AppSortAdapter extends RecyclerView.Adapter<AppSortAdapter.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.recycle_app_item,parent,false);
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.sort_app_item,parent,false);
         ViewHolder holder=new ViewHolder(view);
         return holder;
     }
@@ -82,6 +81,7 @@ public class AppSortAdapter extends RecyclerView.Adapter<AppSortAdapter.ViewHold
         App app=mAppsList.get(position);
         holder.appIcon.setBackground(app.getIcon());
         holder.appName.setText(app.getAppName());
+        holder.appRank.setText(""+(position+1));
         switch (type){
             case Const.CHAGE_TIME_MOST:
                 holder.appInfo.setText(DBUtils.getTimeSpendString(app.getTotalRuningTime()) );
@@ -106,6 +106,7 @@ public class AppSortAdapter extends RecyclerView.Adapter<AppSortAdapter.ViewHold
         ImageView appIcon;
         TextView appName;
         TextView appInfo;
+        TextView appRank;
 
         public ViewHolder (View view)
         {
@@ -113,6 +114,7 @@ public class AppSortAdapter extends RecyclerView.Adapter<AppSortAdapter.ViewHold
             appIcon = (ImageView) view.findViewById(R.id.appicon);
             appName = (TextView) view.findViewById(R.id.appname);
             appInfo = (TextView) view.findViewById(R.id.app_info);
+            appRank = (TextView) view.findViewById(R.id.app_rank);
         }
 
     }
