@@ -4,59 +4,68 @@
     android:orientation="vertical"
     android:layout_height="match_parent">
 <TextView
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:text="Settings"
     android:textSize="40dp"
     />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="5dp"
-        android:id="@+id/clear_records_btn"
 
-        android:text="清除数据"
-        style="@style/style_SettingsButton"
-        />
+       <Button
+
+           android:layout_width="150dp"
+           android:layout_height="150dp"
+           android:layout_marginHorizontal="15dp"
+           android:id="@+id/clear_records_btn"
+           android:text="清除数据"
+           android:background="@drawable/setting_button"
+           android:drawableTop="@drawable/delete"
+           android:paddingTop="20dp"
+           android:textSize="18dp"
+           android:textFontWeight="200"
+           android:layout_marginTop="20dp"
+           android:layout_marginBottom="10dp"
+
+           />
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="5dp"
+        android:layout_marginHorizontal="15dp"
         android:id="@+id/clear_pred_btn"
         android:text="清除预测数据"
-        style="@style/style_SettingsButton"
+        android:background="@drawable/button"
+        android:drawableLeft="@drawable/delete"
+        android:layout_marginBottom="10dp"
         />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="5dp"
+        android:layout_marginHorizontal="15dp"
         android:id="@+id/post_records_btn"
         android:text="上传数据到服务器"
-        style="@style/style_SettingsButton"
+        android:background="@drawable/button"
+        android:drawableLeft="@drawable/server"
+        android:layout_marginBottom="10dp"
         />
     <Button
-        android:layout_width="wrap_content"
-        android:layout_marginHorizontal="5dp"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="15dp"
         android:layout_height="wrap_content"
         android:id="@+id/open_accessibility_btn"
         android:text="打开辅助功能"
-        style="@style/style_SettingsButton"
+        android:background="@drawable/button"
+        android:drawableLeft="@drawable/assist"
+        android:layout_marginBottom="10dp"
         />
+
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="5dp"
-        android:text="手动服务"
-        android:visibility="invisible"
-        android:id="@+id/start_service_btn"
-        />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="5dp"
+        android:layout_marginHorizontal="15dp"
         android:text="导出数据库"
         android:id="@+id/output_db_btn"
-        style="@style/style_SettingsButton"
+        android:background="@drawable/button"
+        android:drawableLeft="@drawable/database"
+        android:layout_marginBottom="10dp"
         />
 </LinearLayout>

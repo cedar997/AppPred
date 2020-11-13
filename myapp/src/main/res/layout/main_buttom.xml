@@ -23,7 +23,7 @@
 
                  android:text="@string/radio_find"
                     style="@style/style_RadioButton"
-                    android:drawableTop="@drawable/list_selector"/>
+                    android:drawableTop="@drawable/search_selector"/>
             <RadioButton
                 android:id="@+id/radio_sort"
                 android:layout_width="0dp"

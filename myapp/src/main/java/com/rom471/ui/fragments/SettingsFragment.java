@@ -73,7 +73,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         //db=new RecordDBHelper(getContext(),"app.db");
         appRecordsRepository=new AppRecordsRepository(getActivity().getApplication());
         accessibility_btn=getActivity().findViewById(R.id.open_accessibility_btn);
-        normal_service_btn=getActivity().findViewById(R.id.start_service_btn);
+
 
         accessibility_btn.setOnClickListener(this);
         clearRecord_btn=getActivity().findViewById(R.id.clear_records_btn);
@@ -103,11 +103,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
             case R.id.open_accessibility_btn:
                 getAccessibilityPermission(getContext());
                 break;
-            case R.id.start_service_btn:
-                Intent recoder_service=new Intent(context, RecordService.class);
-                context.startService(recoder_service);
-                toast(context,"记录服务已经启动");
-                break;
+
             case R.id.output_db_btn:
                 if(verifyStoragePermissions(getActivity())) {
                     export_db();
