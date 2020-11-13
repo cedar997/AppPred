@@ -99,7 +99,7 @@ public class SortFragment extends Fragment implements View.OnClickListener {
     }
     private void initPredView(){
         predicter=new MyPredicter(getActivity().getApplication());
-        predAdapter=new PredAdapter();
+        predAdapter=new PredAdapter(getActivity());
         pred_app_top_5=getActivity().findViewById(R.id.app_pred);
         LinearLayoutManager layoutManager2 = new LinearLayoutManager(context);
         layoutManager2.setOrientation(LinearLayoutManager.HORIZONTAL);

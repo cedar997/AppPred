@@ -1,21 +1,17 @@
 package com.rom471.ui.fragments;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Button;
-import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,21 +21,15 @@ import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.rom471.adapter.AppSortAdapter;
-import com.rom471.adapter.AppViewHolder;
 import com.rom471.adapter.PredAdapter;
-import com.rom471.adapter.PredResultAdapter;
 import com.rom471.db2.App;
 import com.rom471.db2.AppDao;
 import com.rom471.db2.AppDataBase;
-import com.rom471.db2.OnePred;
 import com.rom471.db2.OneUse;
 import com.rom471.db2.SimpleApp;
 import com.rom471.net.DataSender;
-import com.rom471.pred.MyPredicter;
 import com.rom471.recorder.R;
 import com.rom471.utils.AppUtils;
-import com.rom471.utils.Const;
 
 import java.util.Arrays;
 import java.util.List;
@@ -91,7 +81,7 @@ public class PredFragment extends Fragment implements View.OnClickListener {
 
 
 
-        predServerAdapter=new PredAdapter();
+        predServerAdapter=new PredAdapter(getActivity());
 
         LinearLayoutManager layoutManager1 = new LinearLayoutManager(context);
         layoutManager1.setOrientation(LinearLayoutManager.VERTICAL);
