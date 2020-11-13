@@ -150,12 +150,7 @@ public class MyRecorder3 {
         String appName = getAppLabel(pkgname);
         //获取类名
         String name= event.getClassName()==null ?"":event.getClassName().toString();
-
-        Pattern pattern=Pattern.compile("^android.*");
-        Matcher matcher = pattern.matcher(name);
-        //过滤
-        Log.d("no", ""+appName+" "+name);
-        if(!matcher.find()) {
+        if(!name.startsWith("android.")) {
             Log.d(TAG, ""+appName+" "+name);
             //如果回到桌面就停止记录
             if(stopApps.contains(appName)){
