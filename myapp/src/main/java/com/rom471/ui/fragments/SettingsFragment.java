@@ -146,7 +146,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         int db_index=0;//数据库序号
 
 
-        String currentDBPath = "/data/"+ "com.rom471.recorder2" +"/databases/"+"apps.db";
+        String currentDBPath = "/data/"+ "com.rom471.myapp" +"/databases/"+"apps.db";
         String backupPath=sd+"/rom471/";
         File backupPathFile = new File(backupPath);
         if (!backupPathFile.exists()) { //检查目录是否存在
@@ -238,7 +238,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         String settingValue = Settings.Secure.getString(
                 context.getApplicationContext().getContentResolver(),
                 Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
-        Log.d("cedar", "isAccessibilitySettingsOn: "+settingValue);
+//        Log.d("cedar", "isAccessibilitySettingsOn: "+settingValue);
         if (settingValue != null) {
             mStringColonSplitter.setString(settingValue); //各个服务由分号分割
             while (mStringColonSplitter.hasNext()) {
