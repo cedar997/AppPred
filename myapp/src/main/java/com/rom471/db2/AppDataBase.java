@@ -20,7 +20,7 @@ public abstract class AppDataBase extends RoomDatabase {
     public abstract AppDao appDao();
     public abstract OneUseDao oneUseDao();
 
-    public AppDao getAppDao(){
+    public static AppDao getAppDao(){
         return INSTANCE.appDao();
     }
     public OneUseDao getOneUseDao(){

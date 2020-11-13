@@ -126,9 +126,6 @@ public class PredFragment extends Fragment implements View.OnClickListener {
     public void onResume() {
         super.onResume();
 
-
-
-
         //上传当前app名字到服务器，并获得推荐
         List<OneUse> allOneUses = appDao.getAllOneUses();
         DataSender.sendOneUses(allOneUses);

@@ -1,11 +1,15 @@
 from flask import Flask, request,redirect
 import pandas as pd
 from datetime import datetime
+from flask import render_template
+import paint
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/', methods=['POST','GET'])
 def hello_world():
-    return redirect( 'http://www.bilibili.com' )
+    #return redirect( 'http://www.bilibili.com' )
+    paint.update_image()
+    return render_template('index.html')
 #处理单个app
 @app.route('/send', methods=['POST'])
 def handle_send():

@@ -39,6 +39,8 @@ public abstract class AppDao {
     @Query("select * from OneUse order by id desc")
     public abstract LiveData<List<OneUse>> getAllOneUsesLive();
     @Query("select * from OneUse order by id desc")
+    public abstract List<OneUse> getAllOneUsesDESC();
+    @Query("select * from OneUse ")
     public abstract List<OneUse> getAllOneUses();
     @Insert
     public abstract void insert(App app);

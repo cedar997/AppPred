@@ -28,6 +28,8 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 
 
+import com.rom471.db2.AppDao;
+import com.rom471.db2.AppDataBase;
 import com.rom471.db2.AppRecordsRepository;
 import com.rom471.db2.OneUse;
 import com.rom471.net.DataSender;
@@ -51,10 +53,11 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
     Button accessibility_btn;
     Button clearRecord_btn;
     Button clearPred_btn;
-
+    Button setHost_btn;
     Button ouput_db_btn;
     Button post_records_btn;
     AppRecordsRepository appRecordsRepository;
+    AppDao appDao;
     Context context;
     SharedPreferences properties;
 
@@ -73,6 +76,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         context=getContext();
         //db=new RecordDBHelper(getContext(),"app.db");
         appRecordsRepository=new AppRecordsRepository(getActivity().getApplication());
+        appDao= AppDataBase.getAppDao();
         accessibility_btn=getActivity().findViewById(R.id.open_accessibility_btn);
 
 
@@ -81,6 +85,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         clearPred_btn=getActivity().findViewById(R.id.clear_pred_btn);
         ouput_db_btn=getActivity().findViewById(R.id.output_db_btn);
         post_records_btn=getActivity().findViewById(R.id.post_records_btn);
+        setHost_btn=getActivity().findViewById(R.id.set_host_ip_btn);
+        setHost_btn.setOnClickListener(this);
         post_records_btn.setOnClickListener(this);
         ouput_db_btn.setOnClickListener(this);
         clearRecord_btn.setOnClickListener(this);
@@ -98,9 +104,14 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
                 SettingUtils.confirmClearRecordsDialog(context,appRecordsRepository);
 
                 break;
-            case R.id.clear_pred_btn:
+            case R.id.set_host_ip_btn:
                 //TODO
                 SettingUtils.alert_host_edit(context);
+
+                break;
+            case R.id.clear_pred_btn:
+                //TODO
+                
                 SettingUtils.confirmClearPredsDialog(context,appRecordsRepository);
                 break;
             case R.id.open_accessibility_btn:
@@ -116,7 +127,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
                 }
                 break;
             case R.id.post_records_btn:
-                List<OneUse> allOneUses = appRecordsRepository.getAllOneUses();
+                List<OneUse> allOneUses = appDao.getAllOneUses();
                 DataSender.sendOneUses(allOneUses);
                 break;
         }

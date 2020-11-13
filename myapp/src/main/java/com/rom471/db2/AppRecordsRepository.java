@@ -1,7 +1,6 @@
 package com.rom471.db2;
 
 import android.app.Application;
-import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
@@ -36,7 +35,7 @@ public class AppRecordsRepository {
         return appDao.getAllOneUsesLive();
     }
     public List<OneUse> getAllOneUses(){
-        return appDao.getAllOneUses();
+        return appDao.getAllOneUsesDESC();
     }
     public void delete(OneUse oneUse){
         appDao.delete(oneUse);
