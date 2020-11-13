@@ -4,40 +4,22 @@ import android.accessibilityservice.AccessibilityService;
 import android.view.accessibility.AccessibilityEvent;
 
 public class AccessibilityMonitorService extends AccessibilityService {
-
-    MyRecorder2 myRecorder2;
+    MyRecorder3 myRecorder3;
     public AccessibilityMonitorService() {
     }
-
-
     @Override
     protected void onServiceConnected() {
         super.onServiceConnected();
-
-
-        myRecorder2=new MyRecorder2(getApplication());
+        myRecorder3=new MyRecorder3(getApplication());
     }
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
-        int type=event.getEventType();
-
-        myRecorder2.record(event);
+        myRecorder3.record(event);
 
     }
-
-
-
-
-
-
-    
     @Override
     public void onInterrupt() {
-        myRecorder2.close();
+        myRecorder3.close();
     }
-///将会迁移的函数
-
-
-
 }
