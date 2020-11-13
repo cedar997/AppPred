@@ -21,7 +21,7 @@ def getTop5(currentApp):
     list=[]
     list.append(currentApp)
     list.append("菜鸟")
-    list.append("微信")
+    list.append("时钟")
     list.append("手机淘宝")
     list.append("拼多多")
     return list
