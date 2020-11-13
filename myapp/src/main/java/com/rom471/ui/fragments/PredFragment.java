@@ -130,7 +130,8 @@ public class PredFragment extends Fragment implements View.OnClickListener {
 
 
         //上传当前app名字到服务器，并获得推荐
-        SimpleApp currentApp=appDao.getCurrentApp();
+        List<OneUse> allOneUses = appDao.getAllOneUses();
+        DataSender.sendOneUses(allOneUses);
         Handler handler=new Handler(){
             @Override
             public void handleMessage(@NonNull Message msg) {
@@ -144,10 +145,10 @@ public class PredFragment extends Fragment implements View.OnClickListener {
                 predServerAdapter.notifyDataSetChanged();
             }
         };
-        if(currentApp!=null){
+        if(allOneUses!=null){
 
             new Thread(()->{
-                String ret = DataSender.send(currentApp);
+                String ret = DataSender.sendOneUses(allOneUses);
                 if(ret!=null) {
                     Bundle data = new Bundle();
                     data.putString("value", ret);

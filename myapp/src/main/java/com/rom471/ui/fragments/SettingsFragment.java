@@ -36,6 +36,7 @@ import com.rom471.services.RecordService;
 
 import com.rom471.utils.Const;
 import com.rom471.utils.DBUtils;
+import com.rom471.utils.SettingUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -50,7 +51,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
     Button accessibility_btn;
     Button clearRecord_btn;
     Button clearPred_btn;
-    Button normal_service_btn;
+
     Button ouput_db_btn;
     Button post_records_btn;
     AppRecordsRepository appRecordsRepository;
@@ -84,7 +85,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         ouput_db_btn.setOnClickListener(this);
         clearRecord_btn.setOnClickListener(this);
         clearPred_btn.setOnClickListener(this);
-        normal_service_btn.setOnClickListener(this);
+
 //        Log.d("cedar", "onActivityCreated: "+ MyProperties.getProperties(context).getString("dbname",""));
 
     }
@@ -94,14 +95,16 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         switch (v.getId()){
             case R.id.clear_records_btn:
 
-                confirmClearRecordsDialog();
+                SettingUtils.confirmClearRecordsDialog(context,appRecordsRepository);
 
                 break;
             case R.id.clear_pred_btn:
-                confirmClearPredsDialog();
+                //TODO
+                SettingUtils.alert_host_edit(context);
+                SettingUtils.confirmClearPredsDialog(context,appRecordsRepository);
                 break;
             case R.id.open_accessibility_btn:
-                getAccessibilityPermission(getContext());
+                SettingUtils.getAccessibilityPermission(getContext());
                 break;
 
             case R.id.output_db_btn:
@@ -170,64 +173,9 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
             e.printStackTrace();
         }
     }
-    //确认清除数据的弹出对话框
-    public void confirmClearRecordsDialog(){
-        final boolean[] ret = {false};
-        final AlertDialog.Builder normalDialog =
-                new AlertDialog.Builder(context);
-        normalDialog.setIcon(R.drawable.ic_launcher_background);
-        normalDialog.setTitle("警告！");
-        normalDialog.setMessage("确认要删除已有的数据吗？");
-        normalDialog.setPositiveButton("确定",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        appRecordsRepository.deleteAll();
 
-                    }
-                });
-        normalDialog.setNegativeButton("关闭",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //...To-do
-                    }
-                });
-        normalDialog.show();
 
-    }
-    //确认清除预测记录的弹出对话框
-    public void confirmClearPredsDialog(){
-        final boolean[] ret = {false};
-        final AlertDialog.Builder normalDialog =
-                new AlertDialog.Builder(context);
-        normalDialog.setIcon(R.drawable.ic_launcher_background);
-        normalDialog.setTitle("警告！");
-        normalDialog.setMessage("确认要重新开始预测吗？");
-        normalDialog.setPositiveButton("确定",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        appRecordsRepository.deletePreds();
 
-                    }
-                });
-        normalDialog.setNegativeButton("关闭",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //...To-do
-                    }
-                });
-        normalDialog.show();
-
-    }
-    //跳转到打开辅助功能界面
-    public void getAccessibilityPermission(Context context){
-        final String mAction= Settings.ACTION_ACCESSIBILITY_SETTINGS;//辅助功能
-        Intent intent=new Intent(mAction);
-        context.startActivity(intent);
-    }
     private static boolean isAccessibilitySettingsOn(Context context) {
         String service="com.rom471.myapp/com.rom471.services.AccessibilityMonitorService";
         TextUtils.SimpleStringSplitter mStringColonSplitter = new TextUtils.SimpleStringSplitter(':');

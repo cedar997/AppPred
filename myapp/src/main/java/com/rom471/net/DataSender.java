@@ -21,7 +21,7 @@ import java.util.List;
 
 public class DataSender {
     public static String getUrl(){
-        String host =(String) MyProperties.get(AppUtils.getContext(), "host", "192.168.199.225");
+        String host =(String) MyProperties.get(AppUtils.getContext(), "host", "192.168.199.151");
         return "http://"+host+":5000/";
     }
     public static String send(SimpleApp app){

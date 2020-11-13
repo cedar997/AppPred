@@ -124,8 +124,8 @@ public class MyRecorder3 {
         }
         long l = System.currentTimeMillis();
         long spend = l - oneUse.getStartTimestamp();
-        //不记录0.5秒内的
-        if (spend < 500) return;
+        //不记录0.3秒内的
+        if (spend < 300) return;
         oneUse.setSpendTime(spend);
         app.setLastRuningTime(l);
         app.addTotalRuningTime(spend);//增加统计表的时间
