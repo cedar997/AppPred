@@ -84,7 +84,6 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         ouput_db_btn.setOnClickListener(this);
         clearRecord_btn.setOnClickListener(this);
         clearPred_btn.setOnClickListener(this);
-        normal_service_btn.setOnClickListener(this);
 //        Log.d("cedar", "onActivityCreated: "+ MyProperties.getProperties(context).getString("dbname",""));
 
     }
