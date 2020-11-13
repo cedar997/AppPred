@@ -48,7 +48,7 @@ public class PredFragment extends Fragment implements View.OnClickListener {
 
 
 
-    AppViewHolder appholder;
+
     List<App>  appLists;
     LiveData<List<OneUse>> useLists;
     Context context;
@@ -77,7 +77,7 @@ public class PredFragment extends Fragment implements View.OnClickListener {
 
 
 
-        appholder=new AppViewHolder(getActivity().findViewById(R.id.app_view_holder));
+
         pred_app_from_server =getActivity().findViewById(R.id.app_pred_from_server);
 
 
@@ -159,7 +159,7 @@ public class PredFragment extends Fragment implements View.OnClickListener {
             }
         };
         if(currentApp!=null){
-            appholder.update(currentApp);
+
             new Thread(()->{
                 String ret = DataSender.send(currentApp);
                 if(ret!=null) {
