@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">应用预测</string>
-    <string name="radio_btn1">查找</string>
-    <string name="radio_btn2">主界面</string>
-    <string name="radio_btn3">设置</string>
+    <string name="radio_find">查找</string>
+    <string name="radio_sort">排序</string>
+    <string name="radio_set">设置</string>
+    <string name="radio_pred">预测</string>
 </resources>

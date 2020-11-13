@@ -9,6 +9,7 @@ import com.rom471.db2.AppDataBase;
 import com.rom471.db2.OnePred;
 import com.rom471.db2.OneUseDao;
 import com.rom471.db2.SimpleApp;
+import com.rom471.net.DataSender;
 import com.rom471.utils.DBUtils;
 
 import java.util.ArrayList;
@@ -189,8 +190,9 @@ public class MyPredicter {
         }
         return onePred;
     }
-    public void updateAdapter(PredAdapter predAdapter){
+    public void    updateAdapter(PredAdapter predAdapter){
         currentApp= simpleDao.getCurrentApp();
+
         if(currentApp==null)
             return;
         //Log.d(TAG, "updateAdapter: "+currentApp.getAppName());

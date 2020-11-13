@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.rom471.db2.App;
+import com.rom471.db2.AppDao;
 import com.rom471.db2.AppRecordsRepository;
 import com.rom471.recorder.R;
 import com.rom471.utils.Const;
@@ -26,7 +27,7 @@ public class AppSortAdapter extends RecyclerView.Adapter<AppSortAdapter.ViewHold
     public static final int APP_LIST_SIZE=100;
     LiveData<List<App>> liveData;
     Fragment context;
-    AppRecordsRepository appRecordsRepository;
+    AppDao appDao;
     int type;
     public List<App> getmAppsList() {
         return mAppsList;
@@ -38,9 +39,9 @@ public class AppSortAdapter extends RecyclerView.Adapter<AppSortAdapter.ViewHold
 
 
 
-    public AppSortAdapter(Fragment context, AppRecordsRepository appRecordsRepository){
+    public AppSortAdapter(Fragment context, AppDao appDao){
         this.context=context;
-        this.appRecordsRepository=appRecordsRepository;
+        this.appDao=appDao;
         change(Const.CHANGE_LAST_USE);
 
     }
@@ -49,13 +50,13 @@ public class AppSortAdapter extends RecyclerView.Adapter<AppSortAdapter.ViewHold
         this.type=type;
         switch (type){
             case Const.CHAGE_TIME_MOST:
-                liveData= appRecordsRepository.getMostUsedApps(APP_LIST_SIZE);
+                liveData= appDao.getMostUsedApps(APP_LIST_SIZE);
                 break;
             case Const.CHANGE_LAST_USE:
-                liveData= appRecordsRepository.getLastApp(APP_LIST_SIZE);
+                liveData= appDao.getLastUsedApp(APP_LIST_SIZE);
                 break;
             case Const.CHANGE_COUNT_MOST:
-                liveData= appRecordsRepository.getMostCountsApps(APP_LIST_SIZE);
+                liveData= appDao.getMostCountsApps(APP_LIST_SIZE);
                 break;
 
         }

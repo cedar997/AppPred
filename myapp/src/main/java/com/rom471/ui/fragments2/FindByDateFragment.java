@@ -1,27 +1,16 @@
 package com.rom471.ui.fragments2;
 
-import androidx.fragment.app.Fragment;
-
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.icu.util.Calendar;
 import android.os.Build;
-import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.Observer;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.rom471.adapter.OneUseAdapter;
 
 import com.rom471.db2.AppRecordsRepository;
 import com.rom471.db2.OneUse;
@@ -54,7 +43,7 @@ public class FindByDateFragment extends OneUseFindFragment {
     private void registRecords(){
         AppRecordsRepository appRecordsRepository;
         appRecordsRepository=new AppRecordsRepository(getActivity().getApplication());
-        appRecordsRepository.getAllOneUses().observe(this,new Observer<List<OneUse>>(){
+        appRecordsRepository.getAllOneUsesLive().observe(this,new Observer<List<OneUse>>(){
             @Override
             public void onChanged(List<OneUse> records) {
                 DBUtils.setOneUseIcon(context,records);

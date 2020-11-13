@@ -11,6 +11,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.rom471.adapter.MyFragmentPagerAdapter;
 
 import com.rom471.recorder.R;
+import com.rom471.utils.AppUtils;
 import com.rom471.utils.MyProperties;
 
 import java.util.HashMap;
@@ -19,7 +20,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener , ViewPager.OnPageChangeListener {
     public static final String TAG="cedar";
     RadioGroup mRadioGroup;
-    RadioButton rb1,rb2,rb3;
+    RadioButton rb1,rb2,rb3,rb4;
     ViewPager vp;
 
 
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         vp.addOnPageChangeListener(this);
         mRadioGroup.setOnCheckedChangeListener(this);
         initProperties();
-
+        AppUtils.init(this);
 
 //
 //        RecordsViewModelFactory recordsViewModelFactory=new RecordsViewModelFactory();
@@ -46,9 +47,10 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
 
     private void bindView(){
         mRadioGroup=findViewById(R.id.radioGroup1);
-        rb1=findViewById(R.id.radio1);
-        rb2=findViewById(R.id.radio2);
-        rb3=findViewById(R.id.radio3);
+        rb1=findViewById(R.id.radio_find);
+        rb2=findViewById(R.id.radio_sort);
+        rb3=findViewById(R.id.radio_pred);
+        rb4=findViewById(R.id.radio_set);
         vp=findViewById(R.id.vpager);
 
 
@@ -67,18 +69,20 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     public void onCheckedChanged(RadioGroup group, int checkedId) {
 
         switch (checkedId){
-            case R.id.radio1:
+            case R.id.radio_find:
                 vp.setCurrentItem(0);
 
                 break;
-            case R.id.radio2:
+            case R.id.radio_sort:
                 vp.setCurrentItem(1);
 
                 break;
-            case R.id.radio3:
+            case R.id.radio_pred:
                 vp.setCurrentItem(2);
                 break;
-
+            case R.id.radio_set:
+                vp.setCurrentItem(3);
+                break;
         }
 
     }
@@ -106,6 +110,9 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
                     break;
                 case 2:
                     rb3.setChecked(true);
+                    break;
+                case 3:
+                    rb4.setChecked(true);
                     break;
             }
         }

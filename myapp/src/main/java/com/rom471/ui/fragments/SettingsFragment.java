@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.ContactsContract;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
@@ -28,9 +29,12 @@ import androidx.core.app.ActivityCompat;
 
 
 import com.rom471.db2.AppRecordsRepository;
+import com.rom471.db2.OneUse;
+import com.rom471.net.DataSender;
 import com.rom471.recorder.R;
 import com.rom471.services.RecordService;
 
+import com.rom471.utils.Const;
 import com.rom471.utils.DBUtils;
 
 import java.io.File;
@@ -38,6 +42,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.util.List;
 
 
 public class SettingsFragment extends Fragment implements View.OnClickListener{
@@ -47,6 +52,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
     Button clearPred_btn;
     Button normal_service_btn;
     Button ouput_db_btn;
+    Button post_records_btn;
     AppRecordsRepository appRecordsRepository;
     Context context;
     SharedPreferences properties;
@@ -73,6 +79,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         clearRecord_btn=getActivity().findViewById(R.id.clear_records_btn);
         clearPred_btn=getActivity().findViewById(R.id.clear_pred_btn);
         ouput_db_btn=getActivity().findViewById(R.id.output_db_btn);
+        post_records_btn=getActivity().findViewById(R.id.post_records_btn);
+        post_records_btn.setOnClickListener(this);
         ouput_db_btn.setOnClickListener(this);
         clearRecord_btn.setOnClickListener(this);
         clearPred_btn.setOnClickListener(this);
@@ -107,6 +115,10 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
                 else {
 
                 }
+                break;
+            case R.id.post_records_btn:
+                List<OneUse> allOneUses = appRecordsRepository.getAllOneUses();
+                DataSender.sendOneUses(allOneUses, Const.SERVER);
                 break;
         }
     }

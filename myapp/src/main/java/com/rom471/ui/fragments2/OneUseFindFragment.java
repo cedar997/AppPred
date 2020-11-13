@@ -67,7 +67,7 @@ public abstract class OneUseFindFragment extends Fragment implements View.OnClic
     abstract void bindView();
     private void registRecords(){
         appOneUsesRepository=new AppRecordsRepository(getActivity().getApplication());
-        appOneUsesRepository.getAllOneUses().observe(this,new Observer<List<OneUse>>(){
+        appOneUsesRepository.getAllOneUsesLive().observe(this,new Observer<List<OneUse>>(){
             @Override
             public void onChanged(List<OneUse> records) {
                 mOneUses=records;

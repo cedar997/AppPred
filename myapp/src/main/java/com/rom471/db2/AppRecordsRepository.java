@@ -5,10 +5,7 @@ import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 public class AppRecordsRepository {
 
@@ -35,17 +32,11 @@ public class AppRecordsRepository {
         return appDao.getMostCountsApps(limit);
     }
 
-    public void insert (OneUse oneUse) {
-        new insertOneUseAsyncTask(appDao).execute(oneUse);
+    public LiveData<List<OneUse>> getAllOneUsesLive(){
+        return appDao.getAllOneUsesLive();
     }
-    public void insert (App app) {
-        new insertAsyncTask(appDao).execute(app);
-    }
-    public void update (App app) {
-        new UpdateAsyncTask(appDao).execute(app);
-    }
-    public LiveData<List<OneUse>> getAllOneUses(){
-        return appDao.getAllOneUse();
+    public List<OneUse> getAllOneUses(){
+        return appDao.getAllOneUses();
     }
     public void delete(OneUse oneUse){
         appDao.delete(oneUse);
@@ -59,61 +50,5 @@ public class AppRecordsRepository {
 
         appDao.deleteOnePreds();
     }
-    private static class insertAsyncTask extends AsyncTask<App, Void, Void> {
 
-        private AppDao mAsyncTaskDao;
-
-        insertAsyncTask(AppDao dao) {
-            mAsyncTaskDao = dao;
-        }
-
-        @Override
-        protected Void doInBackground(final App... params) {
-            try{
-                mAsyncTaskDao.insertApp(params[0]);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-    }
-    private static class UpdateAsyncTask extends AsyncTask<App, Void, Void> {
-
-        private AppDao mAsyncTaskDao;
-
-        UpdateAsyncTask(AppDao dao) {
-            mAsyncTaskDao = dao;
-        }
-
-        @Override
-        protected Void doInBackground(final App... params) {
-            try{
-                mAsyncTaskDao.updateApp(params[0]);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-    }
-    private static class insertOneUseAsyncTask extends AsyncTask<OneUse, Void, Void> {
-
-        private AppDao mAsyncTaskDao;
-
-        insertOneUseAsyncTask(AppDao dao) {
-            mAsyncTaskDao = dao;
-        }
-
-        @Override
-        protected Void doInBackground(final OneUse... params) {
-            try{
-                mAsyncTaskDao.insertOneUse(params[0]);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-    }
 }

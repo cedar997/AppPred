@@ -37,7 +37,9 @@ public abstract class AppDao {
     @Query("select * from App where appName=:appname limit 1")
     public abstract App getAppByName(String appname);
     @Query("select * from OneUse order by id desc")
-    public abstract LiveData<List<OneUse>>  getAllOneUse();
+    public abstract LiveData<List<OneUse>> getAllOneUsesLive();
+    @Query("select * from OneUse order by id desc")
+    public abstract List<OneUse> getAllOneUses();
     @Insert
     public abstract void insert(App app);
     @Insert
@@ -71,4 +73,7 @@ public abstract class AppDao {
 
     @Query("delete from OnePred")
     public abstract void deleteOnePreds();
+
+    @Query("select appName,pkgName,startTimestamp  from OneUse order by id desc limit 1")
+    public abstract SimpleApp getCurrentApp();
 }

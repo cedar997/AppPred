@@ -1,6 +1,7 @@
 package com.rom471.db2;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity
@@ -13,7 +14,7 @@ public class OnePred {
 
     public OnePred() {
     }
-
+    @Ignore
     public OnePred(int top1, int top3, int top5) {
         this.top1 = top1;
         this.top3 = top3;

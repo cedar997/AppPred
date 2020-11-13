@@ -2,17 +2,17 @@ package com.rom471.ui.fragments;
 
 import androidx.fragment.app.Fragment;
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,32 +28,34 @@ import com.rom471.adapter.PredResultAdapter;
 import com.rom471.db2.App;
 import com.rom471.db2.AppDao;
 import com.rom471.db2.AppDataBase;
-import com.rom471.db2.AppRecordsRepository;
 import com.rom471.db2.OnePred;
 import com.rom471.db2.OneUse;
+import com.rom471.db2.SimpleApp;
+import com.rom471.net.DataSender;
 import com.rom471.pred.MyPredicter;
 import com.rom471.recorder.R;
+import com.rom471.utils.AppUtils;
 import com.rom471.utils.Const;
 
+import java.util.Arrays;
 import java.util.List;
 
-public class HomeFragment2 extends Fragment implements View.OnClickListener {
+public class SortFragment extends Fragment implements View.OnClickListener {
     RecyclerView recyclerView;
-    RecyclerView pred_app_top_5;
-    RecyclerView pred_app_result;
+
 
     List<App>  appLists;
     LiveData<List<OneUse>> useLists;
     Context context;
-    AppRecordsRepository appRecordsRepository;
+
     AppDao appDao;
     Button total_time_btn;
 
     //RecordDBHelper db;
     AppSortAdapter adapter_last;
-    PredAdapter predAdapter;
-    PredResultAdapter predResultAdapter;
-    MyPredicter predicter;
+
+
+
 
     public static final int APP_LIST_SIZE=100;
     @Nullable
@@ -68,8 +70,7 @@ public class HomeFragment2 extends Fragment implements View.OnClickListener {
         context=getContext();
 
         recyclerView =getActivity().findViewById(R.id.app_list);
-        pred_app_top_5=getActivity().findViewById(R.id.app_pred);
-        pred_app_result=getActivity().findViewById(R.id.app_pred_result);
+
 
         total_time_btn=getActivity().findViewById(R.id.sort_btn);
 
@@ -79,14 +80,13 @@ public class HomeFragment2 extends Fragment implements View.OnClickListener {
 
         AppDataBase appDataBase= AppDataBase.getInstance(context);
         appDao =appDataBase.getAppDao();
+        appDataBase=AppDataBase.getInstance(getActivity().getApplication());
+        appDao=appDataBase.getAppDao();
 
-        appRecordsRepository=new AppRecordsRepository(getActivity().getApplication());
         //
 
-        adapter_last =new AppSortAdapter(this,appRecordsRepository);
-        predicter=new MyPredicter(getActivity().getApplication());
-        predAdapter=new PredAdapter();
-        predResultAdapter=new PredResultAdapter();
+        adapter_last =new AppSortAdapter(this,appDao);
+
         LinearLayoutManager layoutManager1 = new LinearLayoutManager(context);
         layoutManager1.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager1);
@@ -95,26 +95,25 @@ public class HomeFragment2 extends Fragment implements View.OnClickListener {
 
         LinearLayoutManager layoutManager2 = new LinearLayoutManager(context);
         layoutManager2.setOrientation(LinearLayoutManager.HORIZONTAL);
-        pred_app_top_5.setLayoutManager(layoutManager2);
-//
-        pred_app_top_5.setAdapter(predAdapter);
+
 
         LinearLayoutManager layoutManager3= new LinearLayoutManager(context);
         layoutManager3.setOrientation(LinearLayoutManager.HORIZONTAL);
-        pred_app_result.setLayoutManager(layoutManager3);
-//
-        pred_app_result.setAdapter(predResultAdapter);
+
+        LinearLayoutManager layoutManager4= new LinearLayoutManager(context);
+        layoutManager4.setOrientation(LinearLayoutManager.HORIZONTAL);
 
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        OnePred onePred = predicter.getOnePred();
-        List<OnePred> aLlOnePreds = appDao.getALlOnePreds();
-        predResultAdapter.setmAppsList(aLlOnePreds);
-        predResultAdapter.notifyDataSetChanged();
-        predicter.updateAdapter(predAdapter);
+
+
+        //上传当前app名字到服务器，并获得推荐
+
+
+
 
     }
 

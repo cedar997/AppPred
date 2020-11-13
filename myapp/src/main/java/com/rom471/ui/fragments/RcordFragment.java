@@ -90,8 +90,8 @@ public class RcordFragment extends Fragment implements RadioGroup.OnCheckedChang
     private void bindView(){
         mRadioGroup=getActivity().findViewById(R.id.radioGroup1);
         rb1=getActivity().findViewById(R.id.record_findbyname);
-        rb2=getActivity().findViewById(R.id.radio2);
-        rb3=getActivity().findViewById(R.id.radio3);
+        rb2=getActivity().findViewById(R.id.record_find_by_date);
+        rb3=getActivity().findViewById(R.id.record_find_by_time);
 
 
     }

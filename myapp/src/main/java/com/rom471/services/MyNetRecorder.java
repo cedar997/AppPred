@@ -21,9 +21,9 @@ import java.util.List;
 
 import static android.view.accessibility.AccessibilityEvent.TYPE_VIEW_CLICKED;
 
-public class MyRecorder2 {
+public class MyNetRecorder {
     private String lastPkgname = "";
-   // RecordDAO dao;
+    // RecordDAO dao;
 
     AppDao appDao;
     App app;
@@ -39,7 +39,7 @@ public class MyRecorder2 {
     boolean record_events=false;
     AppDataBase appDB;
     MyPredicter2 pedictor;
-    public MyRecorder2(Context context) {
+    public MyNetRecorder(Context context) {
         this.context=context;
         appDB =AppDataBase.getInstance(context);
         appDao= appDB.getAppDao();
