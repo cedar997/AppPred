@@ -50,8 +50,8 @@ public class activity_main extends Activity {
         line.setShape(ValueShape.CIRCLE);//折线图上每个数据点的形状  这里是圆形 （有三种 ：ValueShape.SQUARE  ValueShape.CIRCLE  ValueShape.DIAMOND）
         line.setCubic(false);//曲线是否平滑，即是曲线还是折线
         line.setFilled(false);//是否填充曲线的面积
-        line.setHasLabels(false);//曲线的数据坐标是否加上备注
-        line.setHasLabelsOnlyForSelected(true);//选中备注
+        line.setHasLabels(true);//曲线的数据坐标是否加上备注
+        line.setHasLabelsOnlyForSelected(false);//选中备注
         line.setHasLines(true);//是否用线显示，false只有点无线
         line.setHasPoints(true);// 是否显示圆点，为false只有线无点
         lines.add(line);
