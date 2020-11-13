@@ -1,16 +1,19 @@
-from flask import Flask, request
+from flask import Flask, request,redirect
 import pandas as pd
 from datetime import datetime
 app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
-    return 'hello world'
+    return redirect( 'http://www.bilibili.com' )
 #处理单个app
 @app.route('/send', methods=['POST'])
 def handle_send():
-    list=getTop5(request.form['appname'])
+    current=request.form['appname']
+    print(current)
+    list=getTop5(current)
     str=','.join(list)
+    
     return str
 #根据当前应用，给出5个推荐应用
 #你需要重写此方法！！！

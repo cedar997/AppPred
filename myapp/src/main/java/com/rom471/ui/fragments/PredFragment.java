@@ -64,10 +64,6 @@ public class PredFragment extends Fragment implements View.OnClickListener {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         context=getContext();
-
-
-
-
         pred_app_from_server =getActivity().findViewById(R.id.app_pred_from_server);
 
 
@@ -161,7 +157,7 @@ public class PredFragment extends Fragment implements View.OnClickListener {
                 }
             }).start();
         }
-        webView.loadUrl("http://www.bilibili.com");
+        webView.loadUrl(DataSender.getUrl());
 
 
 
