@@ -20,10 +20,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.rom471.adapter.AppSortAdapter;
 
+import com.rom471.adapter.PredAdapter;
 import com.rom471.db2.App;
 import com.rom471.db2.AppDao;
 import com.rom471.db2.AppDataBase;
+import com.rom471.db2.OnePred;
 import com.rom471.db2.OneUse;
+import com.rom471.pred.MyPredicter;
 import com.rom471.recorder.R;
 import com.rom471.utils.Const;
 
@@ -31,8 +34,9 @@ import java.util.List;
 
 public class SortFragment extends Fragment implements View.OnClickListener {
     RecyclerView recyclerView;
-
-
+    PredAdapter predAdapter;
+    MyPredicter predicter;
+    RecyclerView pred_app_top_5;
     List<App>  appLists;
     LiveData<List<OneUse>> useLists;
     Context context;
@@ -91,14 +95,24 @@ public class SortFragment extends Fragment implements View.OnClickListener {
 
         LinearLayoutManager layoutManager4= new LinearLayoutManager(context);
         layoutManager4.setOrientation(LinearLayoutManager.HORIZONTAL);
-
+        initPredView();
     }
-
+    private void initPredView(){
+        predicter=new MyPredicter(getActivity().getApplication());
+        predAdapter=new PredAdapter();
+        pred_app_top_5=getActivity().findViewById(R.id.app_pred);
+        LinearLayoutManager layoutManager2 = new LinearLayoutManager(context);
+        layoutManager2.setOrientation(LinearLayoutManager.HORIZONTAL);
+        pred_app_top_5.setLayoutManager(layoutManager2);
+//
+        pred_app_top_5.setAdapter(predAdapter);
+    }
     @Override
     public void onResume() {
         super.onResume();
-
-
+//        List<OnePred> aLlOnePreds = appDao.getALlOnePreds();
+//        OnePred onePred = predicter.getOnePred();
+        predicter.updateAdapter(predAdapter);
         //上传当前app名字到服务器，并获得推荐
 
 
