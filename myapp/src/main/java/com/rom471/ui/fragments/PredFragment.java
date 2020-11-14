@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -128,12 +129,13 @@ public class PredFragment extends Fragment implements View.OnClickListener {
 
         //上传当前app名字到服务器，并获得推荐
         List<OneUse> allOneUses = appDao.getAllOneUses();
-        DataSender.sendOneUses(allOneUses);
+
         Handler handler=new Handler(){
             @Override
             public void handleMessage(@NonNull Message msg) {
 
                 String s = msg.getData().getString("value");
+                Log.d("cedar", "handleMessage: "+s);
                 StringBuilder sb=new StringBuilder();
                 List<String> converted = Arrays.asList(s.split(",", -1));
 
@@ -145,7 +147,8 @@ public class PredFragment extends Fragment implements View.OnClickListener {
         if(allOneUses!=null){
 
             new Thread(()->{
-                String ret = DataSender.sendOneUses(allOneUses);
+                String ret = DataSender.sends(allOneUses);
+                Log.d("cedar", "从服务器获得 "+ret);
                 if(ret!=null) {
                     Bundle data = new Bundle();
                     data.putString("value", ret);

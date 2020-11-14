@@ -10,7 +10,6 @@ import com.rom471.db2.AppDao;
 import com.rom471.db2.AppDataBase;
 import com.rom471.db2.OneUse;
 import com.rom471.db2.SimpleApp;
-import com.rom471.utils.AppUtils;
 import com.rom471.utils.DBUtils;
 
 import java.util.ArrayList;
@@ -20,7 +19,7 @@ import java.util.regex.Pattern;
 
 public class MyRecorder3 {
     private static final String TAG = "cedar";
-    private String lastName = "";
+    private String lastPkgName = "";
     // RecordDAO dao;
 
     AppDao appDao;
@@ -95,31 +94,32 @@ public class MyRecorder3 {
     }
 
     //开始记录
-    private void record_start(String appName) {
-        String pkgname = AppUtils.getPkgName(appName);
+    private void record_start(String pkgname) {
+        String appname =getAppLabel(pkgname);
         long l = System.currentTimeMillis();
         app_first=false;
-        app= appDao.getAppByName(appName);
+        app= appDao.getAppByName(appname);
         if(app==null){
             app=new App();
             app.setFirstRunningTime(l);
             app.setPkgName(pkgname);
-            app.setAppName(appName);
+            app.setAppName(appname);
             app_first=true;
         }
         oneUse=new OneUse();
         oneUse.setPkgName(pkgname);
-        oneUse.setAppName(appName);
+        oneUse.setAppName(appname);
         oneUse.setStartTimestamp(l);
         DBUtils.storeBatteryInfo(context,oneUse,true);
 
     }
 
     //结束记录
-    private void record_finish(String lastAppName) {
+    private void record_finish(String lastPkgName) {
+
         if(oneUse==null)
             return;
-        if( !oneUse.getAppName().equals(lastAppName)){
+        if( !oneUse.getPkgName().equals(lastPkgName)){
             return;
         }
         long l = System.currentTimeMillis();
@@ -154,13 +154,13 @@ public class MyRecorder3 {
             Log.d(TAG, ""+appName+" "+name);
             //如果回到桌面就停止记录
             if(stopApps.contains(appName)){
-                record_finish(lastName);
+                record_finish(lastPkgName);
 
             }
             //不是桌面程序就开始记录
             else {
-                record_start(appName);
-                lastName=appName;
+                record_start(pkgname);
+                lastPkgName=pkgname;
             }
 
         }
