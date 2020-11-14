@@ -51,14 +51,15 @@ public class MyRecorder3 {
     }
 
     public List<String> getSkip_names() {
-        List<String> apps = new ArrayList<>();
-        apps.add("系统 UI");
-        apps.add("应用预测");
-        apps.add("系统桌面");
-        apps.add("设置");
-        apps.add("权限管理服务");
-        apps.add(("万象息屏"));
-        return apps;
+        List<String> excludes = new ArrayList<>();
+        excludes.add("系统 UI");
+        excludes.add("应用预测");
+        excludes.add("系统桌面");
+        excludes.add("设置");
+        excludes.add("权限管理服务");
+        excludes.add(("万象息屏"));
+        excludes.add("Android 系统");
+        return excludes;
     }
 
     private List<String> getExclude_names() {

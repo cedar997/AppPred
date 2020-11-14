@@ -17,8 +17,7 @@
            android:background="@drawable/setting_button"
            android:drawableTop="@drawable/delete"
            android:paddingTop="30dp"
-           android:textSize="18dp"
-           android:textFontWeight="200"
+           style="@style/text_style"
            android:layout_marginTop="20dp"
            android:layout_marginBottom="10dp"
 
@@ -32,10 +31,10 @@
         android:background="@drawable/setting_button"
         android:drawableTop="@drawable/delete"
         android:paddingTop="30dp"
-        android:textSize="18dp"
-        android:textFontWeight="200"
+
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
+        style="@style/text_style"
         />
     </LinearLayout>
 
@@ -51,8 +50,7 @@
         android:background="@drawable/setting_button"
         android:drawableTop="@drawable/server"
         android:paddingTop="30dp"
-        android:textSize="18dp"
-        android:textFontWeight="200"
+        style="@style/text_style"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         />
@@ -65,8 +63,7 @@
             android:background="@drawable/setting_button"
             android:drawableTop="@drawable/database"
             android:paddingTop="30dp"
-            android:textSize="18dp"
-            android:textFontWeight="200"
+            style="@style/text_style"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             />
@@ -84,8 +81,7 @@
         android:background="@drawable/setting_button"
         android:drawableTop="@drawable/assist"
         android:paddingTop="30dp"
-        android:textSize="18dp"
-        android:textFontWeight="200"
+        style="@style/text_style"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         />
@@ -98,8 +94,7 @@
             android:background="@drawable/setting_button"
             android:drawableTop="@drawable/set_hostip"
             android:paddingTop="30dp"
-            android:textSize="18dp"
-            android:textFontWeight="200"
+            style="@style/text_style"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             />

@@ -42,6 +42,8 @@ public abstract class AppDao {
     public abstract List<OneUse> getAllOneUsesDESC();
     @Query("select * from OneUse ")
     public abstract List<OneUse> getAllOneUses();
+    @Query("select * from OneUse where startTimestamp>:timestamp")
+    public abstract List<OneUse> getAllOneUsesAfter(long timestamp);
     @Insert
     public abstract void insert(App app);
     @Insert
@@ -78,4 +80,6 @@ public abstract class AppDao {
 
     @Query("select appName,pkgName,startTimestamp  from OneUse order by id desc limit 1")
     public abstract SimpleApp getCurrentApp();
+    @Query("select appName  from OneUse order by id desc limit 1")
+    public abstract String getCurrentAppName();
 }

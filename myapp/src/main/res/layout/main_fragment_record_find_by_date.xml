@@ -1,66 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="vertical"
+    android:layout_marginBottom="10dp"
     android:layout_height="match_parent">
 
 
-
-
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="wrap_content"
-            android:layout_height="500dp"
+            android:layout_alignParentTop="true"
+            style="@style/record_find_listview_style"
             android:id="@+id/record_list_by_date"
             />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        >
+        android:layout_above="@id/layout_date_btns"
+        android:layout_marginHorizontal="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/record_date_start_tv"
+                android:layout_marginTop="5dp"
+                android:layout_centerHorizontal="true"
+                />
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/record_date_end_tv"
+                android:layout_marginTop="5dp"
+                android:layout_centerHorizontal="true"
+                />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/date_search_result"
+                android:layout_marginTop="5dp"
+                android:layout_centerHorizontal="true"
+                />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginHorizontal="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout_date_btns"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="开始日期"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="2dp"
             android:id="@+id/record_date_start_btn"
+            android:background="@drawable/button"
+            style="@style/style_button"
             />
-       <TextView
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:id="@+id/record_date_start_tv"
-           />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        >
+
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="2dp"
             android:text="结束日期"
             android:id="@+id/record_date_end_btn"
+            style="@style/style_button"
+            android:background="@drawable/button"
             />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/record_date_end_tv"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        >
+
+
+
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="2dp"
             android:id="@+id/date_start_search"
             android:text="开始查找"
+            android:background="@drawable/button"
+            style="@style/style_button"
             />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/date_search_result"
-            />
+
+
     </LinearLayout>
 
 
-</LinearLayout>
+
+</RelativeLayout>

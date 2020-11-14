@@ -1,5 +1,4 @@
 package com.rom471.ui.fragments;
-
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,7 +12,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -21,7 +20,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.rom471.adapter.PredAdapter;
 import com.rom471.db2.App;
 import com.rom471.db2.AppDao;
@@ -31,30 +29,16 @@ import com.rom471.db2.SimpleApp;
 import com.rom471.net.DataSender;
 import com.rom471.recorder.R;
 import com.rom471.utils.AppUtils;
-
+import com.rom471.utils.MyProperties;
 import java.util.Arrays;
 import java.util.List;
-
 public class PredFragment extends Fragment implements View.OnClickListener {
-
-
-
-
-    List<App>  appLists;
-    LiveData<List<OneUse>> useLists;
     Context context;
-
     AppDao appDao;
     WebView webView;
     RecyclerView pred_app_from_server;
-    //RecordDBHelper db;
-
-
+    TextView tv_server;
     PredAdapter predServerAdapter;
-
-
-
-    public static final int APP_LIST_SIZE=100;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -66,32 +50,15 @@ public class PredFragment extends Fragment implements View.OnClickListener {
         super.onActivityCreated(savedInstanceState);
         context=getContext();
         pred_app_from_server =getActivity().findViewById(R.id.app_pred_from_server);
-
-
         AppDataBase appDataBase= AppDataBase.getInstance(context);
         appDao =appDataBase.getAppDao();
         appDataBase=AppDataBase.getInstance(getActivity().getApplication());
         appDao=appDataBase.getAppDao();
-
-        //
-
-
-
-
         predServerAdapter=new PredAdapter(getActivity());
-
         LinearLayoutManager layoutManager1 = new LinearLayoutManager(context);
         layoutManager1.setOrientation(LinearLayoutManager.VERTICAL);
-
-
-
-
-
         LinearLayoutManager layoutManager3= new LinearLayoutManager(context);
         layoutManager3.setOrientation(LinearLayoutManager.HORIZONTAL);
-
-//
-
         LinearLayoutManager layoutManager4= new LinearLayoutManager(context);
         layoutManager4.setOrientation(LinearLayoutManager.HORIZONTAL);
         pred_app_from_server.setLayoutManager(layoutManager4);
@@ -99,6 +66,7 @@ public class PredFragment extends Fragment implements View.OnClickListener {
         initWebView();
     }
     public void initWebView(){
+        tv_server=getActivity().findViewById(R.id.pred_server_tv);
         webView=getActivity().findViewById(R.id.web_view);
         webView.getSettings().setJavaScriptEnabled(true);//允许与js 交互
         webView.getSettings().setDefaultTextEncodingName("utf-8");//支持中文
@@ -114,7 +82,6 @@ public class PredFragment extends Fragment implements View.OnClickListener {
                 }
                 return false;
             }
-
         });
         webView.setWebChromeClient(new WebChromeClient(){
             @Override
@@ -126,32 +93,43 @@ public class PredFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
-
+        long lastSendTimeStamp = (long)MyProperties.get(context, "lastSendTimeStamp", 0L);
+        Log.d("cedar", "onResume: "+lastSendTimeStamp);
+        tv_server.setText(String.format("打开%s后将会打开：", appDao.getCurrentAppName()));
         //上传当前app名字到服务器，并获得推荐
-        List<OneUse> allOneUses = appDao.getAllOneUses();
-
+        List<OneUse> allOneUses = appDao.getAllOneUsesAfter(lastSendTimeStamp);
         Handler handler=new Handler(){
             @Override
             public void handleMessage(@NonNull Message msg) {
-
                 String s = msg.getData().getString("value");
                 Log.d("cedar", "handleMessage: "+s);
                 StringBuilder sb=new StringBuilder();
                 List<String> converted = Arrays.asList(s.split(",", -1));
-
                 List<SimpleApp> simpleAppsFromNames = AppUtils.getSimpleAppsFromNames(converted);
                 predServerAdapter.setmAppsList(simpleAppsFromNames);
                 predServerAdapter.notifyDataSetChanged();
             }
         };
         if(allOneUses!=null){
-
             new Thread(()->{
                 String ret = DataSender.sends(allOneUses);
+                long last=0;
+
                 Log.d("cedar", "从服务器获得 "+ret);
                 if(ret!=null) {
+
+                    //对服务器返回的进行处理
+                    String[] split = ret.split(";", -1);
+                    Log.d("cedar", "onResume: "+split.length);
+                    if(split.length<2&&allOneUses.size()>0){//如果没有附加信息就
+
+                        last=allOneUses.get(allOneUses.size()-1).getStartTimestamp();
+                        MyProperties.set(context,"lastSendTimeStamp",last);
+                    }else {
+
+                    }
                     Bundle data = new Bundle();
-                    data.putString("value", ret);
+                    data.putString("value", split[0]);
                     Message message = new Message();
                     message.setData(data);
                     handler.sendMessage(message);
@@ -159,16 +137,10 @@ public class PredFragment extends Fragment implements View.OnClickListener {
             }).start();
         }
         webView.loadUrl(DataSender.getUrl());
-
-
-
     }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-
-
         }
     }
 }

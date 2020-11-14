@@ -62,10 +62,11 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     }
     //初始化参数
     private void initProperties(){
-        if(!MyProperties.have(this,"dbname")){
+        if(!MyProperties.have(this,"lastSendTimeStamp")){
             MyProperties.set(this,"dbname",""+System.currentTimeMillis());
             MyProperties.set(this,"debug",false);
             MyProperties.set(this,"host","cedar997.f3322.net");
+            MyProperties.set(this,"lastSendTimeStamp",0L);
         }
     }
 

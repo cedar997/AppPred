@@ -1,30 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="vertical"
+    android:layout_marginBottom="10dp"
     android:layout_height="match_parent">
 
 
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="wrap_content"
-            android:layout_height="600dp"
+            android:layout_alignParentTop="true"
+
+            style="@style/record_find_listview_style"
             android:id="@+id/record_list_by_name"
             />
 
 
 
-
-
-
-
-
-    <LinearLayout
+    <TextView
+        android:layout_marginHorizontal="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        android:id="@+id/record_serch_result"
+        android:layout_above="@id/layout_search"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout_search"
+        android:gravity="center_vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_marginHorizontal="10dp"
         >
         <EditText
-            android:layout_width="200dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:id="@+id/record_search_et"
@@ -36,15 +43,11 @@
             android:layout_height="wrap_content"
             android:text="查找"
             android:id="@+id/record_search_btn"
+            android:background="@drawable/button"
+            style="@style/style_button"
             />
 
-
-
     </LinearLayout>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/record_serch_result"
-        />
 
-</LinearLayout>
+
+</RelativeLayout>
