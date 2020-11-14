@@ -120,9 +120,9 @@ public class PredFragment extends Fragment implements View.OnClickListener {
 
                     //对服务器返回的进行处理
                     String[] split = ret.split(";", -1);
-                    Log.d("cedar", "onResume: "+split.length);
-                    if(split.length<2&&allOneUses.size()>0){//如果没有附加信息就
 
+                    if(split.length<2&&allOneUses.size()>0){//如果没有附加信息就
+                        Log.d("cedar", "onResume: "+split.length);
                         last=allOneUses.get(allOneUses.size()-1).getStartTimestamp();
                         MyProperties.set(context,"lastSendTimeStamp",last);
                     }else {
