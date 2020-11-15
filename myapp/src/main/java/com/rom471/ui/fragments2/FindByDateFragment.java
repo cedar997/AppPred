@@ -115,11 +115,11 @@ public class FindByDateFragment extends OneUseFindFragment {
                 long timestamp = new GregorianCalendar(year, monthOfYear, dayOfMonth).getTimeInMillis();
                 if(start){
                     start_timestamp=timestamp;
-                    start_date_tv.setText(""+year+"年"+(monthOfYear+1)+"月"+dayOfMonth+"日");
+                    start_date_tv.setText(""+(year%100)+"年"+(monthOfYear+1)+"月"+dayOfMonth+"日");
                 }
                 else {
                     end_timestamp=timestamp;
-                    end_date_tv.setText(""+year+"年"+(monthOfYear+1)+"月"+dayOfMonth+"日");
+                    end_date_tv.setText(""+(year%100)+"年"+(monthOfYear+1)+"月"+dayOfMonth+"日");
 
                 }
             }

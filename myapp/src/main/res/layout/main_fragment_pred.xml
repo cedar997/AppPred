@@ -3,20 +3,25 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    android:background="@drawable/background">
+    >
 
 
-
-        <WebView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-                android:id="@+id/web_view"
-                />
-    <LinearLayout
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@style/web_style">
+    <WebView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:id="@+id/web_view"
+        />
+</LinearLayout>
+
+    <LinearLayout
+
         android:orientation="vertical"
+        style="@style/app_laucher_style"
         android:layout_alignParentBottom="true"
         >
         <TextView
@@ -29,8 +34,8 @@
             />
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="wrap_content"
-            android:layout_height="100dp"
-            android:layout_marginBottom="10dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:id="@+id/app_pred_from_server"
             />
     </LinearLayout>

@@ -2,14 +2,12 @@ package com.rom471.pred;
 
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
 
-import com.rom471.adapter.PredAdapter;
+import com.rom471.adapter.AppDockAdapter;
 import com.rom471.db2.AppDataBase;
 import com.rom471.db2.OnePred;
 import com.rom471.db2.OneUseDao;
 import com.rom471.db2.SimpleApp;
-import com.rom471.net.DataSender;
 import com.rom471.utils.DBUtils;
 
 import java.util.ArrayList;
@@ -190,7 +188,7 @@ public class MyPredicter {
         }
         return onePred;
     }
-    public void    updateAdapter(PredAdapter predAdapter){
+    public void    updateAdapter(AppDockAdapter appDockAdapter){
         currentApp= simpleDao.getCurrentApp();
 
         if(currentApp==null)
@@ -216,8 +214,8 @@ public class MyPredicter {
         if(top_apps.size()>5)
             top_apps=top_apps.subList(0,5);
         DBUtils.setSimpleAppsIcon(context,top_apps );
-        predAdapter.setmAppsList(top_apps);
-        predAdapter.notifyDataSetChanged();
+        appDockAdapter.setmAppsList(top_apps);
+        appDockAdapter.notifyDataSetChanged();
     }
 
 }

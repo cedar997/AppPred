@@ -12,16 +12,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.rom471.db2.AppRecordsRepository;
 import com.rom471.db2.SimpleApp;
 import com.rom471.recorder.R;
 
 import java.util.List;
 
-public class PredAdapter extends RecyclerView.Adapter<PredAdapter.ViewHolder> {
+public class AppDockAdapter extends RecyclerView.Adapter<AppDockAdapter.ViewHolder> {
 
     private List<SimpleApp> mAppsList;
 
@@ -32,7 +30,7 @@ public class PredAdapter extends RecyclerView.Adapter<PredAdapter.ViewHolder> {
     public void setmAppsList(List<SimpleApp> mAppsList) {
         this.mAppsList = mAppsList;
     }
-    public PredAdapter(Context context){
+    public AppDockAdapter(Context context){
         this.context=context;
 
 
@@ -44,7 +42,7 @@ public class PredAdapter extends RecyclerView.Adapter<PredAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.pred_app_item,parent,false);
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.app_dock_item,parent,false);
         ViewHolder holder=new ViewHolder(view);
         return holder;
     }
@@ -57,7 +55,7 @@ public class PredAdapter extends RecyclerView.Adapter<PredAdapter.ViewHolder> {
         SimpleApp app=mAppsList.get(position);
         if(app==null) return;
 
-            holder.appInfo.setText("权重:"+(app.getWeight()));
+
 
         holder.appIcon.setBackground(app.getIcon());
         holder.appName.setText(app.getAppName());

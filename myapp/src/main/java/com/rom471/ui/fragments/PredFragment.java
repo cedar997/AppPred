@@ -17,11 +17,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.rom471.adapter.PredAdapter;
-import com.rom471.db2.App;
+import com.rom471.adapter.AppDockAdapter;
 import com.rom471.db2.AppDao;
 import com.rom471.db2.AppDataBase;
 import com.rom471.db2.OneUse;
@@ -38,7 +36,7 @@ public class PredFragment extends Fragment implements View.OnClickListener {
     WebView webView;
     RecyclerView pred_app_from_server;
     TextView tv_server;
-    PredAdapter predServerAdapter;
+    AppDockAdapter predServerAdapter;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -54,7 +52,7 @@ public class PredFragment extends Fragment implements View.OnClickListener {
         appDao =appDataBase.getAppDao();
         appDataBase=AppDataBase.getInstance(getActivity().getApplication());
         appDao=appDataBase.getAppDao();
-        predServerAdapter=new PredAdapter(getActivity());
+        predServerAdapter=new AppDockAdapter(getActivity());
         LinearLayoutManager layoutManager1 = new LinearLayoutManager(context);
         layoutManager1.setOrientation(LinearLayoutManager.VERTICAL);
         LinearLayoutManager layoutManager3= new LinearLayoutManager(context);
@@ -94,7 +92,7 @@ public class PredFragment extends Fragment implements View.OnClickListener {
     public void onResume() {
         super.onResume();
         long lastSendTimeStamp = (long)MyProperties.get(context, "lastSendTimeStamp", 0L);
-        Log.d("cedar", "onResume: "+lastSendTimeStamp);
+
         tv_server.setText(String.format("打开%s后将会打开：", appDao.getCurrentAppName()));
         //上传当前app名字到服务器，并获得推荐
         List<OneUse> allOneUses = appDao.getAllOneUsesAfter(lastSendTimeStamp);
@@ -102,7 +100,7 @@ public class PredFragment extends Fragment implements View.OnClickListener {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 String s = msg.getData().getString("value");
-                Log.d("cedar", "handleMessage: "+s);
+
                 StringBuilder sb=new StringBuilder();
                 List<String> converted = Arrays.asList(s.split(",", -1));
                 List<SimpleApp> simpleAppsFromNames = AppUtils.getSimpleAppsFromNames(converted);
@@ -120,8 +118,8 @@ public class PredFragment extends Fragment implements View.OnClickListener {
 
                     //对服务器返回的进行处理
                     String[] split = ret.split(";", -1);
-
-                    if(split.length<2&&allOneUses.size()>0){//如果没有附加信息就
+                    Log.d("cedar", "onResume: "+split.length);
+                    if(split.length>1&&allOneUses.size()>0){//如果没有附加信息就
                         Log.d("cedar", "onResume: "+split.length);
                         last=allOneUses.get(allOneUses.size()-1).getStartTimestamp();
                         MyProperties.set(context,"lastSendTimeStamp",last);

@@ -20,11 +20,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.rom471.adapter.AppSortAdapter;
 
-import com.rom471.adapter.PredAdapter;
+import com.rom471.adapter.AppDockAdapter;
 import com.rom471.db2.App;
 import com.rom471.db2.AppDao;
 import com.rom471.db2.AppDataBase;
-import com.rom471.db2.OnePred;
 import com.rom471.db2.OneUse;
 import com.rom471.pred.MyPredicter;
 import com.rom471.recorder.R;
@@ -34,7 +33,7 @@ import java.util.List;
 
 public class SortFragment extends Fragment implements View.OnClickListener {
     RecyclerView recyclerView;
-    PredAdapter predAdapter;
+    AppDockAdapter appDockAdapter;
     MyPredicter predicter;
     RecyclerView pred_app_top_5;
     List<App>  appLists;
@@ -44,7 +43,6 @@ public class SortFragment extends Fragment implements View.OnClickListener {
     AppDao appDao;
     Button sortBtn;
 
-    //RecordDBHelper db;
     AppSortAdapter adapter_last;
 
 
@@ -99,20 +97,20 @@ public class SortFragment extends Fragment implements View.OnClickListener {
     }
     private void initPredView(){
         predicter=new MyPredicter(getActivity().getApplication());
-        predAdapter=new PredAdapter(getActivity());
+        appDockAdapter =new AppDockAdapter(getActivity());
         pred_app_top_5=getActivity().findViewById(R.id.app_pred);
         LinearLayoutManager layoutManager2 = new LinearLayoutManager(context);
         layoutManager2.setOrientation(LinearLayoutManager.HORIZONTAL);
         pred_app_top_5.setLayoutManager(layoutManager2);
 //
-        pred_app_top_5.setAdapter(predAdapter);
+        pred_app_top_5.setAdapter(appDockAdapter);
     }
     @Override
     public void onResume() {
         super.onResume();
 //        List<OnePred> aLlOnePreds = appDao.getALlOnePreds();
 //        OnePred onePred = predicter.getOnePred();
-        predicter.updateAdapter(predAdapter);
+        predicter.updateAdapter(appDockAdapter);
         //上传当前app名字到服务器，并获得推荐
 
 

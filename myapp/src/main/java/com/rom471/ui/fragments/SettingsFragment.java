@@ -129,7 +129,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
             case R.id.post_records_btn:
                 List<OneUse> allOneUses = appDao.getAllOneUses();
                 new Thread(()->{
-                    DataSender.sends(allOneUses);
+                    DataSender.sends_all(allOneUses);
                 }).start();
                 break;
         }

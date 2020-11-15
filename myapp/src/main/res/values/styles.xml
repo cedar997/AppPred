@@ -42,14 +42,53 @@
         <item name="android:scaleType">matrix</item>
     </style>
     <style name="style_button">
-        <item name="android:layout_margin">5dp</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_marginRight">20dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:layout_marginTop">5dp</item>
     </style>
+<!--    文本样式-->
     <style name="text_style">
         <item name="android:textSize">18dp</item>
         <item name="android:textFontWeight">200</item>
     </style>
-    <style name="record_find_listview_style">
+<!--    查找界面列表的样式-->
+    <style name="listview_find">
         <item name="android:layout_height">560dp</item>
         <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:background">@drawable/big_round_bg</item>
+    </style>
+<!--    排序界面列表的样式-->
+    <style name="listview_sort">
+        <item name="android:layout_height">560dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:background">@drawable/big_round_bg</item>
+    </style>
+<!--    底部应用启动dock的样式-->
+    <style name="app_laucher_style">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+
+        <item name="android:background">@drawable/big_round_bg</item>
+    </style>
+<!--    预测界面浏览器的样式-->
+    <style name="web_style">
+        <item name="android:layout_height">580dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_margin">10dp</item>
+
+        <item name="android:background">@drawable/big_round_bg</item>
+    </style>
+<!--    查找按钮-->
+    <style name="find_layout_style">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:background">@drawable/big_round_bg</item>
     </style>
 </resources>
