@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         setContentView(R.layout.main);
         mAdapter=new MyFragmentPagerAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         bindView();//绑定资源
+        rb2.setChecked(true);
         vp.setAdapter(mAdapter);
         vp.setCurrentItem(1);
         vp.addOnPageChangeListener(this);

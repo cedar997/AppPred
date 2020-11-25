@@ -9,6 +9,9 @@ import androidx.room.PrimaryKey;
 
 import java.util.Locale;
 
+/**
+ * OneUse表的实体
+ */
 @Entity
 public class OneUse {
 

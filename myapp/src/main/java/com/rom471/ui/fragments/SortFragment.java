@@ -14,22 +14,16 @@ import android.widget.PopupMenu;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.rom471.adapter.AppSortAdapter;
 
 import com.rom471.adapter.AppDockAdapter;
-import com.rom471.db2.App;
-import com.rom471.db2.AppDao;
-import com.rom471.db2.AppDataBase;
-import com.rom471.db2.OneUse;
+import com.rom471.db2.MyDao;
+import com.rom471.db2.MyDataBase;
 import com.rom471.pred.MyPredicter;
 import com.rom471.recorder.R;
-import com.rom471.utils.Const;
-
-import java.util.List;
 
 public class SortFragment extends Fragment implements View.OnClickListener {
     RecyclerView recyclerView;
@@ -39,7 +33,7 @@ public class SortFragment extends Fragment implements View.OnClickListener {
 
     Context context;
 
-    AppDao appDao;
+    MyDao myDao;
     Button sortBtn;
 
     AppSortAdapter adapter_last;
@@ -65,14 +59,14 @@ public class SortFragment extends Fragment implements View.OnClickListener {
         sortBtn.setOnClickListener(this);
 
 
-        AppDataBase appDataBase= AppDataBase.getInstance(context);
-        appDao =appDataBase.getAppDao();
-        appDataBase=AppDataBase.getInstance(getActivity().getApplication());
-        appDao=appDataBase.getAppDao();
+        MyDataBase myDataBase = MyDataBase.getInstance(context);
+        myDao = myDataBase.getAppDao();
+        myDataBase = MyDataBase.getInstance(getActivity().getApplication());
+        myDao = myDataBase.getAppDao();
 
         //
 
-        adapter_last =new AppSortAdapter(this,appDao);
+        adapter_last =new AppSortAdapter(this, myDao);
 
         LinearLayoutManager layoutManager1 = new LinearLayoutManager(context);
         layoutManager1.setOrientation(LinearLayoutManager.VERTICAL);
@@ -130,15 +124,15 @@ public class SortFragment extends Fragment implements View.OnClickListener {
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()){
                             case R.id.popup_one:
-                                adapter_last.change(Const.CHANGE_LAST_USE);
+                                adapter_last.change( AppSortAdapter.CHANGE_LAST_USE);
                                 sortBtn.setText(R.string.sort_1);
                                 break;
                             case R.id.popup_two:
-                                adapter_last.change(Const.CHAGE_TIME_MOST);
+                                adapter_last.change( AppSortAdapter.CHAGE_TIME_MOST);
                                 sortBtn.setText(R.string.sort_2);
                                 break;
                             case R.id.popup_three:
-                                adapter_last.change(Const.CHANGE_COUNT_MOST);
+                                adapter_last.change( AppSortAdapter.CHANGE_COUNT_MOST);
                                 sortBtn.setText(R.string.sort_3);
                                 break;
                         }

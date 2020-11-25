@@ -13,22 +13,22 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
 
-@Database(entities = {App.class,OneUse.class,Event.class,OnePred.class},version = 2,exportSchema = false)
-public abstract class AppDataBase extends RoomDatabase {
-    private static AppDataBase INSTANCE;//单例模式
+@Database(entities = {App.class,OneUse.class},version = 4,exportSchema = false)
+public abstract class MyDataBase extends RoomDatabase {
+    private static MyDataBase INSTANCE;//单例模式
     private static final Object Lock = new Object();
-    public abstract AppDao appDao();
+    public abstract MyDao appDao();
 
 
-    public static AppDao getAppDao(){
+    public static MyDao getAppDao(){
         return INSTANCE.appDao();
     }
 
-    public static AppDataBase getInstance(Context context){
+    public static MyDataBase getInstance(Context context){
         synchronized (Lock){
             if(INSTANCE==null){
                 INSTANCE =
-                        Room.databaseBuilder(context.getApplicationContext(), AppDataBase.class, "apps.db")
+                        Room.databaseBuilder(context.getApplicationContext(), MyDataBase.class, "apps.db")
                                 .allowMainThreadQueries()
                                 .addMigrations(MIGRATION_Add_)
                                 .build();
@@ -53,16 +53,12 @@ public abstract class AppDataBase extends RoomDatabase {
 
     }
 
-    static Migration MIGRATION_Add_= new Migration(1, 2) {
+    static Migration MIGRATION_Add_= new Migration(3,4 ) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
 
-            //  添加新的表
-            database.execSQL("CREATE TABLE IF NOT EXISTS OnePred" +
-                    " ( id INTEGER PRIMARY KEY not null," +
-                    "top1 INTEGER not null," +
-                    "top3 INTEGER not null," +
-                    "top5 INTEGER not null) ");
+
+            database.execSQL("delete from OnePred ");
 
         }
     };

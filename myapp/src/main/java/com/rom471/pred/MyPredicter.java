@@ -4,9 +4,9 @@ import android.app.Application;
 import android.content.Context;
 
 import com.rom471.adapter.AppDockAdapter;
-import com.rom471.db2.AppDao;
-import com.rom471.db2.AppDataBase;
-import com.rom471.db2.OnePred;
+import com.rom471.db2.MyDao;
+import com.rom471.db2.MyDataBase;
+
 
 import com.rom471.db2.SimpleApp;
 import com.rom471.utils.DBUtils;
@@ -25,7 +25,7 @@ public class MyPredicter {
     SimpleApp currentApp;
     SimpleApp lastApp;
 
-    AppDao simpleDao;
+    MyDao simpleDao;
     Context context;
     List<String> app_index;
     List<String> pkg_index;
@@ -39,9 +39,9 @@ public class MyPredicter {
         this.context=context;
 
 
-        AppDataBase appDataBase= AppDataBase.getInstance(context);
+        MyDataBase myDataBase = MyDataBase.getInstance(context);
 
-        simpleDao =appDataBase.getAppDao();
+        simpleDao = myDataBase.getAppDao();
         allUseCountsTop5 = simpleDao.getMostCountSimpleApps(5);
         initAppIndex();
         initMatrix();
@@ -160,33 +160,7 @@ public class MyPredicter {
         }
         return new ArrayList<>(listMap.values());
     }
-    public OnePred getOnePred(){
-        if(currentApp==null)
-            return null;
-        SimpleApp pred= simpleDao.getCurrentApp();
-        //Log.d(TAG, "updateAdapter: "+currentApp.getAppName());
 
-
-        List<SimpleApp> oneNearApps = getOneNear(currentApp);
-        List<SimpleApp> twoNear = getTwoNear(currentApp);
-        List<SimpleApp> most_apps = getMostCountsApps();
-        List<SimpleApp> top_apps =merge(oneNearApps,twoNear);
-        top_apps =merge(top_apps,most_apps);
-        top_apps.sort(SimpleApp.weightDescComparator);
-        if(top_apps.size()>5)
-            top_apps=top_apps.subList(0,5);
-        int pred_index = top_apps.indexOf(pred);
-        OnePred onePred=new OnePred();
-        if(pred_index==1){
-            onePred.setTop1(1);
-        }else if(pred_index<3){
-            onePred.setTop3(1);
-        }
-        else if(pred_index<5){
-            onePred.setTop5(1);
-        }
-        return onePred;
-    }
     public void    updateAdapter(AppDockAdapter appDockAdapter){
         currentApp= simpleDao.getCurrentApp();
 

@@ -16,9 +16,9 @@ import androidx.annotation.Nullable;
 
 
 import com.rom471.recorder.R;
-import com.rom471.ui.fragments2.FindByDateFragment;
-import com.rom471.ui.fragments2.FindByNameFragment;
-import com.rom471.ui.fragments2.FindByTimeFragment;
+import com.rom471.ui.find_fragments.FindByDateFragment;
+import com.rom471.ui.find_fragments.FindByNameFragment;
+import com.rom471.ui.find_fragments.FindByTimeFragment;
 
 import java.util.ArrayList;
 import java.util.List;

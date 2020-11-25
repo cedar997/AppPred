@@ -8,7 +8,7 @@ import androidx.room.Update;
 import java.util.List;
 
 @Dao
-public abstract class AppDao {
+public abstract class MyDao {
 
 //App表操作
     @Insert
@@ -56,9 +56,6 @@ public abstract class AppDao {
     public abstract void deleteOneUses();
 
 
-
-    @Query("delete from OnePred")
-    public abstract void deleteOnePreds();
 
 
     @Query("select appName  from OneUse order by id desc limit 1")

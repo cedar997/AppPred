@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class AppUtils {
+
     static
     Context context;
     static HashMap<String,String>APP_PKG=new HashMap<>();

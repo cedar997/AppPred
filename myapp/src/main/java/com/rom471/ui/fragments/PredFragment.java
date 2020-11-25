@@ -20,8 +20,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.rom471.adapter.AppDockAdapter;
-import com.rom471.db2.AppDao;
-import com.rom471.db2.AppDataBase;
+import com.rom471.db2.MyDao;
+import com.rom471.db2.MyDataBase;
 import com.rom471.db2.OneUse;
 import com.rom471.db2.SimpleApp;
 import com.rom471.net.DataSender;
@@ -32,7 +32,7 @@ import java.util.Arrays;
 import java.util.List;
 public class PredFragment extends Fragment implements View.OnClickListener {
     Context context;
-    AppDao appDao;
+    MyDao myDao;
     WebView webView;
     RecyclerView pred_app_from_server;
     TextView tv_server;
@@ -48,10 +48,10 @@ public class PredFragment extends Fragment implements View.OnClickListener {
         super.onActivityCreated(savedInstanceState);
         context=getContext();
         pred_app_from_server =getActivity().findViewById(R.id.app_pred_from_server);
-        AppDataBase appDataBase= AppDataBase.getInstance(context);
-        appDao =appDataBase.getAppDao();
-        appDataBase=AppDataBase.getInstance(getActivity().getApplication());
-        appDao=appDataBase.getAppDao();
+        MyDataBase myDataBase = MyDataBase.getInstance(context);
+        myDao = myDataBase.getAppDao();
+        myDataBase = MyDataBase.getInstance(getActivity().getApplication());
+        myDao = myDataBase.getAppDao();
         predServerAdapter=new AppDockAdapter(getActivity());
         LinearLayoutManager layoutManager1 = new LinearLayoutManager(context);
         layoutManager1.setOrientation(LinearLayoutManager.VERTICAL);
@@ -93,9 +93,9 @@ public class PredFragment extends Fragment implements View.OnClickListener {
         super.onResume();
         long lastSendTimeStamp = (long)MyProperties.get(context, "lastSendTimeStamp", 0L);
 
-        tv_server.setText(String.format("打开%s后将会打开：", appDao.getCurrentAppName()));
+        tv_server.setText(String.format("打开%s后将会打开：", myDao.getCurrentAppName()));
         //上传当前app名字到服务器，并获得推荐
-        List<OneUse> allOneUses = appDao.getAllOneUsesAfter(lastSendTimeStamp);
+        List<OneUse> allOneUses = myDao.getAllOneUsesAfter(lastSendTimeStamp);
         Handler handler=new Handler(){
             @Override
             public void handleMessage(@NonNull Message msg) {

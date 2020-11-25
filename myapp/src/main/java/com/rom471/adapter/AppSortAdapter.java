@@ -11,19 +11,20 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 import com.rom471.db2.App;
-import com.rom471.db2.AppDao;
+import com.rom471.db2.MyDao;
 import com.rom471.recorder.R;
-import com.rom471.utils.Const;
 import com.rom471.utils.DBUtils;
 import java.util.List;
 
 public class AppSortAdapter extends RecyclerView.Adapter<AppSortAdapter.ViewHolder> {
-
+    public static final int CHANGE_LAST_USE=0;
+    public static final int CHAGE_TIME_MOST=1;
+    public static final int CHANGE_COUNT_MOST=2;
     private List<App> mAppsList;
     public static final int APP_LIST_SIZE=100;
     LiveData<List<App>> liveData;
     Fragment context;
-    AppDao appDao;
+    MyDao myDao;
     int type;
 
 
@@ -33,24 +34,24 @@ public class AppSortAdapter extends RecyclerView.Adapter<AppSortAdapter.ViewHold
 
 
 
-    public AppSortAdapter(Fragment context, AppDao appDao){
+    public AppSortAdapter(Fragment context, MyDao myDao){
         this.context=context;
-        this.appDao=appDao;
-        change(Const.CHANGE_LAST_USE);
+        this.myDao = myDao;
+        change( CHANGE_LAST_USE);
 
     }
 
     public void change(int type){
         this.type=type;
         switch (type){
-            case Const.CHAGE_TIME_MOST:
-                liveData= appDao.getMostUsedApps(APP_LIST_SIZE);
+            case  CHAGE_TIME_MOST:
+                liveData= myDao.getMostUsedApps(APP_LIST_SIZE);
                 break;
-            case Const.CHANGE_LAST_USE:
-                liveData= appDao.getLastUsedApp(APP_LIST_SIZE);
+            case  CHANGE_LAST_USE:
+                liveData= myDao.getLastUsedApp(APP_LIST_SIZE);
                 break;
-            case Const.CHANGE_COUNT_MOST:
-                liveData= appDao.getMostCountsApps(APP_LIST_SIZE);
+            case  CHANGE_COUNT_MOST:
+                liveData= myDao.getMostCountsApps(APP_LIST_SIZE);
                 break;
 
         }
@@ -78,13 +79,13 @@ public class AppSortAdapter extends RecyclerView.Adapter<AppSortAdapter.ViewHold
         holder.appName.setText(app.getAppName());
         holder.appRank.setText(""+(position+1));
         switch (type){
-            case Const.CHAGE_TIME_MOST:
+            case  CHAGE_TIME_MOST:
                 holder.appInfo.setText(DBUtils.getTimeSpendString(app.getTotalRuningTime()) );
                 break;
-            case Const.CHANGE_LAST_USE:
+            case  CHANGE_LAST_USE:
                 holder.appInfo.setText(DBUtils.getSinceTimeString(app.getLastRuningTime())+"前");
                 break;
-            case Const.CHANGE_COUNT_MOST:
+            case  CHANGE_COUNT_MOST:
                 holder.appInfo.setText(app.getUseCount()+"次");
                 break;
         }

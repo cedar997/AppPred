@@ -6,23 +6,20 @@ import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 
 import com.rom471.db2.App;
-import com.rom471.db2.AppDao;
-import com.rom471.db2.AppDataBase;
+import com.rom471.db2.MyDao;
+import com.rom471.db2.MyDataBase;
 import com.rom471.db2.OneUse;
-import com.rom471.db2.SimpleApp;
 import com.rom471.utils.DBUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class MyRecorder3 {
     private static final String TAG = "cedar";
     private String lastPkgName = "";
     // RecordDAO dao;
 
-    AppDao appDao;
+    MyDao myDao;
     App app;
     OneUse oneUse;
     Context context;
@@ -34,12 +31,12 @@ public class MyRecorder3 {
     boolean filter_skip = false;
     boolean app_first=false;//当前app是否是第一次插入
     boolean record_events=false;
-    AppDataBase appDB;
+    MyDataBase appDB;
 
     public MyRecorder3(Context context) {
         this.context=context;
-        appDB =AppDataBase.getInstance(context);
-        appDao= appDB.getAppDao();
+        appDB = MyDataBase.getInstance(context);
+        myDao = appDB.getAppDao();
         pm = context.getPackageManager();//初始化包管理器
 
         stopApps = getSkip_names();
@@ -81,7 +78,7 @@ public class MyRecorder3 {
         String appname =getAppLabel(pkgname);
         long l = System.currentTimeMillis();
         app_first=false;
-        app= appDao.getAppByName(appname);
+        app= myDao.getAppByName(appname);
         if(app==null){
             app=new App();
             app.setFirstRunningTime(l);
@@ -116,11 +113,11 @@ public class MyRecorder3 {
         DBUtils.storeBatteryInfo(context, oneUse, false);
         DBUtils.storeNetworkInfo(context, oneUse);
         if (app_first)
-            appDao.insert(app);
+            myDao.insert(app);
         else
-            appDao.updateApp(app);
+            myDao.updateApp(app);
 
-        appDao.insert(oneUse);
+        myDao.insert(oneUse);
 
         oneUse=null;
 

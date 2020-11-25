@@ -5,7 +5,6 @@ import android.util.Log;
 import com.rom471.db2.OneUse;
 import com.rom471.db2.SimpleApp;
 import com.rom471.utils.AppUtils;
-import com.rom471.utils.Const;
 import com.rom471.utils.MyProperties;
 
 import java.io.BufferedReader;

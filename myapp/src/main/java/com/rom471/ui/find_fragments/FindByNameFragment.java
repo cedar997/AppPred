@@ -1,4 +1,4 @@
-package com.rom471.ui.fragments2;
+package com.rom471.ui.find_fragments;
 
 import android.view.View;
 import android.widget.Button;

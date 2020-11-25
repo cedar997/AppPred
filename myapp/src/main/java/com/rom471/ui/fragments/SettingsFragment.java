@@ -1,20 +1,16 @@
 package com.rom471.ui.fragments;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+
 import androidx.fragment.app.Fragment;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.ContactsContract;
 import android.provider.Settings;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,15 +24,13 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 
 
-import com.rom471.db2.AppDao;
-import com.rom471.db2.AppDataBase;
+import com.rom471.db2.MyDao;
+import com.rom471.db2.MyDataBase;
 
 import com.rom471.db2.OneUse;
 import com.rom471.net.DataSender;
 import com.rom471.recorder.R;
-import com.rom471.services.RecordService;
 
-import com.rom471.utils.Const;
 import com.rom471.utils.DBUtils;
 import com.rom471.utils.SettingUtils;
 
@@ -57,9 +51,9 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
     Button ouput_db_btn;
     Button post_records_btn;
 
-    AppDao appDao;
+    MyDao myDao;
     Context context;
-    SharedPreferences properties;
+
 
 
     @Nullable
@@ -74,12 +68,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         context=getContext();
-        //db=new RecordDBHelper(getContext(),"app.db");
-
-        appDao= AppDataBase.getAppDao();
+        myDao = MyDataBase.getAppDao();
         accessibility_btn=getActivity().findViewById(R.id.open_accessibility_btn);
-
-
         accessibility_btn.setOnClickListener(this);
         clearRecord_btn=getActivity().findViewById(R.id.clear_records_btn);
         clearPred_btn=getActivity().findViewById(R.id.clear_pred_btn);
@@ -91,9 +81,6 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         ouput_db_btn.setOnClickListener(this);
         clearRecord_btn.setOnClickListener(this);
         clearPred_btn.setOnClickListener(this);
-
-//        Log.d("cedar", "onActivityCreated: "+ MyProperties.getProperties(context).getString("dbname",""));
-
     }
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -101,7 +88,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         switch (v.getId()){
             case R.id.clear_records_btn:
 
-                SettingUtils.confirmClearRecordsDialog(context,appDao);
+                SettingUtils.confirmClearRecordsDialog(context, myDao);
 
                 break;
             case R.id.set_host_ip_btn:
@@ -112,7 +99,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
             case R.id.clear_pred_btn:
                 //TODO
                 
-                SettingUtils.confirmClearPredsDialog(context,appDao);
+                SettingUtils.confirmClearPredsDialog(context, myDao);
                 break;
             case R.id.open_accessibility_btn:
                 SettingUtils.getAccessibilityPermission(getContext());
@@ -122,12 +109,10 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
                 if(verifyStoragePermissions(getActivity())) {
                     export_db();
                 }
-                else {
 
-                }
                 break;
             case R.id.post_records_btn:
-                List<OneUse> allOneUses = appDao.getAllOneUses();
+                List<OneUse> allOneUses = myDao.getAllOneUses();
                 new Thread(()->{
                     DataSender.sends_all(allOneUses);
                 }).start();
@@ -152,8 +137,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
 
         File sd = Environment.getExternalStorageDirectory();
         File data = Environment.getDataDirectory();
-        FileChannel source=null;
-        FileChannel destination=null;
+        FileChannel source;
+        FileChannel destination;
 
         int db_index=0;//数据库序号
 
@@ -208,11 +193,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         return false;
     }
 
-    public  void toast(Context context, String text){
-        Toast toast=Toast.makeText(context, text, Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER, 0, 0);
-        toast.show();
-    }
+
 
     //先定义
     private static final int REQUEST_EXTERNAL_STORAGE = 1;

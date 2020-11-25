@@ -8,7 +8,7 @@ import android.provider.Settings;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.rom471.db2.AppDao;
+import com.rom471.db2.MyDao;
 import com.rom471.recorder.R;
 
 public class SettingUtils {
@@ -30,7 +30,7 @@ public class SettingUtils {
                 }).setNegativeButton("取消",null).show();
     }
     //确认清除数据的弹出对话框
-    public static void confirmClearRecordsDialog(Context context, AppDao appDao){
+    public static void confirmClearRecordsDialog(Context context, MyDao myDao){
         final boolean[] ret = {false};
         final AlertDialog.Builder normalDialog =
                 new AlertDialog.Builder(context);
@@ -41,9 +41,9 @@ public class SettingUtils {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        appDao.deleteApps();
-                        appDao.deleteOneUses();
-                        appDao.deleteOnePreds();
+                        myDao.deleteApps();
+                        myDao.deleteOneUses();
+
 
                     }
                 });
@@ -66,7 +66,7 @@ public class SettingUtils {
     }
 
     //确认清除预测记录的弹出对话框
-    public static void confirmClearPredsDialog(Context context,AppDao appDao){
+    public static void confirmClearPredsDialog(Context context, MyDao myDao){
         final boolean[] ret = {false};
         final AlertDialog.Builder normalDialog =
                 new AlertDialog.Builder(context);
@@ -77,9 +77,7 @@ public class SettingUtils {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        appDao.deleteOnePreds();
-
-
+                        MyProperties.set(context,"lastSendTimeStamp",0L);
                     }
                 });
         normalDialog.setNegativeButton("关闭",

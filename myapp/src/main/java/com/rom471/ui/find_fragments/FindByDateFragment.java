@@ -1,4 +1,4 @@
-package com.rom471.ui.fragments2;
+package com.rom471.ui.find_fragments;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -42,7 +42,7 @@ public class FindByDateFragment extends OneUseFindFragment {
     private void registRecords(){
 
 
-        appDao.getAllOneUsesLive().observe(this,new Observer<List<OneUse>>(){
+        myDao.getAllOneUsesLive().observe(this,new Observer<List<OneUse>>(){
             @Override
             public void onChanged(List<OneUse> records) {
                 DBUtils.setOneUseIcon(context,records);
