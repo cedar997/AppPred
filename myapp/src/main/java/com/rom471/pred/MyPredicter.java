@@ -4,9 +4,10 @@ import android.app.Application;
 import android.content.Context;
 
 import com.rom471.adapter.AppDockAdapter;
+import com.rom471.db2.AppDao;
 import com.rom471.db2.AppDataBase;
 import com.rom471.db2.OnePred;
-import com.rom471.db2.OneUseDao;
+
 import com.rom471.db2.SimpleApp;
 import com.rom471.utils.DBUtils;
 
@@ -14,8 +15,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-import static android.media.CamcorderProfile.get;
 
 public class MyPredicter {
     //private static final String TAG = "cedar";
@@ -26,7 +25,7 @@ public class MyPredicter {
     SimpleApp currentApp;
     SimpleApp lastApp;
 
-    OneUseDao simpleDao;
+    AppDao simpleDao;
     Context context;
     List<String> app_index;
     List<String> pkg_index;
@@ -42,8 +41,8 @@ public class MyPredicter {
 
         AppDataBase appDataBase= AppDataBase.getInstance(context);
 
-        simpleDao =appDataBase.getOneUseDao();
-        allUseCountsTop5 = simpleDao.getMostCountsApps(5);
+        simpleDao =appDataBase.getAppDao();
+        allUseCountsTop5 = simpleDao.getMostCountSimpleApps(5);
         initAppIndex();
         initMatrix();
     }
@@ -132,7 +131,7 @@ public class MyPredicter {
 
 
     private List<SimpleApp> getMostCountsApps(){
-        List<SimpleApp> most_apps = simpleDao.getMostCountsApps(5);
+        List<SimpleApp> most_apps = simpleDao.getMostCountSimpleApps(5);
         int rate=most_rate;
         for(SimpleApp app:most_apps){
             app.setWeight(rate);

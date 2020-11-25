@@ -62,25 +62,7 @@ public class MyRecorder3 {
         return excludes;
     }
 
-    private List<String> getExclude_names() {
-        List<String> excludes = new ArrayList<>();
-        excludes.add("Recorder");
-        excludes.add("系统桌面");
-        excludes.add(("万象息屏"));
-        excludes.add("小米画报");
-        excludes.add("安卓系统");
-        excludes.add("系统 UI");
-        excludes.add("手机管家");
-        excludes.add("Android 系统");
-        excludes.add("权限管理服务");
-        excludes.add("用户行为");
-        excludes.add("用户行为3");
-        excludes.add("应用预测");
-        excludes.add("智能服务");
-        excludes.add("搜狗输入法小米版");
-        excludes.add("设置");
-        return excludes;
-    }
+
 
     //获得应用名称
     private String getAppLabel(String pkgname) {

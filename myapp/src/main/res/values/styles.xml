@@ -77,10 +77,9 @@
     </style>
 <!--    预测界面浏览器的样式-->
     <style name="web_style">
-        <item name="android:layout_height">580dp</item>
+        <item name="android:layout_height">600dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_margin">10dp</item>
-
         <item name="android:background">@drawable/big_round_bg</item>
     </style>
 <!--    查找按钮-->

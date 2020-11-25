@@ -12,7 +12,6 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.Observer;
 
-import com.rom471.db2.AppRecordsRepository;
 import com.rom471.db2.OneUse;
 import com.rom471.recorder.R;
 import com.rom471.utils.DBUtils;
@@ -41,9 +40,9 @@ public class FindByDateFragment extends OneUseFindFragment {
         super(R.layout.main_fragment_record_find_by_date,R.id.record_list_by_date);
     }
     private void registRecords(){
-        AppRecordsRepository appRecordsRepository;
-        appRecordsRepository=new AppRecordsRepository(getActivity().getApplication());
-        appRecordsRepository.getAllOneUsesLive().observe(this,new Observer<List<OneUse>>(){
+
+
+        appDao.getAllOneUsesLive().observe(this,new Observer<List<OneUse>>(){
             @Override
             public void onChanged(List<OneUse> records) {
                 DBUtils.setOneUseIcon(context,records);

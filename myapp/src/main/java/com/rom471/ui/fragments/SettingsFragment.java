@@ -30,7 +30,7 @@ import androidx.core.app.ActivityCompat;
 
 import com.rom471.db2.AppDao;
 import com.rom471.db2.AppDataBase;
-import com.rom471.db2.AppRecordsRepository;
+
 import com.rom471.db2.OneUse;
 import com.rom471.net.DataSender;
 import com.rom471.recorder.R;
@@ -56,7 +56,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
     Button setHost_btn;
     Button ouput_db_btn;
     Button post_records_btn;
-    AppRecordsRepository appRecordsRepository;
+
     AppDao appDao;
     Context context;
     SharedPreferences properties;
@@ -75,7 +75,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         super.onActivityCreated(savedInstanceState);
         context=getContext();
         //db=new RecordDBHelper(getContext(),"app.db");
-        appRecordsRepository=new AppRecordsRepository(getActivity().getApplication());
+
         appDao= AppDataBase.getAppDao();
         accessibility_btn=getActivity().findViewById(R.id.open_accessibility_btn);
 
@@ -101,7 +101,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         switch (v.getId()){
             case R.id.clear_records_btn:
 
-                SettingUtils.confirmClearRecordsDialog(context,appRecordsRepository);
+                SettingUtils.confirmClearRecordsDialog(context,appDao);
 
                 break;
             case R.id.set_host_ip_btn:
@@ -112,7 +112,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
             case R.id.clear_pred_btn:
                 //TODO
                 
-                SettingUtils.confirmClearPredsDialog(context,appRecordsRepository);
+                SettingUtils.confirmClearPredsDialog(context,appDao);
                 break;
             case R.id.open_accessibility_btn:
                 SettingUtils.getAccessibilityPermission(getContext());

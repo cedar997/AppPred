@@ -5,12 +5,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.provider.Settings;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.rom471.db2.AppDao;
-import com.rom471.db2.AppRecordsRepository;
 import com.rom471.recorder.R;
 
 public class SettingUtils {
@@ -32,7 +30,7 @@ public class SettingUtils {
                 }).setNegativeButton("取消",null).show();
     }
     //确认清除数据的弹出对话框
-    public static void confirmClearRecordsDialog(Context context, AppRecordsRepository appDao){
+    public static void confirmClearRecordsDialog(Context context, AppDao appDao){
         final boolean[] ret = {false};
         final AlertDialog.Builder normalDialog =
                 new AlertDialog.Builder(context);
@@ -43,7 +41,9 @@ public class SettingUtils {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        appDao.deleteAll();
+                        appDao.deleteApps();
+                        appDao.deleteOneUses();
+                        appDao.deleteOnePreds();
 
                     }
                 });
@@ -66,7 +66,7 @@ public class SettingUtils {
     }
 
     //确认清除预测记录的弹出对话框
-    public static void confirmClearPredsDialog(Context context,AppRecordsRepository appRecordsRepository){
+    public static void confirmClearPredsDialog(Context context,AppDao appDao){
         final boolean[] ret = {false};
         final AlertDialog.Builder normalDialog =
                 new AlertDialog.Builder(context);
@@ -77,7 +77,8 @@ public class SettingUtils {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        appRecordsRepository.deletePreds();
+                        appDao.deleteOnePreds();
+
 
                     }
                 });

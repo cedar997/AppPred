@@ -1,16 +1,17 @@
 package com.rom471.db2;
 
 import android.graphics.drawable.Drawable;
-import android.icu.text.SimpleDateFormat;
 
-import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-import java.util.Locale;
 
+/**
+ * App表的实体
+ *
+ */
 @Entity(indices = {@Index(value = {"pkgName"},
         unique = true)})
 public class App {

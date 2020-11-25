@@ -10,13 +10,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.rom471.db2.SimpleApp;
 import com.rom471.recorder.R;
-
 import java.util.List;
 
 public class AppDockAdapter extends RecyclerView.Adapter<AppDockAdapter.ViewHolder> {

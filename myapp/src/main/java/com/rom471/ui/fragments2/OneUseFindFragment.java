@@ -19,7 +19,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.rom471.adapter.OneUseAdapter;
-import com.rom471.db2.AppRecordsRepository;
+import com.rom471.db2.AppDao;
+import com.rom471.db2.AppDataBase;
 import com.rom471.db2.OneUse;
 
 import com.rom471.utils.DBUtils;
@@ -31,7 +32,7 @@ public abstract class OneUseFindFragment extends Fragment implements View.OnClic
     //RecordDBHelper db;
     int laytoutResource;
     int listviewResource;
-    AppRecordsRepository appOneUsesRepository;
+    AppDao appDao;
     OneUseAdapter mAdapter;
     List<OneUse> mOneUses;
     Context context;
@@ -66,8 +67,8 @@ public abstract class OneUseFindFragment extends Fragment implements View.OnClic
     }
     abstract void bindView();
     private void registRecords(){
-        appOneUsesRepository=new AppRecordsRepository(getActivity().getApplication());
-        appOneUsesRepository.getAllOneUsesLive().observe(this,new Observer<List<OneUse>>(){
+        appDao= AppDataBase.getAppDao();
+        appDao.getAllOneUsesLive().observe(this,new Observer<List<OneUse>>(){
             @Override
             public void onChanged(List<OneUse> records) {
                 mOneUses=records;
@@ -93,11 +94,10 @@ public abstract class OneUseFindFragment extends Fragment implements View.OnClic
 
         switch (item.getItemId()){
             case 0:
-                appOneUsesRepository.delete(record);
+
+                appDao.delete(record);
                 Toast.makeText(context,"记录已经删除",Toast.LENGTH_SHORT).show();
-//                mAdapter.notifyDataSetChanged();
-//                mAdapter.notifyItemRemoved(position);
-//                mAdapter.notifyItemRangeChanged(position,mRecords.size()-position);
+
                 break;
         }
         return super.onContextItemSelected(item);

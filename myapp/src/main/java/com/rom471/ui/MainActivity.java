@@ -41,13 +41,6 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         vp.addOnPageChangeListener(this);
         mRadioGroup.setOnCheckedChangeListener(this);
 
-
-
-//
-//        RecordsViewModelFactory recordsViewModelFactory=new RecordsViewModelFactory();
-//        recordsViewModel=new ViewModelProvider(this,recordsViewModelFactory).get(RecordsViewModel.class);
-
-
     }
 
     private void bindView(){

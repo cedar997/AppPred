@@ -3,9 +3,6 @@ package com.rom471.adapter;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.rom471.db2.SimpleApp;
 import com.rom471.recorder.R;
 import com.rom471.utils.AppUtils;

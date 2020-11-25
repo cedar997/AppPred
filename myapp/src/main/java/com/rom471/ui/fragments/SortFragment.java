@@ -36,8 +36,7 @@ public class SortFragment extends Fragment implements View.OnClickListener {
     AppDockAdapter appDockAdapter;
     MyPredicter predicter;
     RecyclerView pred_app_top_5;
-    List<App>  appLists;
-    LiveData<List<OneUse>> useLists;
+
     Context context;
 
     AppDao appDao;
@@ -46,9 +45,6 @@ public class SortFragment extends Fragment implements View.OnClickListener {
     AppSortAdapter adapter_last;
 
 
-
-
-    public static final int APP_LIST_SIZE=100;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -108,8 +104,7 @@ public class SortFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
-//        List<OnePred> aLlOnePreds = appDao.getALlOnePreds();
-//        OnePred onePred = predicter.getOnePred();
+
         predicter.updateAdapter(appDockAdapter);
         //上传当前app名字到服务器，并获得推荐
 
