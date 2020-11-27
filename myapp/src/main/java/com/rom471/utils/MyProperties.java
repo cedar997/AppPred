@@ -7,8 +7,6 @@ import android.content.SharedPreferences;
  *
  */
 public class MyProperties {
-
-    private static SharedPreferences share;
     private static String CONFIG_FILE = "app_properties";
     public static boolean have(Context context,String key){
         SharedPreferences sharedPreferences = context.getSharedPreferences(CONFIG_FILE, Context.MODE_PRIVATE);

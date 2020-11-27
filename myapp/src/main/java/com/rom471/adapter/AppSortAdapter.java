@@ -16,23 +16,23 @@ import com.rom471.recorder.R;
 import com.rom471.utils.DBUtils;
 import java.util.List;
 
+/**
+ * 应用排序RecyclerView的适配器
+ */
 public class AppSortAdapter extends RecyclerView.Adapter<AppSortAdapter.ViewHolder> {
     public static final int CHANGE_LAST_USE=0;
     public static final int CHAGE_TIME_MOST=1;
     public static final int CHANGE_COUNT_MOST=2;
     private List<App> mAppsList;
-    public static final int APP_LIST_SIZE=100;
-    LiveData<List<App>> liveData;
-    Fragment context;
-    MyDao myDao;
-    int type;
-
+    private static final int APP_LIST_SIZE=100;
+    private LiveData<List<App>> liveData;
+    private Fragment context;
+    private MyDao myDao;
+    private int sort_type;
 
     public void setmAppsList(List<App> mAppsList) {
         this.mAppsList = mAppsList;
     }
-
-
 
     public AppSortAdapter(Fragment context, MyDao myDao){
         this.context=context;
@@ -41,8 +41,12 @@ public class AppSortAdapter extends RecyclerView.Adapter<AppSortAdapter.ViewHold
 
     }
 
+    /**
+     * 改变排序方式
+     * @param type
+     */
     public void change(int type){
-        this.type=type;
+        this.sort_type =type;
         switch (type){
             case  CHAGE_TIME_MOST:
                 liveData= myDao.getMostUsedApps(APP_LIST_SIZE);
@@ -78,7 +82,7 @@ public class AppSortAdapter extends RecyclerView.Adapter<AppSortAdapter.ViewHold
         holder.appIcon.setBackground(app.getIcon());
         holder.appName.setText(app.getAppName());
         holder.appRank.setText(""+(position+1));
-        switch (type){
+        switch (sort_type){
             case  CHAGE_TIME_MOST:
                 holder.appInfo.setText(DBUtils.getTimeSpendString(app.getTotalRuningTime()) );
                 break;

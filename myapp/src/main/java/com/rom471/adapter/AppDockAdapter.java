@@ -16,6 +16,10 @@ import com.rom471.db2.SimpleApp;
 import com.rom471.recorder.R;
 import java.util.List;
 
+/**
+ * 应用dock适配器
+ * 通过点击应用图标，可以启动应用
+ */
 public class AppDockAdapter extends RecyclerView.Adapter<AppDockAdapter.ViewHolder> {
 
     private List<SimpleApp> mAppsList;
@@ -59,7 +63,6 @@ public class AppDockAdapter extends RecyclerView.Adapter<AppDockAdapter.ViewHold
         holder.appIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 try {
                     Intent intent =context.getPackageManager().getLaunchIntentForPackage(app.getPkgName());
                     context.startActivity(intent);

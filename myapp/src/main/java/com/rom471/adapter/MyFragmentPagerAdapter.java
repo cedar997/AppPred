@@ -2,16 +2,13 @@ package com.rom471.adapter;
 
 
 import androidx.annotation.NonNull;
-
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-
 import com.rom471.ui.fragments.PredFragment;
 import com.rom471.ui.fragments.RcordFragment;
 import com.rom471.ui.fragments.SettingsFragment;
 import com.rom471.ui.fragments.SortFragment;
-
 import java.util.ArrayList;
 import java.util.List;
 
