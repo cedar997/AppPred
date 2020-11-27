@@ -8,62 +8,48 @@ import java.util.Comparator;
 import java.util.Objects;
 
 public class SimpleApp implements Comparable<SimpleApp>{
-    String appName;
-    String pkgName;
-    long startTimestamp;
-
+    private String appName;
+    private String pkgName;
+    private long startTimestamp;
+    @Ignore
+    private Drawable icon;
+    @Ignore
+    private int weight;
     public long getStartTimestamp() {
         return startTimestamp;
     }
-
     public void setStartTimestamp(long startTimestamp) {
         this.startTimestamp = startTimestamp;
     }
-
-    @Ignore
-    int weight;
-
     public int getWeight() {
         return weight;
     }
-
     public void setWeight(int weight) {
         this.weight = weight;
     }
     public void addWeight(int weight) {
         this.weight +=weight;
     }
-
-    @Ignore
-    Drawable icon;
-
     public Drawable getIcon() {
         return icon;
     }
-
     public void setIcon(Drawable icon) {
         this.icon = icon;
     }
-
     public SimpleApp() {
     }
-
     public String getAppName() {
         return appName;
     }
-
     public void setAppName(String appName) {
         this.appName = appName;
     }
-
     public String getPkgName() {
         return pkgName;
     }
-
     public void setPkgName(String pkgName) {
         this.pkgName = pkgName;
     }
-
     @Override
     public int compareTo(SimpleApp o) {
 
@@ -76,7 +62,6 @@ public class SimpleApp implements Comparable<SimpleApp>{
             return o2.weight-o1.weight;
         }
     };
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -87,7 +72,6 @@ public class SimpleApp implements Comparable<SimpleApp>{
         }
         return false;
     }
-
     @Override
     public int hashCode() {
         return Objects.hash(appName);

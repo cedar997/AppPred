@@ -18,12 +18,9 @@ public abstract class MyDataBase extends RoomDatabase {
     private static MyDataBase INSTANCE;//单例模式
     private static final Object Lock = new Object();
     public abstract MyDao appDao();
-
-
     public static MyDao getAppDao(){
         return INSTANCE.appDao();
     }
-
     public static MyDataBase getInstance(Context context){
         synchronized (Lock){
             if(INSTANCE==null){
@@ -56,8 +53,6 @@ public abstract class MyDataBase extends RoomDatabase {
     static Migration MIGRATION_Add_= new Migration(3,4 ) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
-
-
             database.execSQL("delete from OnePred ");
 
         }

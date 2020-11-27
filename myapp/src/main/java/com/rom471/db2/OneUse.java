@@ -16,17 +16,17 @@ import java.util.Locale;
 public class OneUse {
 
     @PrimaryKey(autoGenerate = true)
-     long id;
+    private long id;
     //应用名
-    String appName;
+    private String appName;
     //包名
-    String pkgName;
+    private String pkgName;
     @Ignore
-    Drawable icon;
+    private Drawable icon;
     //使用开始时间
-    long startTimestamp;
+    private long startTimestamp;
     //使用时长
-    long spendTime;
+    private long spendTime;
     //开始使用时的电量
     private int battery;
     //结束时的电量
@@ -137,16 +137,11 @@ public class OneUse {
             return sec+"秒";
         long min=sec/60;
         sec=sec%60;
-
         return min+"分"+sec+"秒";
-
-
     }
-    public String getDatatime() {
+    public String getDatetime() {
         SimpleDateFormat sdf=new SimpleDateFormat("MM/dd HH:mm:ss", Locale.getDefault());
-
         return sdf.format(startTimestamp);
-
     }
     public String getNetString(){
 

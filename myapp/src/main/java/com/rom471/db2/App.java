@@ -10,28 +10,30 @@ import androidx.room.PrimaryKey;
 
 /**
  * App表的实体
- *
  */
 @Entity(indices = {@Index(value = {"pkgName"},
         unique = true)})
 public class App {
-    @PrimaryKey (autoGenerate = true)
-    long appId;
+    @PrimaryKey(autoGenerate = true)
+    private long appId;
     //应用名
-    String appName;
+    private String appName;
     //包名
-    String pkgName;
+    private String pkgName;
     //应用图标
     @Ignore
-    Drawable icon;
+    private Drawable icon;
     //应用第一次运行时间
-    long firstRunningTime;
+    private long firstRunningTime;
     //应用最后一次运行时间
-    long lastRuningTime;
+    private long lastRuningTime;
     //应用总使用时间
-    long totalRuningTime;
+    private long totalRuningTime;
     //使用次数
-    long useCount;
+    private long useCount;
+
+    public App() {
+    }
 
     public long getUseCount() {
         return useCount;
@@ -40,9 +42,11 @@ public class App {
     public void setUseCount(long useCount) {
         this.useCount = useCount;
     }
-    public void addUseCount(){
+
+    public void addUseCount() {
         this.useCount++;
     }
+
     public long getFirstRunningTime() {
         return firstRunningTime;
     }
@@ -67,10 +71,8 @@ public class App {
         this.totalRuningTime = totalRuningTime;
     }
 
-    public void addTotalRuningTime(long timespend){
-        this.totalRuningTime+=timespend;
-    }
-    public App() {
+    public void addTotalRuningTime(long timespend) {
+        this.totalRuningTime += timespend;
     }
 
     public long getAppId() {

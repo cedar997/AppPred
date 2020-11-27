@@ -26,7 +26,6 @@ public abstract class MyDao {
     @Update
     public abstract void updateApp(App app);
 
-
     @Query("select * from App where appName=:appname limit 1")
     public abstract App getAppByName(String appname);
 
@@ -36,18 +35,14 @@ public abstract class MyDao {
     @Query("select * from OneUse order by id desc")
     public abstract LiveData<List<OneUse>> getAllOneUsesLive();
 
-
     @Query("select * from OneUse ")
     public abstract List<OneUse> getAllOneUses();
 
     @Query("select * from OneUse where startTimestamp>:timestamp")
     public abstract List<OneUse> getAllOneUsesAfter(long timestamp);
 
-
-
     @Insert
     public abstract void insert(OneUse oneUse);
-
 
     @Delete
     public abstract void delete(OneUse oneUse);
@@ -55,12 +50,8 @@ public abstract class MyDao {
     @Query("delete from OneUse")
     public abstract void deleteOneUses();
 
-
-
-
     @Query("select appName  from OneUse order by id desc limit 1")
     public abstract String getCurrentAppName();
-
     //获取SimpleApp
     @Query("select appName,pkgName,startTimestamp from OneUse ")
     public abstract List<SimpleApp> getAll();
@@ -73,8 +64,10 @@ public abstract class MyDao {
 
     @Query("select appName,pkgName,lastRuningTime startTimestamp  from App order by useCount desc  limit :limit")
     public abstract List<SimpleApp> getMostCountSimpleApps(int limit);
+
     @Query("select appName from App order by appName")
     public abstract List<String> getAllAppName();
+
     @Query("select pkgName from App order by appName")
     public abstract List<String> getAllPkgName();
 }
