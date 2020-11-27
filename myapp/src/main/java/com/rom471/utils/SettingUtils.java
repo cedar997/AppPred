@@ -11,8 +11,12 @@ import android.widget.Toast;
 import com.rom471.db2.MyDao;
 import com.rom471.recorder.R;
 
+/**
+ *与设置有关的工具类
+ *
+ */
 public class SettingUtils {
-    //编辑服务器地址的对话框
+    //弹出编辑服务器地址的对话框
     public static void alert_host_edit(Context context){
         final EditText et = new EditText(context);
         String host =(String) MyProperties.get(context, "host", "");
@@ -29,7 +33,7 @@ public class SettingUtils {
                     }
                 }).setNegativeButton("取消",null).show();
     }
-    //确认清除数据的弹出对话框
+    //弹出确认清除数据的弹出对话框
     public static void confirmClearRecordsDialog(Context context, MyDao myDao){
         final boolean[] ret = {false};
         final AlertDialog.Builder normalDialog =
@@ -65,7 +69,7 @@ public class SettingUtils {
         context.startActivity(intent);
     }
 
-    //确认清除预测记录的弹出对话框
+    //弹出重新开始预测的对话框
     public static void confirmClearPredsDialog(Context context, MyDao myDao){
         final boolean[] ret = {false};
         final AlertDialog.Builder normalDialog =

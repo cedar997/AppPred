@@ -22,13 +22,13 @@ import com.rom471.adapter.AppSortAdapter;
 import com.rom471.adapter.AppDockAdapter;
 import com.rom471.db2.MyDao;
 import com.rom471.db2.MyDataBase;
-import com.rom471.pred.MyPredicter;
+import com.rom471.pred.MyPredictor;
 import com.rom471.recorder.R;
 
 public class SortFragment extends Fragment implements View.OnClickListener {
     RecyclerView recyclerView;
     AppDockAdapter appDockAdapter;
-    MyPredicter predicter;
+    MyPredictor predicter;
     RecyclerView pred_app_top_5;
 
     Context context;
@@ -86,7 +86,7 @@ public class SortFragment extends Fragment implements View.OnClickListener {
         initPredView();
     }
     private void initPredView(){
-        predicter=new MyPredicter(getActivity().getApplication());
+        predicter=new MyPredictor(getActivity().getApplication());
         appDockAdapter =new AppDockAdapter(getActivity());
         pred_app_top_5=getActivity().findViewById(R.id.app_pred);
         LinearLayoutManager layoutManager2 = new LinearLayoutManager(context);
