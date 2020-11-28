@@ -1,5 +1,4 @@
 package com.rom471.utils;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -7,7 +6,6 @@ import android.content.Intent;
 import android.provider.Settings;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.rom471.db2.MyDao;
 import com.rom471.recorder.R;
 
