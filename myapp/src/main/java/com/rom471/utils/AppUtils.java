@@ -1,4 +1,4 @@
-package com.rom471.utils;
+ package com.rom471.utils;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
