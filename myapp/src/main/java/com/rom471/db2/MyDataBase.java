@@ -54,7 +54,6 @@ public abstract class MyDataBase extends RoomDatabase {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
             database.execSQL("delete from OnePred ");
-
         }
     };
 }

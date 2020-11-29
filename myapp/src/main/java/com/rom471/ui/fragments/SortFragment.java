@@ -49,23 +49,13 @@ public class SortFragment extends Fragment implements View.OnClickListener {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         context=getContext();
-
         recyclerView =getActivity().findViewById(R.id.app_list);
-
-
         sortBtn =getActivity().findViewById(R.id.sort_btn);
-
-
         sortBtn.setOnClickListener(this);
-
-
         MyDataBase myDataBase = MyDataBase.getInstance(context);
         myDao = myDataBase.getAppDao();
         myDataBase = MyDataBase.getInstance(getActivity().getApplication());
         myDao = myDataBase.getAppDao();
-
-        //
-
         adapter_last =new AppSortAdapter(this, myDao);
 
         LinearLayoutManager layoutManager1 = new LinearLayoutManager(context);
