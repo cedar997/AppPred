@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.gyf.immersionbar.ImmersionBar;
 import com.rom471.adapter.MyFragmentPagerAdapter;
 
 import com.rom471.recorder.R;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
             AppUtils.init(this);
         }).start();
         setContentView(R.layout.main);
+        ImmersionBar.with(this).init();
         mAdapter=new MyFragmentPagerAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         bindView();//绑定资源
         rb2.setChecked(true);

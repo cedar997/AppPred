@@ -12,9 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FindByNameFragment extends OneUseFindFragment{
-    Button record_search_btn;
-    EditText record_search_et;
-    TextView record_result_tv;
+    private Button record_search_btn;
+    private EditText record_search_et;
+    private TextView record_result_tv;
     public FindByNameFragment(){
         super(R.layout.main_fragment_record_find_by_name,R.id.record_list_by_name);
     }
@@ -33,9 +33,9 @@ public class FindByNameFragment extends OneUseFindFragment{
         switch (v.getId()){
             case R.id.record_search_btn:
                 String appname=record_search_et.getText().toString();
-                List<OneUse> records = filterByName(appname, mOneUses);
+                List<OneUse> records = filterByName(appname, getmOneUses());
                 updateWithFoundRecords(records);
-                record_result_tv.setText("查到记录："+records.size()+"条");
+                record_result_tv.setText("查到记录：\n"+records.size()+"条");
                 break;
 
         }

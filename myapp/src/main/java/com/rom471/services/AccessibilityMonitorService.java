@@ -4,7 +4,7 @@ import android.accessibilityservice.AccessibilityService;
 import android.view.accessibility.AccessibilityEvent;
 
 public class AccessibilityMonitorService extends AccessibilityService {
-    MyRecorder3 myRecorder3;
+    private MyRecorder3 myRecorder3;
     public AccessibilityMonitorService() {
     }
     @Override

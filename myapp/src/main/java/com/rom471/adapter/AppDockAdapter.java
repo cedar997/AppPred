@@ -24,7 +24,7 @@ public class AppDockAdapter extends RecyclerView.Adapter<AppDockAdapter.ViewHold
 
     private List<SimpleApp> mAppsList;
 
-    Context context;
+    private Context context;
 
 
 
@@ -98,7 +98,7 @@ public class AppDockAdapter extends RecyclerView.Adapter<AppDockAdapter.ViewHold
         }
 
     }
-    public  void toast( String text){
+    private   void toast( String text){
         Toast toast=Toast.makeText(context, text, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();

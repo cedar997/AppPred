@@ -19,22 +19,29 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         style="@style/find_layout_style"
         android:id="@+id/layout_search"
         android:gravity="center_vertical"
         android:layout_alignParentBottom="true"
         android:layout_marginHorizontal="10dp"
         >
-
+        <TextView
+            android:layout_marginHorizontal="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/text_style"
+            android:id="@+id/record_serch_result"
+            android:layout_alignParentTop="true"
+            />
         <EditText
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:id="@+id/record_search_et"
             android:background="@drawable/rounded_editview"
+            android:layout_alignParentBottom="true"
 
-            android:textColor="#CCCCCC"
             />
         <Button
             android:layout_width="wrap_content"
@@ -47,13 +54,7 @@
             android:layout_alignBottom="@id/record_search_et"
 
             />
-        <TextView
-            android:layout_marginHorizontal="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/record_serch_result"
-            android:layout_below="@id/record_search_et"
-            />
+
     </RelativeLayout>
 
 

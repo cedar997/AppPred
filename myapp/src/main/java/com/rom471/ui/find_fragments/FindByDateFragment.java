@@ -21,39 +21,21 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 public class FindByDateFragment extends OneUseFindFragment {
-
-
-
-
-
-    Button start_date_btn;
-    Button end_date_btn;
-    Button start_btn;
-    TextView start_date_tv;
-    TextView end_date_tv;
-    TextView result_tv;
-
-    long start_timestamp;
-    long end_timestamp;
-
+    private Button start_date_btn;
+    private Button end_date_btn;
+    private Button start_btn;
+    private TextView start_date_tv;
+    private TextView end_date_tv;
+    private TextView result_tv;
+    private long start_timestamp;
+    private long end_timestamp;
     public FindByDateFragment(){
         super(R.layout.main_fragment_record_find_by_date,R.id.record_list_by_date);
     }
-    private void registRecords(){
 
-
-        myDao.getAllOneUsesLive().observe(this,new Observer<List<OneUse>>(){
-            @Override
-            public void onChanged(List<OneUse> records) {
-                DBUtils.setOneUseIcon(context,records);
-                mAdapter.setOneUses(records);
-                list_view.setAdapter(mAdapter);
-            }
-        });
-    }
 
     public void bindView(){
-        list_view=getActivity().findViewById(R.id.record_list_by_date);
+
         start_date_btn=getActivity().findViewById(R.id.record_date_start_btn);
         end_date_btn=getActivity().findViewById(R.id.record_date_end_btn);
         start_btn=getActivity().findViewById(R.id.date_start_search);
@@ -88,22 +70,21 @@ public class FindByDateFragment extends OneUseFindFragment {
 
         switch (v.getId()){
             case R.id.record_date_start_btn:
-               showDatePickerDialog(context,true  );
+               showDatePickerDialog(getActivity(),true  );
                 break;
             case R.id.record_date_end_btn:
-                showDatePickerDialog(context,false);
+                showDatePickerDialog(getActivity(),false);
                 break;
             case R.id.date_start_search:
-                List<OneUse> records = filterByDate(mOneUses, start_timestamp, end_timestamp);
-                result_tv.setText("查到记录："+records.size()+"条");
-                mAdapter.setOneUses(records);
-                list_view.setAdapter(mAdapter);
+                List<OneUse> records = filterByDate(getmOneUses(), start_timestamp, end_timestamp);
+                result_tv.setText("查到记录：\n"+records.size()+"条");
+                updateWithFoundRecords(records);
 
                 break;
         }
     }
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public  void showDatePickerDialog(Context activity,boolean start) {
+    private   void showDatePickerDialog(Context activity,boolean start) {
         Calendar  calendar = Calendar.getInstance();
         DatePickerDialog datePickerDialog = new DatePickerDialog(activity,
                 new DatePickerDialog.OnDateSetListener() {
@@ -114,11 +95,11 @@ public class FindByDateFragment extends OneUseFindFragment {
                 long timestamp = new GregorianCalendar(year, monthOfYear, dayOfMonth).getTimeInMillis();
                 if(start){
                     start_timestamp=timestamp;
-                    start_date_tv.setText(""+(year%100)+"年"+(monthOfYear+1)+"月"+dayOfMonth+"日");
+                    start_date_tv.setText(""+(year)+"年\n"+(monthOfYear+1)+"月"+dayOfMonth+"日");
                 }
                 else {
                     end_timestamp=timestamp;
-                    end_date_tv.setText(""+(year%100)+"年"+(monthOfYear+1)+"月"+dayOfMonth+"日");
+                    end_date_tv.setText(""+(year)+"年\n"+(monthOfYear+1)+"月"+dayOfMonth+"日");
 
                 }
             }

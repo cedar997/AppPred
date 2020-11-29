@@ -15,23 +15,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MyRecorder3 {
-    private static final String TAG = "cedar";
     private String lastPkgName = "";
     // RecordDAO dao;
-
-    MyDao myDao;
-    App app;
-    OneUse oneUse;
-    Context context;
-    PackageManager pm;
-
-    List<String> exclude_names;
-    List<String> stopApps;
-    boolean filter_exclude = false;
-    boolean filter_skip = false;
-    boolean app_first=false;//当前app是否是第一次插入
-    boolean record_events=false;
-    MyDataBase appDB;
+    private MyDao myDao;
+    private App app;
+    private OneUse oneUse;
+    private Context context;
+    private PackageManager pm;
+    private List<String> exclude_names;
+    private List<String> stopApps;
+    private boolean filter_exclude = false;
+    private boolean filter_skip = false;
+    private boolean app_first=false;//当前app是否是第一次插入
+    private boolean record_events=false;
+    private MyDataBase appDB;
 
     public MyRecorder3(Context context) {
         this.context=context;
@@ -47,7 +44,7 @@ public class MyRecorder3 {
 
     }
 
-    public List<String> getSkip_names() {
+    private List<String> getSkip_names() {
         List<String> excludes = new ArrayList<>();
         excludes.add("系统 UI");
         excludes.add("应用预测");
@@ -131,7 +128,6 @@ public class MyRecorder3 {
         //获取类名
         String name= event.getClassName()==null ?"":event.getClassName().toString();
         if(!name.startsWith("android.")) {
-            Log.d(TAG, ""+appName+" "+name);
             //如果回到桌面就停止记录
             if(stopApps.contains(appName)){
                 record_finish(lastPkgName);
