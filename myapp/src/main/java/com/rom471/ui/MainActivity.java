@@ -19,12 +19,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener , ViewPager.OnPageChangeListener {
-    public static final String TAG="cedar";
-    RadioGroup mRadioGroup;
-    RadioButton rb1,rb2,rb3,rb4;
-    ViewPager vp;
-
-
+    private RadioGroup mRadioGroup;
+    private RadioButton rb1,rb2,rb3,rb4;
+    private ViewPager vp;
     private MyFragmentPagerAdapter mAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +50,6 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         rb3=findViewById(R.id.radio_pred);
         rb4=findViewById(R.id.radio_set);
         vp=findViewById(R.id.vpager);
-
-
     }
     //初始化参数
     private void initProperties(){
@@ -65,8 +60,6 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
             MyProperties.set(this,"lastSendTimeStamp",0L);
         }
     }
-
-
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -89,27 +82,21 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         }
 
     }
-
-
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
     }
-
     @Override
     public void onPageSelected(int position) {
     }
-
     @Override
     public void onPageScrollStateChanged(int state) {
         if(state==2){
             switch (vp.getCurrentItem()){
                 case 0:
                     rb1.setChecked(true);
-
                     break;
                 case 1:
                     rb2.setChecked(true);
-
                     break;
                 case 2:
                     rb3.setChecked(true);
